@@ -1,0 +1,14 @@
+[package]
+name = "std-probe"
+version = "0.1.0"
+edition = "2021"
+publish = false
+description = "Spike: which std APIs that terraria-gen-rt / terraria-host call work at RUN time on wasm32-unknown-unknown"
+
+[lib]
+crate-type = ["cdylib"]
+
+[workspace]
+
+[profile.release]
+panic = "abort"

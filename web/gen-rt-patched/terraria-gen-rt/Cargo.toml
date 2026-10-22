@@ -1,0 +1,15 @@
+[package]
+name = "terraria-gen-rt"
+edition.workspace = true
+version.workspace = true
+publish.workspace = true
+description = "Hand-written runtime of the machine-translated game code (tools/cs2rs): handles, collector, strings, collections, exceptions"
+
+[dependencies]
+terraria-core = { workspace = true }
+# System.Math as the original computes it (32-bit CLR, x87): the transcendental functions of translated code
+terraria-x87 = { path = "../../../port/crates/terraria-x87" }
+
+[features]
+# Every `Gc::ptr()` checks the object's liveness word (use-after-free detection; see gc.rs).
+gc-check = []

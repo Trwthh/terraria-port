@@ -1,0 +1,162 @@
+5	Int32	OK:Int32 5
+5	Int64	OK:Int64 5
+5	Double	OK:Double 5
+5	Single	OK:Single 5
+5	Boolean	OK:Boolean True
+5	String	OK:String 5
+5	Byte	OK:Byte 5
+5	UInt32	OK:UInt32 5
+5	Object	OK:Int64 5
+-5	Int32	OK:Int32 -5
+-5	Int64	OK:Int64 -5
+-5	Double	OK:Double -5
+-5	Single	OK:Single -5
+-5	Boolean	OK:Boolean True
+-5	String	OK:String -5
+-5	Byte	ERR:OverflowException: Value was either too large or too small for an unsigned byte.
+-5	UInt32	ERR:OverflowException: Value was either too large or too small for a UInt32.
+-5	Object	OK:Int64 -5
+3000000000	Int32	ERR:OverflowException: Value was either too large or too small for an Int32.
+3000000000	Int64	OK:Int64 3000000000
+3000000000	Double	OK:Double 3000000000
+3000000000	Single	OK:Single 3E+09
+3000000000	Boolean	OK:Boolean True
+3000000000	String	OK:String 3000000000
+3000000000	Byte	ERR:OverflowException: Value was either too large or too small for an unsigned byte.
+3000000000	UInt32	OK:UInt32 3000000000
+3000000000	Object	OK:Int64 3000000000
+1.5	Int32	OK:Int32 2
+1.5	Int64	OK:Int64 2
+1.5	Double	OK:Double 1.5
+1.5	Single	OK:Single 1.5
+1.5	Boolean	OK:Boolean True
+1.5	String	OK:String 1.5
+1.5	Byte	OK:Byte 2
+1.5	UInt32	OK:UInt32 2
+1.5	Object	OK:Double 1.5
+2.5	Int32	OK:Int32 2
+2.5	Int64	OK:Int64 2
+2.5	Double	OK:Double 2.5
+2.5	Single	OK:Single 2.5
+2.5	Boolean	OK:Boolean True
+2.5	String	OK:String 2.5
+2.5	Byte	OK:Byte 2
+2.5	UInt32	OK:UInt32 2
+2.5	Object	OK:Double 2.5
+-1.5	Int32	OK:Int32 -2
+-1.5	Int64	OK:Int64 -2
+-1.5	Double	OK:Double -1.5
+-1.5	Single	OK:Single -1.5
+-1.5	Boolean	OK:Boolean True
+-1.5	String	OK:String -1.5
+-1.5	Byte	ERR:OverflowException: Value was either too large or too small for an unsigned byte.
+-1.5	UInt32	ERR:OverflowException: Value was either too large or too small for a UInt32.
+-1.5	Object	OK:Double -1.5
+1e20	Int32	ERR:OverflowException: Value was either too large or too small for an Int32.
+1e20	Int64	ERR:OverflowException: Arithmetic operation resulted in an overflow.
+1e20	Double	OK:Double 1E+20
+1e20	Single	OK:Single 1E+20
+1e20	Boolean	OK:Boolean True
+1e20	String	OK:String 1E+20
+1e20	Byte	ERR:OverflowException: Value was either too large or too small for an Int32.
+1e20	UInt32	ERR:OverflowException: Value was either too large or too small for a UInt32.
+1e20	Object	OK:Double 1E+20
+"7"	Int32	OK:Int32 7
+"7"	Int64	OK:Int64 7
+"7"	Double	OK:Double 7
+"7"	Single	OK:Single 7
+"7"	Boolean	ERR:FormatException: String was not recognized as a valid Boolean.
+"7"	String	OK:String 7
+"7"	Byte	OK:Byte 7
+"7"	UInt32	OK:UInt32 7
+"7"	Object	OK:String 7
+"x"	Int32	ERR:FormatException: Input string was not in a correct format.
+"x"	Int64	ERR:FormatException: Input string was not in a correct format.
+"x"	Double	ERR:FormatException: Input string was not in a correct format.
+"x"	Single	ERR:FormatException: Input string was not in a correct format.
+"x"	Boolean	ERR:FormatException: String was not recognized as a valid Boolean.
+"x"	String	OK:String x
+"x"	Byte	ERR:FormatException: Input string was not in a correct format.
+"x"	UInt32	ERR:FormatException: Input string was not in a correct format.
+"x"	Object	OK:String x
+"1.5"	Int32	ERR:FormatException: Input string was not in a correct format.
+"1.5"	Int64	ERR:FormatException: Input string was not in a correct format.
+"1.5"	Double	OK:Double 1.5
+"1.5"	Single	OK:Single 1.5
+"1.5"	Boolean	ERR:FormatException: String was not recognized as a valid Boolean.
+"1.5"	String	OK:String 1.5
+"1.5"	Byte	ERR:FormatException: Input string was not in a correct format.
+"1.5"	UInt32	ERR:FormatException: Input string was not in a correct format.
+"1.5"	Object	OK:String 1.5
+true	Int32	OK:Int32 1
+true	Int64	OK:Int64 1
+true	Double	OK:Double 1
+true	Single	OK:Single 1
+true	Boolean	OK:Boolean True
+true	String	OK:String True
+true	Byte	OK:Byte 1
+true	UInt32	OK:UInt32 1
+true	Object	OK:Boolean True
+false	Int32	OK:Int32 0
+false	Int64	OK:Int64 0
+false	Double	OK:Double 0
+false	Single	OK:Single 0
+false	Boolean	OK:Boolean False
+false	String	OK:String False
+false	Byte	OK:Byte 0
+false	UInt32	OK:UInt32 0
+false	Object	OK:Boolean False
+null	Int32	ERR:ArgumentException: Can not convert Null to Int32.
+null	Int64	ERR:ArgumentException: Can not convert Null to Int64.
+null	Double	ERR:ArgumentException: Can not convert Null to Double.
+null	Single	ERR:ArgumentException: Can not convert Null to Single.
+null	Boolean	ERR:ArgumentException: Can not convert Null to Boolean.
+null	String	OK:null
+null	Byte	ERR:ArgumentException: Can not convert Null to Byte.
+null	UInt32	ERR:ArgumentException: Can not convert Null to UInt32.
+null	Object	OK:null
+[1]	Int32	ERR:ArgumentException: Can not convert Array to Int32.
+[1]	Int64	ERR:ArgumentException: Can not convert Array to Int64.
+[1]	Double	ERR:ArgumentException: Can not convert Array to Double.
+[1]	Single	ERR:ArgumentException: Can not convert Array to Single.
+[1]	Boolean	ERR:ArgumentException: Can not convert Array to Boolean.
+[1]	String	ERR:ArgumentException: Can not convert Array to String.
+[1]	Byte	ERR:ArgumentException: Can not convert Array to Byte.
+[1]	UInt32	ERR:ArgumentException: Can not convert Array to UInt32.
+[1]	Object	OK:JArray [1]
+{}	Int32	ERR:ArgumentException: Can not convert Object to Int32.
+{}	Int64	ERR:ArgumentException: Can not convert Object to Int64.
+{}	Double	ERR:ArgumentException: Can not convert Object to Double.
+{}	Single	ERR:ArgumentException: Can not convert Object to Single.
+{}	Boolean	ERR:ArgumentException: Can not convert Object to Boolean.
+{}	String	ERR:ArgumentException: Can not convert Object to String.
+{}	Byte	ERR:ArgumentException: Can not convert Object to Byte.
+{}	UInt32	ERR:ArgumentException: Can not convert Object to UInt32.
+{}	Object	OK:JObject {}
+"true"	Int32	ERR:FormatException: Input string was not in a correct format.
+"true"	Int64	ERR:FormatException: Input string was not in a correct format.
+"true"	Double	ERR:FormatException: Input string was not in a correct format.
+"true"	Single	ERR:FormatException: Input string was not in a correct format.
+"true"	Boolean	OK:Boolean True
+"true"	String	OK:String true
+"true"	Byte	ERR:FormatException: Input string was not in a correct format.
+"true"	UInt32	ERR:FormatException: Input string was not in a correct format.
+"true"	Object	OK:String true
+"2020-01-01T00:00:00Z"	Int32	ERR:ArgumentException: Can not convert Date to Int32.
+"2020-01-01T00:00:00Z"	Int64	ERR:ArgumentException: Can not convert Date to Int64.
+"2020-01-01T00:00:00Z"	Double	ERR:ArgumentException: Can not convert Date to Double.
+"2020-01-01T00:00:00Z"	Single	ERR:ArgumentException: Can not convert Date to Single.
+"2020-01-01T00:00:00Z"	Boolean	ERR:ArgumentException: Can not convert Date to Boolean.
+"2020-01-01T00:00:00Z"	String	OK:String 01/01/2020 00:00:00
+"2020-01-01T00:00:00Z"	Byte	ERR:ArgumentException: Can not convert Date to Byte.
+"2020-01-01T00:00:00Z"	UInt32	ERR:ArgumentException: Can not convert Date to UInt32.
+"2020-01-01T00:00:00Z"	Object	OK:DateTime 637134336000000000 Utc
+12345678901234567890	Int32	ERR:OverflowException: Value was either too large or too small for an Int32.
+12345678901234567890	Int64	ERR:OverflowException: Value was either too large or too small for an Int64.
+12345678901234567890	Double	OK:Double 1.2345678901234567E+19
+12345678901234567890	Single	OK:Single 1.23456794E+19
+12345678901234567890	Boolean	ERR:OverflowException: Value was either too large or too small for an Int32.
+12345678901234567890	String	OK:String 12345678901234567890
+12345678901234567890	Byte	ERR:OverflowException: Value was either too large or too small for an Int32.
+12345678901234567890	UInt32	ERR:OverflowException: Value was either too large or too small for a UInt32.
+12345678901234567890	Object	OK:BigInteger 12345678901234567890

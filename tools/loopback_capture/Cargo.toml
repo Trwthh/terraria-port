@@ -1,0 +1,16 @@
+# WASAPI loopback recorder of the default render endpoint (what the device actually plays), for the one audio
+# check of the real-window test (work\realwin\REPORT.md). Build: cargo build --release --offline (cpal is in the
+# local registry: Bevy depends on it). Usage: loopback_capture <seconds> <out.wav>
+[package]
+name = "loopback_capture"
+version = "0.1.0"
+edition = "2021"
+
+[workspace]
+
+[dependencies]
+cpal = "=0.17.3"
+
+[profile.release]
+opt-level = 2
+debug = 0

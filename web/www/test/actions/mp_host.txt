@@ -1,0 +1,95 @@
+# Host & Play in the browser (tools/ws-bridge/run_hostplay_web.sh): the page runs the dedicated server in a Worker of
+# its own and plays on it; others join through the bridge in reverse mode (TCP 127.0.0.1:47800 -> this page).
+# Fresh save root + ref_small.wld imported -> language -> Multiplayer -> Host & Play -> new player "Hoster" ->
+# ref_small -> empty password -> the server starts in the page, the client joins it -> in the world.
+# Then (marks for the run script): "hosting" -> the native port client joins (mp_join.input: "Joiner", digs, walks,
+# waits for this page's chat "hello from A", leaves) -> "native_done" -> a second headless page joins ("WebJoiner",
+# digs, walks, chats "hello from web", leaves) -> Save & Exit -> the server shuts down by itself (-autoshutdown).
+frame 1300 import work/refsave/Worlds/ref_small.wld
+frame 1320 move 640 247
+frame 1340 click 640 247
+frame 1395 shot hpw_01_title
+# title: Multiplayer
+frame 1400 move 640 300
+frame 1415 click 640 300
+frame 1455 shot hpw_02_multiplayer_menu
+# multiplayer menu: Host & Play
+frame 1460 move 640 331
+frame 1475 click 640 331
+frame 1515 shot hpw_03_player_select
+# no players yet: New, Create, the name, Enter
+frame 1520 move 807 533
+frame 1535 click 807 533
+frame 1580 move 770 533
+frame 1595 click 770 533
+frame 1630 type Hoster
+frame 1640 key Press Enter
+frame 1680 shot hpw_04_player_list
+# play the new player: the world list (ref_small, imported above)
+frame 1690 move 348 310
+frame 1705 click 348 310
+frame 1745 shot hpw_05_world_list
+frame 1750 move 348 310
+frame 1765 click 348 310
+frame 1805 shot hpw_06_password
+# empty server password: Main.HostAndPlay -> Process.Start(TerrariaServer.exe) -> the server Worker; the client joins it
+frame 1810 key Press Enter
+frame 1815 waitlog 3000 [server] Server started
+frame 1818 waitlog 900 others can join through the bridge
+frame 1820 shot hpw_07_server_starting
+frame 1825 waitlog 3000 [server] Hoster has joined.
+frame 1830 waitlog 3000 now in the world (multiplayer client
+frame 1900 shot hpw_08_hosting
+frame 1910 mark hosting
+# the native port client joins through the bridge (127.0.0.1:47800)
+frame 1915 waitlog 12000 [server] Joiner has joined.
+frame 1960 shot hpw_09_native_joined
+# its script digs, walks right, then waits for a chat line "hello from A": said four times, two seconds apart
+frame 2215 key Press Enter
+frame 2235 type hello from A
+frame 2255 key Press Enter
+frame 2260 shot hpw_10_native_dug
+frame 2335 key Press Enter
+frame 2355 type hello from A
+frame 2375 key Press Enter
+frame 2455 key Press Enter
+frame 2475 type hello from A
+frame 2495 key Press Enter
+frame 2500 shot hpw_11_chat
+frame 2575 key Press Enter
+frame 2595 type hello from A
+frame 2615 key Press Enter
+frame 2620 waitlog 6000 [server] Joiner has left.
+frame 2630 shot hpw_12_native_left
+frame 2640 mark native_done
+# a second headless browser page joins through the bridge (test/actions/mp_join_page.txt)
+frame 2650 waitlog 18000 [server] WebJoiner has joined.
+frame 2700 shot hpw_13_page_joined
+frame 2710 waitlog 6000 <WebJoiner> hello from web
+frame 2720 shot hpw_14_page_chat
+frame 2730 waitlog 6000 [server] WebJoiner has left.
+frame 2740 shot hpw_15_page_left
+# leave: inventory (Escape), the Settings button, Save & Exit; the server ends by itself (-autoshutdown)
+frame 2750 key Press Escape
+frame 2780 move 1212 587
+frame 2800 click 1212 587
+frame 2840 shot hpw_16_settings
+frame 2850 move 536 414
+frame 2860 click 536 414
+frame 2870 waitlog 900 now in the menu
+frame 2880 waitlog 3600 dedicated server 1 ended
+frame 2940 shot hpw_17_title_after_hosting
+# the server's world save (ref_small.wld rewritten, ref_small.wld.bak new) as the game Worker sees it now, no reload
+# (vfs.js: the /saves tree shared between the Workers): its index, then Single Player -> the world list -> the world,
+# with the tiles the joiners dug
+frame 2945 saves after_hosting
+frame 2950 move 640 247
+frame 2965 click 640 247
+frame 3005 move 348 310
+frame 3020 click 348 310
+frame 3060 shot hpw_18_world_list_after_hosting
+frame 3065 saves world_list
+frame 3070 move 348 310
+frame 3085 click 348 310
+frame 3090 waitlog 3600 now in the world (single player
+frame 3200 shot hpw_19_saved_world_single_player

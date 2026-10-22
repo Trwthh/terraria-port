@@ -1,0 +1,17 @@
+# Build output and tool caches (regenerable, many GB)
+/port/target*/
+**/target/
+**/bin/
+**/obj/
+**/__pycache__/
+*.pyc
+
+# Run output, scratch, local copies of the game (regenerable from scripts; game files from the user's install)
+/work/
+/_archive/
+/web/host/cache/
+/web/logs/
+/logs/
+
+# Local tool state
+.claude/

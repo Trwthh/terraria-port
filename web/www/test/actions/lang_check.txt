@@ -1,0 +1,5 @@
+# The language menu: its first entry (English) clicked where it is on a 1280x604 canvas, a shot after (lang_after_click:
+# the title menu in English). Lost on the play page before the start-up size fix (STATUS.md 2026-10-16).
+frame 1320 move 640 247
+frame 1340 click 640 247
+frame 1395 shot lang_after_click

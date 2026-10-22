@@ -1,0 +1,90 @@
+# The play page (web/host/terraria_host.py, /) from the start into a generated world, then: the frame budget in the
+# world, the cursor mapping, and window sizes / devicePixelRatios one after another (the game's resolution follows;
+# below 800x600 it keeps its minimum and the picture is fitted), with shots, cursor checks and memory.
+#   node test/run-game-headless.mjs --host --page play --viewport 1280x604 --trace 0 --actions test/actions/play_world.txt
+# The single_player_fast.txt flow (its coordinates are for a 1280x604 canvas: --viewport 1280x604).
+frame 600 waitsteady 6000
+frame 610 cursorcheck title_1280x604
+frame 620 budget title 300
+frame 1320 move 640 247
+frame 1340 click 640 247
+frame 1395 shot f_01_title
+frame 1400 move 640 247
+frame 1415 click 640 247
+frame 1455 shot f_02_player_select
+frame 1460 move 807 533
+frame 1475 click 807 533
+frame 1515 shot f_03_character_creation
+frame 1520 move 770 533
+frame 1535 click 770 533
+frame 1565 shot f_04_name_prompt
+frame 1570 type Webby
+frame 1580 key Press Enter
+frame 1620 shot f_05_player_list
+frame 1630 move 348 310
+frame 1645 click 348 310
+frame 1685 shot f_06_world_list
+frame 1690 move 807 533
+frame 1705 click 807 533
+frame 1745 shot f_07_world_creation
+frame 1750 move 476 320
+frame 1765 click 476 320
+frame 1790 move 617 230
+frame 1805 click 617 230
+frame 1835 shot f_08_name_keyboard
+frame 1840 type webworld
+frame 1850 key Press Enter
+frame 1885 shot f_09_world_creation_filled
+frame 1890 move 770 533
+frame 1905 click 770 533
+frame 1910 waitwork f_gen every 120
+frame 1960 shot f_10_world_list
+frame 1965 move 348 310
+frame 1980 click 348 310
+frame 1985 waitwork f_load every 30
+frame 2050 shot f_11_entering_world
+frame 2300 diag diag_world
+frame 2305 shot f_12_in_world
+frame 2600 shot f_13_in_world_later
+frame 2650 shot f_14_in_world_600
+frame 2660 budget world 600
+frame 2670 memory world_before_resize
+frame 2675 cursorcheck world_1280x604_dpr1
+frame 2680 viewport 1024 768 1
+frame 2720 shot rs_1024x768_dpr1
+frame 2721 pageshot rs_1024x768_dpr1_page
+frame 2725 cursorcheck world_1024x768_dpr1
+frame 2730 viewport 1600 900 1.25
+frame 2770 shot rs_1600x900_dpr1.25
+frame 2775 cursorcheck world_1600x900_dpr1.25
+frame 2780 viewport 900 700 1.5
+frame 2820 shot rs_900x700_dpr1.5
+frame 2825 cursorcheck world_900x700_dpr1.5
+frame 2830 viewport 700 500 2
+frame 2870 shot rs_700x500_dpr2
+frame 2875 cursorcheck world_700x500_dpr2
+frame 2880 viewport 640 480 1
+frame 2920 shot rs_640x480_dpr1_min800x600
+frame 2921 pageshot rs_640x480_dpr1_page
+frame 2925 cursorcheck world_640x480_dpr1
+frame 2930 viewport 1280 604 1
+frame 2970 shot rs_back_1280x604
+frame 2975 cursorcheck world_back_1280x604
+frame 3000 memory after_cycle_1
+frame 3010 viewport 1024 768 1
+frame 3050 viewport 1600 900 1.25
+frame 3090 viewport 900 700 1.5
+frame 3130 viewport 700 500 2
+frame 3170 viewport 640 480 1
+frame 3210 viewport 1280 604 1
+frame 3250 memory after_cycle_2
+frame 3260 viewport 1024 768 1
+frame 3300 viewport 1600 900 1.25
+frame 3340 viewport 900 700 1.5
+frame 3380 viewport 700 500 2
+frame 3420 viewport 640 480 1
+frame 3460 viewport 1280 604 1
+frame 3560 memory after_cycle_3
+frame 3570 cursorcheck world_end_1280x604
+frame 3580 shot rs_end
+frame 7000 memory after_next_collector_cycle

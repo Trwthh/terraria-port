@@ -1,0 +1,16 @@
+{
+"generator":"tools/refdump/RefDumpFramed.cs (RefDump.exe framed)",
+"scrambled":true,
+"world":"ref_small.wld","worldSha256":"6c475077e76cd3c291881554fd6dbc69113c8f68f829bd793aa537545e551906",
+"width":4200,"height":1200,"tiles":5040000,"recordSize":14,
+"seed":424242,
+"flags":{"Main.netMode":1,"WorldGen.generatingWorld":false,"noBreak":true},
+"call":"WorldGen.SectionTileFrame(0, 0, 20, 7)",
+"loopOrder":"i outer, j inner; i = 0..maxTilesX-2, j = 0..maxTilesY-2; Reframe(i, j, true) = TileFrame(i, j, true, true) then Framing.WallFrame(i, j, true)",
+"preSha256":"ddde4b2b64b25cd08a2114fbfd897f3383a4cfb03a3baddf8e78fb993c35bbb2","postSha256":"a7884efecd5433e2dbdddec5583df7f241e25b0aa718061a8ff13195224d3871",
+"nextRandAfterRun":528571132,
+"tilesChangedByRun":3058519,"tilesWithTypeChanged":0,"tilesWithActiveChanged":0,
+"activeNonImportantTilesStillNegativeFrame":18205,
+"nullTilesPre":0,"nullTilesPost":0,
+"frameRunMs":701,"totalMs":4481
+}

@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Terraria (web port)</title>
+  <style>
+    :root {
+      --bg: #0d1117; --panel: #161b22; --line: #30363d; --text: #e6edf3; --dim: #8b949e;
+      --accent: #3fb950; --warn: #d29922; --err: #f85149;
+      color-scheme: dark;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; height: 100%; background: var(--bg); color: var(--text);
+      font: 14px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; }
+    body { display: flex; flex-direction: column; }
+    header { display: flex; align-items: center; gap: 8px; padding: 6px 10px; border-bottom: 1px solid var(--line);
+      background: var(--panel); flex-wrap: wrap; }
+    header h1 { font-size: 15px; margin: 0 8px 0 0; font-weight: 600; }
+    #status { color: var(--dim); flex: 1; min-width: 120px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    button { background: #21262d; color: var(--text); border: 1px solid var(--line); border-radius: 6px;
+      padding: 5px 12px; font: inherit; cursor: pointer; }
+    button:hover:not(:disabled) { border-color: var(--dim); }
+    button:disabled { opacity: .5; cursor: default; }
+    button.primary, .button.primary { background: #238636; border-color: #2ea043; }
+    .button { display: inline-block; background: #21262d; color: var(--text); border: 1px solid var(--line);
+      border-radius: 6px; padding: 5px 12px; cursor: pointer; }
+    .save-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 6px 0;
+      border-bottom: 1px solid var(--line); }
+    .save-row span { overflow-wrap: anywhere; }
+    #stage { position: relative; flex: 1; min-height: 0; background: #000; }
+    #stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; outline: none; }
+    #ime { position: absolute; left: 0; top: 0; width: 1px; height: 1px; opacity: 0; border: 0; padding: 0;
+      resize: none; overflow: hidden; pointer-events: none; }
+    .screen { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+      background: var(--bg); padding: 16px; overflow: auto; }
+    .card { max-width: 560px; width: 100%; background: var(--panel); border: 1px solid var(--line);
+      border-radius: 10px; padding: 20px 22px; }
+    .card h2 { margin: 0 0 10px; font-size: 18px; }
+    .card p { margin: 8px 0; color: var(--dim); }
+    .card p.strong { color: var(--text); }
+    .row { display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
+    .problems { color: var(--err); margin: 10px 0 0; padding-left: 18px; }
+    progress { width: 100%; height: 14px; margin-top: 12px; accent-color: var(--accent); }
+    #progress-text { font-variant-numeric: tabular-nums; color: var(--text); }
+    #log { height: 150px; overflow: auto; margin: 0; padding: 6px 10px; border-top: 1px solid var(--line);
+      background: var(--panel); font: 12px/1.4 ui-monospace, Consolas, monospace; white-space: pre-wrap; }
+    #log .l0, #log .l1 { color: var(--dim); }
+    #log .l3 { color: var(--warn); }
+    #log .l4 { color: var(--err); }
+    body.log-hidden #log { display: none; }
+    [hidden] { display: none !important; }
+    #bridge-label { color: var(--dim); font-size: 13px; display: flex; align-items: center; gap: 6px; }
+    #bridge { background: var(--bg); color: var(--text); border: 1px solid var(--line); border-radius: 6px;
+      padding: 4px 8px; font: 12px ui-monospace, Consolas, monospace; width: 13em; }
+    #bridge.bad { border-color: var(--err); }
+    /* the bottom dock: the log and, while Host & Play runs, the dedicated server's console beside it (main.js
+       "Server console", HOST_ABI.md). Both share the log's height, so the game's canvas keeps its size. */
+    #dock { display: flex; height: 150px; border-top: 1px solid var(--line); background: var(--panel); }
+    #dock #log { height: auto; flex: 1; min-width: 0; border-top: 0; }
+    body.log-hidden #dock:not(:has(#server-console:not([hidden]))) { display: none; }
+    #server-console { flex: 0 0 min(600px, 50%); min-width: 0; display: flex; flex-direction: column;
+      border-left: 1px solid var(--line); }
+    body.log-hidden #server-console { flex: 1; border-left: 0; }
+    #server-console .sc-head { display: flex; align-items: center; gap: 8px; padding: 3px 10px; font-size: 13px; }
+    #server-console .sc-head strong { font-weight: 600; }
+    #sc-state { color: var(--dim); flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    #sc-state.ended { color: var(--warn); }
+    #sc-out { flex: 1; min-height: 0; overflow: auto; margin: 0; padding: 4px 10px; background: var(--bg);
+      font: 12px/1.4 ui-monospace, Consolas, monospace; white-space: pre-wrap; overflow-wrap: anywhere; }
+    #sc-out .echo { color: var(--accent); }
+    #sc-out .note { color: var(--dim); }
+    #sc-form { display: flex; gap: 6px; padding: 5px 8px; }
+    #sc-input { flex: 1; min-width: 0; background: var(--bg); color: var(--text); border: 1px solid var(--line);
+      border-radius: 6px; padding: 4px 8px; font: 13px ui-monospace, Consolas, monospace; }
+    #sc-input:focus { outline: none; border-color: var(--accent); }
+    #sc-form button { padding: 3px 12px; }
+    @media (max-width: 720px) {
+      #dock { flex-direction: column; height: auto; }
+      #dock #log { height: 110px; flex: none; }
+      #server-console { flex: none; border-left: 0; border-top: 1px solid var(--line); }
+      #sc-out { height: 110px; flex: none; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Terraria</h1>
+    <span id="status">Starting…</span>
+    <label id="bridge-label" title="Join via IP connects through tools/ws-bridge running on this computer (python tools/ws-bridge/ws_bridge.py). The game still asks for the server's address and port.">Server bridge
+      <input id="bridge" type="text" spellcheck="false" autocomplete="off" size="20"></label>
+    <button id="btn-fullscreen" type="button" disabled>Fullscreen</button>
+    <button id="btn-saves" type="button" disabled>Saves</button>
+    <button id="btn-reimport" type="button">Re-import game files</button>
+    <button id="btn-log" type="button">Log</button>
+  </header>
+
+  <div id="stage">
+    <!-- the canvas is created by main.js (a canvas can be handed to a Worker only once) -->
+    <textarea id="ime" aria-hidden="true" tabindex="-1" autocomplete="off" autocapitalize="off" spellcheck="false"></textarea>
+
+    <div class="screen" id="screen-unsupported" hidden>
+      <div class="card">
+        <h2>This browser can't run it</h2>
+        <p class="strong" id="unsupported-text">This build needs Chrome or Edge 137+</p>
+        <p id="unsupported-detail"></p>
+      </div>
+    </div>
+
+    <div class="screen" id="screen-import" hidden>
+      <div class="card">
+        <h2>Use your own copy of Terraria</h2>
+        <p class="strong">Pick the folder where Terraria is installed (it holds <code>Terraria.exe</code> and a <code>Content</code> folder).</p>
+        <p>The page copies <code>Content</code> (about 760 MB) and <code>Terraria.exe</code> (the game reads its built-in resources from it) into this browser's private storage. Nothing is uploaded and nothing leaves this computer. No other program file (.exe, .dll) is read.</p>
+        <p>Steam usually installs it in <code>C:\Program Files (x86)\Steam\steamapps\common\Terraria</code>.</p>
+        <ul class="problems" id="import-problems" hidden></ul>
+        <div id="import-progress" hidden>
+          <progress id="progress-bar" max="1" value="0"></progress>
+          <p id="progress-text"></p>
+        </div>
+        <div class="row">
+          <button class="primary" id="btn-pick" type="button">Choose Terraria folder</button>
+          <button id="btn-stop" type="button" hidden>Stop</button>
+          <button id="btn-cancel-reimport" type="button" hidden>Back to the game</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="screen" id="screen-saves" hidden>
+      <div class="card">
+        <h2>Characters and worlds</h2>
+        <p>Download a character (.plr) or world (.wld) to keep a copy, or add one from your computer. Files stay on this computer.</p>
+        <div id="saves-list"></div>
+        <p class="strong" id="saves-status" aria-live="polite"></p>
+        <div class="row">
+          <label class="button primary" for="saves-file">Import .plr / .wld…</label>
+          <input id="saves-file" type="file" accept=".plr,.wld" multiple hidden>
+          <button id="btn-saves-close" type="button">Back to the game</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="screen" id="screen-message" hidden>
+      <div class="card">
+        <h2 id="message-title"></h2>
+        <p class="strong" id="message-text" style="white-space: pre-wrap"></p>
+        <div class="row"><button id="btn-restart" type="button">Restart</button></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="dock">
+  <pre id="log" aria-live="polite"></pre>
+  <section id="server-console" aria-label="Server console" hidden>
+    <div class="sc-head">
+      <strong>Server console</strong>
+      <span id="sc-state">starting…</span>
+    </div>
+    <pre id="sc-out" aria-live="polite"></pre>
+    <form id="sc-form" autocomplete="off">
+      <input id="sc-input" type="text" spellcheck="false" autocomplete="off" disabled
+        placeholder="Server command: help, say <message>, save, exit…" aria-label="Server command">
+      <button id="sc-send" type="submit" disabled>Send</button>
+    </form>
+  </section>
+  </div>
+  <script type="module" src="main.js"></script>
+</body>
+</html>

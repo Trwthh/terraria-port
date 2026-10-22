@@ -1,0 +1,23 @@
+# Second session on the save root of g7_play (KEEP_SAVE=1): the config, the player and the world the first session
+# wrote are loaded again. No language menu this time (config.json exists): title -> Single Player -> the player's
+# play button -> the world's play button -> in the world.
+frame 900 mouse 900 650
+frame 1210 mouse 640 250
+frame 1250 click left
+frame 1330 mouse 900 650
+frame 1400 shot ../work/shots/g11a_player_list.png
+frame 1410 mouse 348 311
+frame 1430 click left
+frame 1500 mouse 1100 680
+frame 1560 shot ../work/shots/g11b_world_list.png
+frame 1570 mouse 348 311
+frame 1590 click left
+frame 1660 mouse 900 500
+frame 1900 dump world
+frame 1900 dump player
+frame 1900 dump tile 2129 231
+frame 1900 dump tile 2130 231
+frame 1900 dump tile 2128 229
+frame 1900 dump npcs
+frame 1910 shot ../work/shots/g11_reloaded.png
+frame 1960 quit

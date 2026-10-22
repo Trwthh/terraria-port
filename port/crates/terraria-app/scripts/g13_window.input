@@ -1,0 +1,70 @@
+# terraria (translated client): first start up to the world (as g6_enter_world.input), then window events in play:
+# focus lost / gained, minimise / restore, resizes, Alt+Enter twice, the cursor outside the window.
+frame 900 mouse 640 360
+# "English" is the first entry of the language list (first run only: no config.json yet)
+frame 1010 mouse 640 247
+frame 1030 click left
+frame 1100 mouse 900 600
+# hover "Single Player" (highlight + tick sound), then click it
+frame 1210 mouse 640 250
+frame 1250 click left
+frame 1330 mouse 900 650
+# "New" on the player select screen
+frame 1410 mouse 807 650
+frame 1430 click left
+frame 1500 mouse 1100 680
+# "Create": the name prompt opens; type a name and confirm
+frame 1570 mouse 770 533
+frame 1590 click left
+frame 1660 text Porter
+# Enter arrives as a typed character (WM_CHAR 13): Main.GetInputText reads it from the IME key listener
+frame 1700 text \n
+frame 1800 mouse 1100 680
+# the play button of the player's row: world select
+frame 1870 mouse 348 311
+frame 1890 click left
+frame 1960 mouse 1100 680
+# the play button of the world's row: the world loads (WorldGen.playWorld) and the game starts
+frame 2030 mouse 348 311
+frame 2050 click left
+frame 2120 mouse 900 500
+# ---- window events in play (g13): none of them may stop the game
+frame 2390 dump player
+# the window loses the focus for two seconds, then gets it back (Game.Deactivated / Activated, Main.hasFocus)
+frame 2400 focus lost
+frame 2460 shot ../work/shots/g13a_focus_lost.png
+frame 2520 focus gained
+# walk a little so that input after the focus change is seen
+frame 2540 key D down
+frame 2600 key D up
+# minimise for two seconds (inactive, nothing is drawn), restore
+frame 2620 minimise
+frame 2740 restore
+frame 2800 shot ../work/shots/g13b_restored.png
+# resize down, up, and to an odd size
+frame 2820 resize 1024 600
+frame 2900 shot ../work/shots/g13c_1024x600.png
+frame 2920 resize 1600 900
+frame 3000 shot ../work/shots/g13d_1600x900.png
+frame 3020 resize 1281 721
+frame 3080 resize 1280 720
+# Alt+Enter: the game's own full-screen toggle (Main.ToggleFullScreen -> GraphicsDeviceManager); twice
+frame 3100 key LeftAlt down
+frame 3105 key Enter press
+frame 3110 key LeftAlt up
+frame 3200 shot ../work/shots/g13e_fullscreen_request.png
+frame 3220 key LeftAlt down
+frame 3225 key Enter press
+frame 3230 key LeftAlt up
+# the cursor leaves the client area and comes back
+frame 3300 mouse -50 -50
+frame 3340 mouse 2000 900
+frame 3380 mouse 640 360
+# focus lost while a key is held, regained
+frame 3400 key A down
+frame 3420 focus lost
+frame 3480 focus gained
+frame 3500 key A up
+frame 3560 dump player
+frame 3570 shot ../work/shots/g13f_end.png
+frame 3600 quit

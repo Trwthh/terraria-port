@@ -1,0 +1,17 @@
+[package]
+name = "x87-wasi"
+version = "0.1.0"
+edition = "2021"
+publish = false
+description = "Spike: terraria-x87's own integration tests, unchanged (included by path), built for wasm32-wasip1 and run under Node's WASI"
+
+[dependencies]
+terraria-x87 = { path = "../../../port/crates/terraria-x87" }
+
+[lib]
+path = "lib.rs"
+
+[workspace]
+
+[profile.dev]
+opt-level = 3

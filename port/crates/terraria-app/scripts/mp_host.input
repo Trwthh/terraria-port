@@ -1,0 +1,82 @@
+# terraria (translated client), process A of the multiplayer proof: first run with a save root that holds
+# ref_small.wld -> language -> title -> Multiplayer -> Host & Play -> New player "Hoster" -> the world ->
+# empty password -> the game starts its dedicated server (this executable with -server) and joins it.
+# Then it waits for process B (mp_join.input): the second player, the tile that player digs, that player
+# walking away; sends a chat message; waits for B to leave; Save & Exit.
+# Run both with: sh crates/terraria-app/scripts/run_multiplayer.sh   (TERRARIA_NET_LOOPBACK_ONLY=1, port 47800)
+# `wait S COND` stops this script's clock until the condition holds (the other process decides when).
+frame 900 mouse 640 360
+# "English" is the first entry of the language list (first run only: no config.json yet)
+frame 1010 mouse 640 247
+frame 1030 click left
+frame 1100 mouse 900 600
+frame 1200 dump menu
+# title menu: 0 Single Player, 1 Multiplayer
+frame 1210 aim menu 1
+frame 1230 click left
+frame 1290 dump menu
+frame 1295 shot ../work/shots/mp_a0_multiplayer_menu.png
+# multiplayer menu: 0 Join via IP, 1 Host & Play, 2 Back
+frame 1300 aim menu 1
+frame 1320 click left
+frame 1390 dump ui
+# the player list is empty: "New", then "Create" with a typed name
+frame 1400 mouse 807 650
+frame 1420 click left
+frame 1500 mouse 770 533
+frame 1520 click left
+frame 1590 text Hoster
+frame 1630 text \n
+frame 1730 dump ui
+frame 1740 aim snap Play 0
+frame 1760 click left
+frame 1830 dump ui
+# the world list: ref_small
+frame 1840 aim snap Play 0
+frame 1860 click left
+frame 1930 dump ui
+frame 1935 shot ../work/shots/mp_a1_password.png
+# the server password prompt: empty, Enter -> Main.HostAndPlay()
+frame 1940 text \n
+frame 1990 dump net
+frame 2000 wait 300 ingame
+frame 2060 dump net
+frame 2060 dump players
+frame 2060 dump world
+frame 2070 shot ../work/shots/mp_a2_ingame_alone.png
+frame 2080 wait 600 players 2
+frame 2140 dump players
+frame 2150 shot ../work/shots/mp_a3_two_players.png
+# B digs the ground tile two to the right of the spawn (both players stand at the spawn)
+frame 2160 dump tile rel 2 2
+frame 2170 wait 300 tile rel 2 2 inactive
+frame 2180 dump tile rel 2 2
+frame 2190 shot ../work/shots/mp_a4_tile_dug_by_b.png
+# B walks to the right
+frame 2200 wait 300 remote-moved 160
+frame 2210 dump players
+frame 2260 dump players
+frame 2270 shot ../work/shots/mp_a5_b_walked.png
+# chat: Enter opens the chat line, the text, Enter sends it
+frame 2280 key Enter press
+frame 2310 text hello from A
+frame 2340 dump chat
+# (the game sends on the typed character 13 while the Enter KEY was up in the frame before: Main.DoUpdate_HandleChat)
+frame 2350 text \n
+frame 2400 dump chat
+frame 2410 shot ../work/shots/mp_a6_chat_sent.png
+# B leaves
+frame 2420 wait 300 players 1
+frame 2480 dump players
+frame 2480 dump net
+# Save & Exit: inventory (Escape), the Settings button, the last entry of the left column
+frame 2500 key Escape press
+frame 2530 aim settings
+frame 2540 click left
+frame 2575 shot ../work/shots/mp_a7_settings.png
+frame 2580 aim ui 414 517
+frame 2590 click left
+frame 2600 wait 120 menu
+frame 2700 dump net
+frame 2710 shot ../work/shots/mp_a8_title_after_exit.png
+frame 2760 quit

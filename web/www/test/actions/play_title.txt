@@ -1,0 +1,8 @@
+# The play page (web/host/terraria_host.py, /): from the start to the title, its frame budget and memory there.
+#   node test/run-game-headless.mjs --host --page play [--cold] --trace 0 --actions test/actions/play_title.txt
+frame 30 waitsteady 6000
+frame 40 shot play_title
+frame 41 pageshot play_title_page
+frame 42 memory title
+frame 50 budget title 600
+frame 60 memory title_after

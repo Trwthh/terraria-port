@@ -1,0 +1,77 @@
+# The dedicated server's console in the browser (web/STATUS.md 2026-10-14 "Server console"): Host & Play, then
+# commands typed into the page's server console box (index.html #sc-input -> the server Worker's stdin -> the
+# game's own input thread Main.startDedInputCallBack), their output read back from the box (#sc-out) and the logs.
+#   node test/run-game-headless.mjs --actions test/actions/host_console.txt --log hpc_host_page.txt
+# (or sh test/run-host-console.sh). The page alone: no bridge, no other client.
+# Fresh save root + ref_small.wld imported -> Multiplayer -> Host & Play -> new player "Hoster" -> ref_small ->
+# empty password -> hosting.
+frame 1300 import work/refsave/Worlds/ref_small.wld
+frame 1320 move 640 247
+frame 1340 click 640 247
+# title: Multiplayer
+frame 1400 move 640 300
+frame 1415 click 640 300
+# multiplayer menu: Host & Play
+frame 1460 move 640 331
+frame 1475 click 640 331
+# no players yet: New, Create, the name, Enter
+frame 1520 move 807 533
+frame 1535 click 807 533
+frame 1580 move 770 533
+frame 1595 click 770 533
+frame 1630 type Hoster
+frame 1640 key Press Enter
+# the world list: ref_small
+frame 1690 move 348 310
+frame 1705 click 348 310
+frame 1750 move 348 310
+frame 1765 click 348 310
+# empty server password: the server Worker starts, its console box opens, the client joins
+frame 1810 key Press Enter
+frame 1815 waitlog 3000 [server] Server started
+frame 1818 waitlog 600 [server] console: the server's input thread runs
+frame 1820 waitlog 3000 [server] Hoster has joined.
+frame 1825 waitlog 3000 now in the world (multiplayer client
+frame 1840 waitconsole 600 Type 'help' for a list of commands.
+frame 1900 shot hpc_01_hosting_console
+# help: the command list (the original's text, CLI.AvailableCommands and one line per command)
+frame 1910 console help
+frame 1915 waitconsole 600 Available commands:
+frame 1920 waitconsole 300 Displays a list of commands.
+frame 1925 waitconsole 300 Display game time.
+frame 1940 shot hpc_02_help
+frame 1941 pageshot hpc_02_help_page
+# say: the server's message on its console and in the hosting client's chat (the client's RemadeChatMonitor.AddNewMessage traces "[chat] <text>")
+frame 1950 console say hello from the console
+frame 1955 waitconsole 600 <Server> hello from the console
+frame 1960 waitlog 600 [chat] <Server> hello from the console
+frame 2000 shot hpc_03_say
+# time, noon, time, dawn, time: the world's time changes (12:00 PM after noon, 4:30 AM after dawn)
+frame 2010 console time
+frame 2015 waitconsole 600 Time:
+frame 2020 console noon
+frame 2020 console time
+frame 2025 waitconsole 600 Time: 12:0
+frame 2030 console dawn
+frame 2030 console time
+frame 2035 waitconsole 600 Time: 4:3
+frame 2060 shot hpc_04_dawn
+frame 2061 pageshot hpc_04_dawn_page
+# playing: the hosting player
+frame 2070 console playing
+frame 2075 waitconsole 600 Hoster (
+frame 2080 waitconsole 300 1 player connected.
+# save: the world file in /saves is written again (as the shared /saves index of the game Worker sees it)
+frame 2090 saves before_save
+frame 2100 console save
+frame 2400 newer Worlds/ref_small.wld
+frame 2405 saves after_save
+frame 2410 shot hpc_05_save
+# exit: the server saves before it stops and ends with exit code 0; the page shows it
+frame 2420 console exit
+frame 2425 waitconsole 1200 Saving before exit...
+frame 2430 waitconsole 3600 server stopped (exit code 0)
+frame 2435 waitlog 600 dedicated server 1 ended (exit code 0)
+frame 2500 shot hpc_06_exit
+frame 2501 pageshot hpc_06_exit_page
+frame 2600 saves after_exit

@@ -1,0 +1,6 @@
+{
+  "Name": "Probe Pack",
+  "Description": "The probe run's resource pack: a manifest only, no content (it lists in the resource pack menus).",
+  "Author": "probe",
+  "Version": { "major": 1, "minor": 0 }
+}

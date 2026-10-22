@@ -1,0 +1,51 @@
+# Backspace held for exactly 60 and 120 ticks in the chat line (key state only, no characters): the deterministic
+# counterpart of the real-window measurement (work/realwin/bs_test.py). Based on g6_enter_world.input.
+# terraria (translated client), first run with an empty save root: language -> title -> Single Player -> New
+# (character creation) -> Create with a typed name -> the player list -> select the player -> world select.
+# Ticks are shell ticks (fixed 1/60 s step). See g1_title.input for the first 1200 ticks.
+frame 900 mouse 640 360
+# "English" is the first entry of the language list (first run only: no config.json yet)
+frame 1010 mouse 640 247
+frame 1030 click left
+frame 1100 mouse 900 600
+frame 1200 shot ../work/shots/rw_bs_g1_title.png
+# hover "Single Player" (highlight + tick sound), then click it
+frame 1210 mouse 640 250
+frame 1240 shot ../work/shots/rw_bs_g1b_title_hover.png
+frame 1250 click left
+frame 1330 mouse 900 650
+frame 1400 shot ../work/shots/rw_bs_g2_player_select.png
+# "New" on the player select screen
+frame 1410 mouse 807 650
+frame 1430 click left
+frame 1500 mouse 1100 680
+frame 1560 shot ../work/shots/rw_bs_g3_character_creation.png
+# "Create": the name prompt opens; type a name and confirm
+frame 1570 mouse 770 533
+frame 1590 click left
+frame 1650 shot ../work/shots/rw_bs_g3b_name_prompt.png
+frame 1660 text Porter
+# Enter arrives as a typed character (WM_CHAR 13): Main.GetInputText reads it from the IME key listener
+frame 1700 text \n
+frame 1800 mouse 1100 680
+frame 1860 shot ../work/shots/rw_bs_g3c_player_list.png
+# the play button of the player's row: world select
+frame 1870 mouse 348 311
+frame 1890 click left
+frame 1960 mouse 1100 680
+frame 2020 shot ../work/shots/rw_bs_g4_world_select.png
+# the play button of the world's row: the world loads (WorldGen.playWorld) and the game starts
+frame 2030 mouse 348 311
+frame 2050 click left
+frame 2120 mouse 900 500
+# a few seconds of ticks after the world has loaded (it loads at tick 2052)
+frame 2400 key Enter press
+frame 2420 text xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+frame 2440 dump chat
+frame 2450 key Back down
+frame 2510 key Back up
+frame 2520 dump chat
+frame 2530 key Back down
+frame 2650 key Back up
+frame 2660 dump chat
+frame 2670 quit

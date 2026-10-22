@@ -1,0 +1,10 @@
+{
+  // Measurement only (COVERAGE.md, last section): core.json plus every type of both decompiles, translated for
+  // real. The result does not build yet; run.sh does not use this file. Usage:
+  //   dotnet bin/Release/net8.0/cs2rs.dll --config all_probe.json --out <scratch>/gen --report <scratch>/SCALE.md --host-api <scratch>/HOST.md
+  "include": ["core.json"],
+  "floatMode": "x87",
+  "sources": ["../../decompile/Terraria", "../../decompile/ReLogic"],
+  "namespaces": ["Terraria.*", "ReLogic.*", "BCrypt.*"],
+  "autoStructs": true
+}

@@ -1,0 +1,56 @@
+tone_stereo.ogg	channels	2
+tone_stereo.ogg	rate	44100
+tone_stereo.ogg	total	88200
+tone_stereo.ogg	tags	LOOPEND=60000;LOOPSTART=10000;TITLE=Tone
+tone_stereo.ogg	floats	176400
+tone_stereo.ogg	position_at_end	88200
+tone_stereo.ogg	rms	0.044468216721436513
+tone_stereo.ogg	peak	0.063866287469863892
+tone_stereo.ogg	sample 0	6.09550770604983E-05
+tone_stereo.ogg	sample 1	-0.00050064583774656057
+tone_stereo.ogg	sample 1000	-0.0045506996102631092
+tone_stereo.ogg	sample 20001	-0.053053960204124451
+tone_stereo.ogg	sample 20002	-0.060965530574321747
+tone_stereo.ogg	sample 40000	-0.017760012298822403
+tone_stereo.ogg	seek5000	8 5004 -0.041237540543079376 -0.054673638194799423 -0.044214330613613129
+tone_stereo.ogg	seek10000	4 10002 -0.0616564117372036 -0.055971659719944
+tone_stereo.ogg	seek0	4 2 6.09550770604983E-05 0.00510728545486927
+tone_mono.ogg	channels	1
+tone_mono.ogg	rate	22050
+tone_mono.ogg	total	22050
+tone_mono.ogg	tags	
+tone_mono.ogg	floats	22050
+tone_mono.ogg	position_at_end	22050
+tone_mono.ogg	rms	0.088353379348916863
+tone_mono.ogg	peak	0.12840113043785095
+tone_mono.ogg	sample 0	-0.0035771378315985203
+tone_mono.ogg	sample 1	0.0081169772893190384
+tone_mono.ogg	sample 1000	-0.028097532689571381
+tone_mono.ogg	sample 20001	0.10662413388490677
+tone_mono.ogg	sample 20002	0.10016711801290512
+tone_mono.ogg	sample 40000	0
+tone_mono.ogg	seek5000	8 5008 -0.10951926559209824 -0.10352176427841187 -0.0508430041372776
+tone_mono.ogg	seek10000	4 10004 -0.1048477366566658 -0.11909542977809906
+tone_mono.ogg	seek0	4 4 -0.0035771378315985203 0.03165290504693985
+tone_stereo.mp3	frequency	44100
+tone_stereo.mp3	bytes	364032
+tone_stereo.mp3	length	33061
+tone_stereo.mp3	position_at_end	33061
+tone_stereo.mp3	rms	1350.8165189859997
+tone_stereo.mp3	peak	1956
+tone_stereo.mp3	sample 4000	5
+tone_stereo.mp3	sample 20000	1940
+tone_stereo.mp3	sample 40001	-499
+tone_stereo.mp3	sample 45000	-352
+tone_stereo.mp3	rewind	16 0
+tone_mono.mp3	frequency	22050
+tone_mono.mp3	bytes	96768
+tone_mono.mp3	length	8820
+tone_mono.mp3	position_at_end	8820
+tone_mono.mp3	rms	2620.40510974037
+tone_mono.mp3	peak	3884
+tone_mono.mp3	sample 4000	-3837
+tone_mono.mp3	sample 20000	-48
+tone_mono.mp3	sample 40001	3303
+tone_mono.mp3	sample 45000	-1802
+tone_mono.mp3	rewind	16 0

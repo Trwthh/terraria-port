@@ -1,0 +1,109 @@
+{
+  // Pilot: Terraria.Item and what Item.SetDefaults reaches. Paths are relative to this file.
+  // Run:  dotnet bin/Release/net8.0/cs2rs.dll --config pilot.json --out ../../port/crates/terraria-gen/src/gen --report PILOT_REPORT.md
+  "include": ["native.json"],
+  "types": [
+    { "type": "Terraria.Item", "reflect": true },
+    { "type": "Terraria.Entity" },
+
+    // item variants (Item.SetDefaults picks one per world seed)
+    { "type": "Terraria.GameContent.Items.ItemVariants" },
+    { "type": "Terraria.GameContent.Items.ItemVariants+VariantEntry" },
+    { "type": "Terraria.GameContent.Items.ItemVariant" },
+    { "type": "Terraria.GameContent.Items.ItemVariantCondition" },
+    { "type": "Terraria.GameContent.SpecialSeedFeatures" },
+
+    // Item.UseSound
+    { "type": "Terraria.Audio.SoundStyle", "reflect": true },
+    { "type": "Terraria.Audio.LegacySoundStyle", "reflect": true },
+    { "type": "Terraria.ID.SoundID" },
+    { "type": "Terraria.ID.SoundID+SoundStyleDefaults" },
+
+    // ids and sets
+    { "type": "Terraria.ID.AmmoID" },
+    { "type": "Terraria.ID.SetFactory" },
+    { "type": "Terraria.ID.ItemID", "members": ["Count"] },
+    { "type": "Terraria.ID.ItemID+Sets", "members": ["Factory", "NonColorfulDyeItems", "ColorfulDyeValues", "ItemsThatAreProcessedAfterNormalContentSample"] },
+    { "type": "Terraria.ID.ProjectileID", "members": ["Count"] },
+    { "type": "Terraria.ID.PrefixID", "members": ["Count"] },
+    { "type": "Terraria.ID.ArmorIDs+Head", "members": ["Count"] },
+    { "type": "Terraria.ID.ArmorIDs+Body", "members": ["Count"] },
+    { "type": "Terraria.ID.ArmorIDs+Legs", "members": ["Count"] },
+    { "type": "Terraria.ID.ContentSamples", "members": ["ItemsByType", "FixItemsAfterRecipesAreAdded"] },
+    { "type": "Terraria.ID.CustomCurrencyID" },
+
+    // Item.dye / Item.hairDye: shader ids are assigned in binding order
+    { "type": "Terraria.Graphics.Shaders.GameShaders", "members": ["Armor", "Hair", "Misc"] },
+    { "type": "Terraria.Graphics.Shaders.ArmorShaderDataSet" },
+    { "type": "Terraria.Graphics.Shaders.HairShaderDataSet" },
+    { "type": "Terraria.Initializers.DyeInitializer" },
+
+    // Item.IsCurrency
+    { "type": "Terraria.GameContent.UI.CustomCurrencyManager" },
+    { "type": "Terraria.GameContent.UI.CustomCurrencySystem" },
+    { "type": "Terraria.GameContent.UI.CustomCurrencySingleCoin" },
+
+    { "type": "Terraria.UI.ItemTooltip" },
+    { "type": "Terraria.Testing.Invariant" },
+
+    // state the pilot reads from classes that are far too large to translate yet: only these members exist
+    { "type": "Terraria.Main", "members": ["player", "myPlayer", "projHook", "infectedSeed", "remixWorld", "getGoodWorld", "skyblockWorld", "zenithWorld", "drunkWorld", "tenthAnniversaryWorld", "notTheBeesWorld", "dontStarveWorld", "noTrapsWorld", "rand", "netMode", "dedServ", "expertMode", "masterMode"] },
+    { "type": "Terraria.Player", "members": ["hairColor", "skinColor", "shirtColor", "pantsColor"] },
+    { "type": "Terraria.WorldGen", "members": ["isGeneratingOrLoadingWorld", "genRand"] },
+    // ToInt / IndexInRange are needed by Item; the rest compile-checks the XNA and Math entries of native.json
+    { "type": "Terraria.Utils", "members": ["ToInt", "IndexInRange", "RotatedBy", "ToRotation", "SafeNormalize", "ToRotationVector2", "Size", "Distance",
+        "GetLerpValue", "Remap", "AngleLerp", "MoveTowards", "TopLeft", "BottomRight", "Floor", "ToPoint", "ToVector2", "Center", "CenteredRectangle",
+        "Multiply", "HasNaNs", "Between", "DirectionTo", "AngleTowards", "WrappedLerp", "PingPongFrom01To010", "ToWorldCoordinates", "ToTileCoordinates",
+        "Clamp", "FloatIntersect", "Top", "Bottom", "Left", "Right", "Swap", "OffsetSize", "ScaleCentered", "Intersects", "CenteredSquare", "Modulo",
+        "NextFloat", "NextBool", "NextVector2Unit", "ClosestPointInRect", "AngleFrom", "AngleTo", "DistanceSQ", "WithinRange", "TurnTowards"] }
+  ],
+  // static array fields served by const tables dumped from the real game (terraria-data)
+  "nativeSlices": {
+    "F:Terraria.ID.ItemID.Sets.IsFood": "terraria_data::sets::item_id::sets::IS_FOOD",
+    "F:Terraria.ID.ItemID.Sets.IsAMaterial": "terraria_data::sets::item_id::sets::IS_A_MATERIAL",
+    "F:Terraria.ID.ItemID.Sets.IsDrill": "terraria_data::sets::item_id::sets::IS_DRILL",
+    "F:Terraria.ID.ItemID.Sets.IsChainsaw": "terraria_data::sets::item_id::sets::IS_CHAINSAW",
+    "F:Terraria.ID.ItemID.Sets.Deprecated": "terraria_data::sets::item_id::sets::DEPRECATED"
+  },
+  "nativeMembers": {
+    // provided by port\crates\terraria-gen\src\host.rs (data installed by the host from refdata\)
+    "M:Terraria.Lang.GetItemNameValue(System.Int32)": "crate::host::lang_get_item_name_value({0})",
+    "F:Terraria.ID.ItemID.Sets.CanBeQuickusedOnGamepad": "crate::host::can_be_quickused_on_gamepad()"
+  },
+  // Callees that are not ported, with the value to continue with. Every entry is a deliberate decision:
+  "stubs": {
+    // Item.ToolTip needs LocalizedText (localisation files). null; the item test excludes the field ToolTip by name.
+    "M:Terraria.Lang.GetTooltip(System.Int32)": "Gc::NULL",
+    // display text of item variants (NetworkText): never read by simulation code
+    "M:Terraria.Localization.NetworkText.FromKey(System.String,System.Object[])": "Gc::NULL",
+    // Graphics objects of dyes. Only the order of the BindShader calls matters for Item.dye / Item.hairDye,
+    // and BindShader itself is translated. The shader objects are null until rendering is ported; the fluent
+    // setters (UseColor ...) return the object they were called on, i.e. null.
+    "F:Terraria.Main.PixelShaderRef": "Gc::NULL",
+    "F:Terraria.Main.VertexPixelShaderRef": "Gc::NULL",
+    "F:Terraria.Main.ScreenShaderRef": "Gc::NULL",
+    "F:Microsoft.Xna.Framework.Graphics.SamplerState.LinearClamp": "Gc::NULL",
+    "M:Terraria.Graphics.Shaders.ArmorShaderData.#ctor(*)": "Gc::NULL",
+    "M:Terraria.Graphics.Shaders.ArmorShaderData.UseColor(*)": "Gc::NULL",
+    "M:Terraria.Graphics.Shaders.ArmorShaderData.UseSecondaryColor(*)": "Gc::NULL",
+    "M:Terraria.Graphics.Shaders.ArmorShaderData.UseSaturation(*)": "Gc::NULL",
+    "M:Terraria.Graphics.Shaders.ArmorShaderData.UseImage(*)": "Gc::NULL",
+    "M:Terraria.Graphics.Shaders.ArmorShaderData.UseOpacity(*)": "Gc::NULL",
+    "M:Terraria.Graphics.Shaders.ArmorShaderData.UseTargetPosition(*)": "Gc::NULL",
+    "M:Terraria.GameContent.Dyes.ReflectiveArmorShaderData.#ctor(*)": "Gc::NULL",
+    "M:Terraria.GameContent.Dyes.TeamArmorShaderData.#ctor(*)": "Gc::NULL",
+    "M:Terraria.GameContent.Dyes.TwilightDyeShaderData.#ctor(*)": "Gc::NULL",
+    "M:Terraria.GameContent.Dyes.TwilightHairDyeShaderData.#ctor(*)": "Gc::NULL",
+    "M:Terraria.GameContent.Dyes.LegacyHairShaderData.#ctor(*)": "Gc::NULL",
+    "M:Terraria.GameContent.Dyes.LegacyHairShaderData.UseLegacyMethod(*)": "Gc::NULL",
+    "M:Terraria.Graphics.Shaders.HairShaderData.#ctor(*)": "Gc::NULL",
+    "M:Terraria.Graphics.Shaders.HairShaderData.UseColor(*)": "Gc::NULL",
+    "M:Terraria.Graphics.Shaders.HairShaderData.UseImage(*)": "Gc::NULL",
+    "M:Terraria.Graphics.Shaders.MiscShaderData.#ctor(*)": "Gc::NULL",
+    "M:Terraria.Graphics.Shaders.MiscShaderData.UseImage0(*)": "Gc::NULL",
+    "M:Terraria.Graphics.Shaders.MiscShaderData.UseImage1(*)": "Gc::NULL",
+    "M:Terraria.Graphics.Shaders.MiscShaderData.UseImage2(*)": "Gc::NULL",
+    "M:Terraria.Graphics.Shaders.MiscShaderData.UseProjectionMatrix(*)": "Gc::NULL",
+    "M:Terraria.Graphics.Shaders.MiscShaderData.UseSamplerState(*)": "Gc::NULL"
+  }
+}

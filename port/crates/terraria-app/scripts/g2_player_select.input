@@ -1,0 +1,15 @@
+# terraria (translated client), first run with an empty save root: language -> title -> Single Player.
+# Ticks are shell ticks (fixed 1/60 s step). See g1_title.input for the first 1200 ticks.
+frame 900 mouse 640 360
+# "English" is the first entry of the language list (first run only: no config.json yet)
+frame 1010 mouse 640 247
+frame 1030 click left
+frame 1100 mouse 900 600
+frame 1200 shot ../work/shots/g1_title.png
+# hover "Single Player" (highlight + tick sound), then click it
+frame 1210 mouse 640 250
+frame 1240 shot ../work/shots/g1b_title_hover.png
+frame 1250 click left
+frame 1330 mouse 900 650
+frame 1400 shot ../work/shots/g2_player_select.png
+frame 1440 quit

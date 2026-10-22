@@ -1,0 +1,73 @@
+# Host & Play in the browser, the SECOND page (tools/ws-bridge/run_hostplay_web.sh): mp_join.txt with the player
+# "WebJoiner", joining the server another headless page hosts (test/actions/mp_host.txt), through tools/ws-bridge:
+# its forward mode opens TCP 127.0.0.1:47800, which is the bridge's own reverse mode, which leads to the hosting page.
+# Fresh save root -> language -> Multiplayer -> Join via IP -> new player "WebJoiner" -> address 127.0.0.1 -> port 47800
+# -> in the world -> dig the ground two tiles right of the player -> walk right -> chat "hello from web" -> leave
+# through Settings -> Save & Exit. A shot after each step (mpw_*).
+frame 1320 move 640 247
+frame 1340 click 640 247
+frame 1395 shot mpw_01_title
+# title: Multiplayer
+frame 1400 move 640 300
+frame 1415 click 640 300
+frame 1455 shot mpw_02_multiplayer_menu
+# multiplayer menu: Join via IP
+frame 1460 move 640 278
+frame 1475 click 640 278
+frame 1515 shot mpw_03_player_select
+# no players yet: New, then Create in the character creation, the name, Enter
+frame 1520 move 807 533
+frame 1535 click 807 533
+frame 1575 shot mpw_04_character_creation
+frame 1580 move 770 533
+frame 1595 click 770 533
+frame 1625 shot mpw_05_name_prompt
+frame 1630 type WebJoiner
+frame 1640 key Press Enter
+frame 1680 shot mpw_06_player_list
+# play the new player: the address prompt
+frame 1690 move 348 310
+frame 1705 click 348 310
+frame 1745 shot mpw_07_ip_prompt
+frame 1750 type 127.0.0.1
+frame 1760 key Press Enter
+frame 1800 shot mpw_08_port_prompt
+# the port prompt starts with "7777": four Backspaces, the server's port, Enter
+frame 1805 key Press Backspace
+frame 1810 key Press Backspace
+frame 1815 key Press Backspace
+frame 1820 key Press Backspace
+frame 1830 type 47800
+frame 1840 key Press Enter
+frame 1845 waitlog 600 net: connection 1 to 127.0.0.1:47800 is open
+frame 1850 shot mpw_09_connecting
+frame 1855 waitlog 1800 now in the world (multiplayer client
+frame 1900 shot mpw_10_in_world
+# dig: copper pickaxe (hotbar 2), the left button held on the ground tile two to the right of the player
+frame 1910 key Press Digit2
+frame 1920 move 672 333
+frame 1930 shot mpw_11_aim
+frame 1940 mouse Down
+frame 1970 shot mpw_12_digging
+frame 2010 mouse Up
+frame 2030 shot mpw_13_dug
+# walk right for three seconds
+frame 2040 key Down KeyD
+frame 2220 key Up KeyD
+frame 2240 shot mpw_14_walked
+# chat: Enter opens the chat line, the text, Enter sends it
+frame 2250 key Press Enter
+frame 2270 type hello from web
+frame 2290 key Press Enter
+frame 2300 waitlog 300 hello from web
+frame 2310 shot mpw_15_chat
+# leave: inventory (Escape), the Settings button, Save & Exit
+frame 2320 key Press Escape
+frame 2350 move 1212 587
+frame 2360 shot mpw_16_inventory
+frame 2370 click 1212 587
+frame 2410 shot mpw_17_settings
+frame 2420 move 536 414
+frame 2430 click 536 414
+frame 2440 waitlog 900 now in the menu
+frame 2500 shot mpw_18_title_after_leaving

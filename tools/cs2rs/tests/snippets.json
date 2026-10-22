@@ -1,0 +1,7 @@
+{
+  // Snippet tests (tests\*.cs): same interop table and reference assemblies as the game.
+  "include": ["../native.json"],
+  // tests/reflection.cs: instance members in the reflection data of these types
+  "reflect": ["RfThing", "RfPoint"],
+  "inert": { "M:System.Attribute.#ctor": "System.Attribute has no state: its constructor is empty" }
+}

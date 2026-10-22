@@ -1,0 +1,14 @@
+[package]
+name = "unwind-wasm"
+version = "0.1.0"
+edition = "2021"
+publish = false
+description = "Spike: catch_unwind / resume_unwind (the runtime's C# exceptions) on wasm32-unknown-unknown"
+
+[lib]
+crate-type = ["cdylib"]
+
+[workspace]
+
+[profile.release]
+panic = "unwind"

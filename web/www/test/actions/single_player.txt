@@ -1,0 +1,68 @@
+# Single player from an empty save root: (first run) language -> title -> Single Player -> New player "Webby" ->
+# world list -> New -> Small, "webworld" -> Create -> generation -> Play -> 600 frames in the world.
+# Run: node test/run-game-headless.mjs --actions test/actions/single_player.txt --trace 64
+# Coordinates are canvas device pixels of a 1280x604 back buffer, read from this script's own shots. A click is
+# preceded by a hover (as the native g-scripts do).
+frame 1400 move 640 247
+frame 1430 shot sp_00_language
+# "English": the first entry of the language list (only on the first run: no config.json yet)
+frame 1450 click 640 247
+frame 1500 move 1100 560
+frame 1540 shot sp_01_title
+# "Single Player"
+frame 1550 move 640 247
+frame 1580 shot sp_01b_title_hover
+frame 1590 click 640 247
+frame 1650 move 1100 560
+frame 1720 shot sp_02_player_select
+# "New" on the (empty) player list
+frame 1730 move 807 533
+frame 1760 click 807 533
+frame 1820 move 1100 560
+frame 1880 shot sp_03_character_creation
+# "Create" with an empty name opens the name prompt; type the name, Enter confirms
+frame 1890 move 770 533
+frame 1920 click 770 533
+frame 1990 shot sp_04_name_prompt
+frame 2000 type Webby
+frame 2040 shot sp_04b_name_typed
+frame 2050 key Press Enter
+frame 2120 move 1100 560
+frame 2180 shot sp_05_player_list
+# the play button of Webby's row: the (empty) world list
+frame 2190 move 348 310
+frame 2220 click 348 310
+frame 2280 move 1100 560
+frame 2340 shot sp_06_world_list
+# "New" on the world list
+frame 2350 move 807 533
+frame 2380 click 807 533
+frame 2440 move 1100 560
+frame 2500 shot sp_07_world_creation
+# size Small
+frame 2510 move 476 320
+frame 2540 click 476 320
+# the name plate opens the virtual keyboard page: type the name, Enter
+frame 2580 move 617 230
+frame 2610 click 617 230
+frame 2670 shot sp_08_name_keyboard
+frame 2680 type webworld
+frame 2720 shot sp_08b_name_typed
+frame 2730 key Press Enter
+frame 2790 move 1100 560
+frame 2850 shot sp_09_world_creation_filled
+# "Create": world generation (on the web it runs to completion inside one frame for now: a long frame)
+frame 2860 move 770 533
+frame 2890 click 770 533
+frame 2895 shot sp_10_create_clicked
+frame 2900 shot sp_10b_generating
+frame 2960 move 1100 560
+frame 3020 shot sp_11_world_list
+# the play button of webworld's row
+frame 3030 move 348 310
+frame 3060 click 348 310
+frame 3120 shot sp_12_entering_world
+# diagnostics of one frame in the world: every texture it draws into, draw statistics (work/logs/diag_world.json)
+frame 3420 diag diag_world
+frame 3425 shot sp_12b_in_world_300
+frame 3720 shot sp_13_in_world_600

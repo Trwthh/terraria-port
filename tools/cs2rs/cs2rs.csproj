@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- cs2rs: C# -> Rust translator for the decompiled game (see DESIGN.md).
+       Roslyn is the copy that ships inside the .NET SDK; nothing is downloaded (same trick as tools\tmeta). -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+    <ServerGarbageCollection>true</ServerGarbageCollection>
+    <TieredPGO>true</TieredPGO>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <RoslynDir>$(NetCoreSdkRoot)Roslyn\bincore\</RoslynDir>
+    <RoslynDir Condition="'$(NetCoreSdkRoot)' == ''">$(MSBuildToolsPath)\Roslyn\bincore\</RoslynDir>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="src\**\*.cs" />
+    <Reference Include="Microsoft.CodeAnalysis"><HintPath>$(RoslynDir)Microsoft.CodeAnalysis.dll</HintPath></Reference>
+    <Reference Include="Microsoft.CodeAnalysis.CSharp"><HintPath>$(RoslynDir)Microsoft.CodeAnalysis.CSharp.dll</HintPath></Reference>
+  </ItemGroup>
+</Project>

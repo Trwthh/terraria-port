@@ -1,0 +1,25 @@
+# The cursor mapping and the game's resolution at several window sizes and devicePixelRatios, on the title screen.
+#   node test/run-game-headless.mjs --host --page play --trace 0 --params "&nodpbox" --actions test/actions/play_dpr.txt
+# (&nodpbox: headless Chromium's emulated ratio leaves ResizeObserver's device-pixel box at CSS size, so the canvas
+# is sized as CSS size x devicePixelRatio, the browsers' fallback path; a real Chrome reports the device box.)
+frame 30 waitsteady 6000
+frame 40 cursorcheck t_1280x800_dpr1
+frame 41 memory start
+frame 50 viewport 1024 768 1.25
+frame 90 cursorcheck t_1024x768_dpr1.25
+frame 91 shot dpr_1024x768_1.25
+frame 100 viewport 1366 768 1.5
+frame 140 cursorcheck t_1366x768_dpr1.5
+frame 141 shot dpr_1366x768_1.5
+frame 150 viewport 800 600 2
+frame 190 cursorcheck t_800x600_dpr2
+frame 191 shot dpr_800x600_2
+frame 200 viewport 1000 560 1
+frame 240 cursorcheck t_1000x560_dpr1_below_min
+frame 241 shot dpr_1000x560_1
+frame 242 pageshot dpr_1000x560_1_page
+frame 250 viewport 700 450 1.5
+frame 290 cursorcheck t_700x450_dpr1.5
+frame 300 viewport 1280 800 1
+frame 340 cursorcheck t_back_1280x800_dpr1
+frame 341 memory end

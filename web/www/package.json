@@ -1,0 +1,9 @@
+{
+  "name": "terraria-web-shell",
+  "private": true,
+  "type": "module",
+  "description": "Browser page shell for the Terraria web port. Plain JS, no build step.",
+  "scripts": {
+    "test": "node --test test/*.test.mjs"
+  }
+}

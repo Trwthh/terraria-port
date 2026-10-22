@@ -1,0 +1,13 @@
+# Spike: a COPY of port/crates/terraria-gen-rt (taken 2026-10-13) with only the conservative-scan address filter made
+# pointer-width aware (see PATCH.md), to show that this one change is what the collector needs on wasm32.
+[workspace]
+resolver = "2"
+members = ["terraria-gen-rt"]
+
+[workspace.package]
+edition = "2021"
+version = "0.1.0"
+publish = false
+
+[workspace.dependencies]
+terraria-core = { path = "../../port/crates/terraria-core" }

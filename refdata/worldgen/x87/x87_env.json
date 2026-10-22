@@ -1,0 +1,12 @@
+{
+"intptr_size":4,
+"clr_version":"4.0.30319.42000",
+"os_64bit":true,
+"controlfp_word":589855,"controlfp_hex":"0x9001f",
+"controlfp_precision_bits_0x30000":65536,"note_precision":"_controlfp encoding: 0x00000 = 64-bit mantissa, 0x10000 = 53-bit, 0x20000 = 24-bit",
+"sin_pi_bits":"0x3ca1a60000000000","sin_pi":1.2246063538223773E-16,
+"sin_pi_correctly_rounded_libm":1.2246467991473532e-16,"sin_pi_is_x87_fsin_signature":true,
+"sin_1e22":1E+22,"sin_1e22_correctly_rounded_libm":-0.8522008497671888,
+"cos_pi_over_2":6.1230317691118863E-17,"cos_pi_over_2_correctly_rounded_libm":6.123233995736766e-17,
+"count_per_function":20000
+}

@@ -1,0 +1,89 @@
+# terraria (translated client): world creation from the menu. First run with an EMPTY save root (NO_WORLD=1):
+# language -> title -> Single Player -> New player -> the player list -> the (empty) world list -> New ->
+# UIWorldCreation: Small, Classic, evil Random, typed name "ref_small", typed seed "12345" -> Create ->
+# the loading screen (UIWorldLoad) while WorldGen.worldGenCallback runs on a worker fiber -> the world list ->
+# enter the world. UI elements are found by their own snap points (aim snap NAME [ID]), not by pixel.
+# Run: NO_WORLD=1 sh crates/terraria-app/scripts/run_hidden.sh crates/terraria-app/scripts/g15_create_world.input g15_create_world 3600
+# (the first lines are g5_world_select.input)
+# (character creation) -> Create with a typed name -> the player list -> select the player -> world select.
+# Ticks are shell ticks (fixed 1/60 s step). See g1_title.input for the first 1200 ticks.
+frame 900 mouse 640 360
+# "English" is the first entry of the language list (first run only: no config.json yet)
+frame 1010 mouse 640 247
+frame 1030 click left
+frame 1100 mouse 900 600
+frame 1200 shot ../work/shots/g1_title.png
+# hover "Single Player" (highlight + tick sound), then click it
+frame 1210 mouse 640 250
+frame 1240 shot ../work/shots/g1b_title_hover.png
+frame 1250 click left
+frame 1330 mouse 900 650
+frame 1400 shot ../work/shots/g2_player_select.png
+# "New" on the player select screen
+frame 1410 mouse 807 650
+frame 1430 click left
+frame 1500 mouse 1100 680
+frame 1560 shot ../work/shots/g3_character_creation.png
+# "Create": the name prompt opens; type a name and confirm
+frame 1570 mouse 770 533
+frame 1590 click left
+frame 1650 shot ../work/shots/g3b_name_prompt.png
+frame 1660 text Porter
+# Enter arrives as a typed character (WM_CHAR 13): Main.GetInputText reads it from the IME key listener
+frame 1700 text \n
+frame 1800 mouse 1100 680
+frame 1860 shot ../work/shots/g3c_player_list.png
+# the play button of the player's row: world select
+frame 1870 mouse 348 311
+frame 1890 click left
+frame 1960 mouse 1100 680
+frame 2020 shot ../work/shots/g4_world_select.png
+# the world list is empty: "New" opens UIWorldCreation
+# (UIWorldSelect's "New" and "Back" panels have no snap point: "New" is at the place of the player list's "New")
+frame 2030 dump ui
+frame 2030 mouse 807 650
+frame 2050 click left
+frame 2110 mouse 1100 690
+frame 2120 dump ui
+frame 2125 shot ../work/shots/g15a_world_creation_default.png
+# size Small (id 0 of Small / Medium / Large)
+frame 2130 aim snap size 0
+frame 2150 click left
+# difficulty Classic (the buttons are Journey, Classic, Expert, Master: id 1)
+frame 2170 aim snap difficulty 1
+frame 2190 click left
+# evil Random (id 0 of Random / Corruption / Crimson): the default, clicked anyway
+frame 2210 aim snap evil 0
+frame 2230 click left
+# the name plate: the virtual keyboard page, typed text, Enter
+frame 2250 aim snap Name
+frame 2270 click left
+frame 2330 text ref_small
+frame 2370 text \n
+# the seed plate
+frame 2440 aim snap Seed
+frame 2460 click left
+frame 2520 text 12345
+frame 2560 text \n
+frame 2630 mouse 1100 690
+frame 2650 dump ui
+frame 2655 shot ../work/shots/g15b_world_creation_filled.png
+# screenshots while the generation is suspended at its yield points (the script's clock stands still then)
+frame 2660 loadshots ../work/shots/g15c_generating_{}.png 150 40
+frame 2670 aim snap Create
+frame 2690 click left
+# --- generation runs here ---
+frame 2760 mouse 1100 690
+frame 2800 dump ui
+frame 2800 dump world
+frame 2805 shot ../work/shots/g15d_world_list_after.png
+# the play button of the new world's row
+frame 2810 aim snap Play 0
+frame 2830 click left
+frame 2900 mouse 900 500
+frame 3170 dump world
+frame 3170 dump player
+frame 3170 dump npcs
+frame 3180 shot ../work/shots/g15e_ingame.png
+# Save & Exit is not needed for the file comparison: the world file is written by WorldFile.SaveNewWorld
+frame 3240 quit

@@ -1,0 +1,144 @@
+# Every command of the dedicated server's console (Main.startDedInputCallBack) in the browser's Host & Play, with
+# joiners (sh web/www/test/run-host-console-mp.sh: tools/ws-bridge in reverse mode on TCP 127.0.0.1:47800, the
+# native port client started at each "join_*" mark with work/console-joiners/web/console_*.input).
+# The same commands in the same order as test/actions/orig_console.txt types into the ORIGINAL TerrariaServer.exe;
+# test/tools/console_diff.py compares the two transcripts (consoledump hpcm_console_1 / _2).
+# help / say / time / noon / dawn / playing / save / exit: test/actions/host_console.txt.
+frame 1300 import work/refsave/Worlds/ref_small.wld
+frame 1320 move 640 247
+frame 1340 click 640 247
+frame 1400 move 640 300
+frame 1415 click 640 300
+frame 1460 move 640 331
+frame 1475 click 640 331
+frame 1520 move 807 533
+frame 1535 click 807 533
+frame 1580 move 770 533
+frame 1595 click 770 533
+frame 1630 type Hoster
+frame 1640 key Press Enter
+frame 1690 move 348 310
+frame 1705 click 348 310
+frame 1750 move 348 310
+frame 1765 click 348 310
+frame 1810 key Press Enter
+frame 1815 waitlog 3000 [server] Server started
+frame 1816 waitlog 600 [server] console: the server's input thread runs
+frame 1818 waitlog 900 others can join through the bridge
+frame 1820 waitlog 3000 [server] Hoster has joined.
+frame 1825 waitlog 3000 now in the world (multiplayer client
+frame 1840 waitconsole 600 Type 'help' for a list of commands.
+frame 1850 shot hpcm_01_hosting
+# help (the whole list; console_diff compares it line by line)
+frame 1860 console help
+frame 1865 waitconsole 600 Displays the world seed.
+# version, port, maxplayers, playing, seed
+frame 1870 console version
+frame 1875 waitconsole 600 Terraria Server v1.4.5.8
+frame 1880 console port
+frame 1885 waitconsole 600 Port:
+frame 1890 console maxplayers
+frame 1895 waitconsole 600 Player limit:
+frame 1900 console playing
+frame 1905 waitconsole 600 1 player connected.
+frame 1910 console seed
+frame 1915 waitconsole 600 World Seed: 1.1.2.0.12345
+# dusk 7:30 PM, midnight 12:00 AM, dawn 4:30 AM, noon 12:00 PM
+frame 1920 console dusk
+frame 1920 console time
+frame 1925 waitconsole 600 Time: 7:30 PM
+frame 1930 console midnight
+frame 1930 console time
+frame 1935 waitconsole 600 Time: 12:00 AM
+frame 1940 console dawn
+frame 1940 console time
+frame 1945 waitconsole 600 Time: 4:30 AM
+frame 1950 console noon
+frame 1950 console time
+frame 1955 waitconsole 600 Time: 12:00 PM
+# motd: none (the greeting with the world's name), set, shown
+frame 1960 console motd
+frame 1965 waitconsole 600 Welcome to ref_small!
+frame 1970 console motd Console MOTD for joiners
+frame 1975 console motd
+frame 1980 waitconsole 600 MOTD: Console MOTD for joiners
+# password: none, set, shown
+frame 1990 console password
+frame 1995 waitconsole 600 No password set.
+frame 2000 console password secret
+frame 2005 waitconsole 600 Password: secret
+frame 2010 console password
+frame 2015 waitconsole 600 Password: secret
+# usages, kick / ban of nobody (no output), an unknown command
+frame 2020 console say
+frame 2025 waitconsole 600 Usage: say <words>
+frame 2030 console kick
+frame 2035 waitconsole 600 Usage: kick <player>
+frame 2040 console ban
+frame 2045 waitconsole 600 Usage: ban <player>
+frame 2050 console kick nobody
+frame 2055 console ban nobody
+frame 2060 console bogus
+frame 2065 waitconsole 600 Invalid command.
+# settle: Liquid.StartPanic; a second settle while it runs; the end (Update runs: the hosting client is connected)
+frame 2070 console settle
+frame 2070 console settle
+frame 2075 waitconsole 600 Forcing water to settle.
+frame 2076 waitconsole 600 Water is already settling
+frame 2080 waitconsole 1800 Water has been settled.
+frame 2090 shot hpcm_02_commands
+frame 2091 pageshot hpcm_02_commands_page
+frame 2095 consoledump hpcm_console_1
+# clear: the output area is emptied (Console.Clear)
+frame 2100 console clear
+frame 2130 consolecleared Available commands:
+frame 2131 pageshot hpcm_03_cleared_page
+# fps: the server's updates per second each second ("60  (60)"), until the second fps
+frame 2140 console fps
+frame 2145 waitconsole 600   (
+frame 2150 waitconsole 600   (
+frame 2155 console fps
+# a joiner with the wrong password is refused
+frame 2200 mark join_pwwrong
+frame 2205 waitconsole 12000 was booted: Incorrect password
+# a joiner with the password: in, the MOTD in its chat (it waits for it), playing, kick
+frame 2300 mark join_kick
+frame 2305 waitlog 12000 [server] Joiner has joined.
+# the joiner saw the MOTD in its chat (the run script marks it from the joiner's log): only then the kick
+frame 2306 waitmark 3000 motd_kick
+frame 2400 console playing
+frame 2405 waitconsole 600 Joiner (
+frame 2406 waitconsole 600 2 players connected.
+frame 2410 shot hpcm_04_joined
+frame 2420 console kick Joiner
+frame 2425 waitconsole 600 was booted: Kicked from server.
+frame 2430 waitlog 3000 [server] Joiner has left.
+frame 2440 console playing
+frame 2445 waitconsole 600 1 player connected.
+# ban: banlist.txt in the server's working directory (/saves), then the same address is refused
+frame 2500 mark join_ban
+frame 2505 waitlog 12000 [server] Joiner has joined.
+# the joiner saw the MOTD in its chat (the run script marks it from the joiner's log): only then the ban
+frame 2506 waitmark 3000 motd_ban
+frame 2600 console ban joiner
+frame 2605 waitconsole 600 was booted: Banned from server.
+frame 2610 waitlog 3000 [server] Joiner has left.
+frame 2620 savefile banlist.txt //Joiner
+frame 2700 mark join_banned
+frame 2705 waitconsole 12000 was booted: You are banned from this server.
+# password off again
+frame 2800 console password<sp>
+frame 2805 waitconsole 600 Password disabled.
+frame 2810 console password
+frame 2815 waitconsole 600 No password set.
+frame 2820 shot hpcm_05_after_joiners
+frame 2821 pageshot hpcm_05_after_joiners_page
+frame 2825 consoledump hpcm_console_2
+# exit-nosave: the server stops without saving (the world file is unchanged), exit code 0
+frame 2830 saves before_exit
+frame 2840 console exit-nosave
+frame 2845 waitconsole 3600 server stopped (exit code 0)
+frame 2850 waitlog 600 dedicated server 1 ended (exit code 0)
+frame 2900 same Worlds/ref_small.wld
+frame 2905 saves after_exit
+frame 2910 pageshot hpcm_06_exit_page

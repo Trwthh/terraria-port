@@ -1,0 +1,30 @@
+[package]
+name = "terraria-app"
+edition.workspace = true
+version.workspace = true
+publish.workspace = true
+
+[dependencies]
+terraria-core.workspace = true
+terraria-formats.workspace = true
+terraria-sim.workspace = true
+terraria-data.workspace = true
+terraria-host = { path = "../terraria-host" }
+terraria-shaders = { path = "../terraria-shaders" }
+terraria-gen-rt = { path = "../terraria-gen-rt" }
+bevy = { version = "0.19.1", default-features = false, features = ["2d", "ui"] }
+wgpu = { version = "29.0.3", default-features = false }
+bytemuck = { version = "1", features = ["derive"] }
+# the window's native handle (HWND) for the shell's message hook; the version Bevy uses
+raw-window-handle = "0.6"
+# the machine-translated game: only for the `terraria` binary (feature `client`), so that the other binaries and the
+# crate's tests do not compile 1.13M lines
+terraria-gen-game = { path = "../terraria-gen-game", optional = true }
+
+[features]
+client = ["dep:terraria-gen-game"]
+
+[[bin]]
+name = "terraria"
+path = "src/bin/terraria.rs"
+required-features = ["client"]

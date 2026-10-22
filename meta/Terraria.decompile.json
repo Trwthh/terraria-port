@@ -1,0 +1,15 @@
+{
+ "input": {
+  "assembly": "C:\\Users\\user\\Documents\\Games\\Terraria\\Terraria.exe",
+  "sha256": "960a03bff6050cf7be16dfc1a7b19e10fc2c4f8f835a6a3b135a50dd9e6ba2f3",
+  "ilspy": "ilspycmd: 9.1.0.7988",
+  "language": "CSharp7_3",
+  "references": [
+   "C:\\Users\\user\\Documents\\Games\\Terraria",
+   "C:\\Users\\user\\Documents\\_Projects_\\VAEL Workspace\\VAEL - GAMELAB\\tools\\xna40\\Program Files\\Microsoft XNA\\XNA Game Studio",
+   "C:\\Users\\user\\Documents\\_Projects_\\VAEL Workspace\\VAEL - TERRARIA\\meta\\refs"
+  ]
+ },
+ "cs_files": 1549,
+ "seconds": 29.6
+}

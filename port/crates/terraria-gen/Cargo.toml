@@ -1,0 +1,24 @@
+[package]
+name = "terraria-gen"
+edition.workspace = true
+version.workspace = true
+publish.workspace = true
+description = "Machine-translated game code (tools/cs2rs) and the small hand-written runtime it runs on"
+
+[lib]
+# no unit tests in this crate (they would compile the generated code a second time): the runtime's tests and the
+# snippet tests are in terraria-gen-rt, the comparison with the real game in tests/reference.rs
+test = false
+doctest = false
+
+[dependencies]
+terraria-core = { workspace = true }
+terraria-gen-rt = { path = "../terraria-gen-rt" }
+
+[dev-dependencies]
+# the reference world of the tests is parsed by the hand-written reader (tests/suite/game.rs)
+terraria-formats = { workspace = true }
+
+[features]
+# Every `Gc::ptr()` checks the object's liveness word (use-after-free detection; see rt::gc).
+gc-check = ["terraria-gen-rt/gc-check"]

@@ -1,0 +1,118 @@
+# terraria (translated client): a game pad from the title menu into the world (first run, empty save root with
+# ref_small.wld). The `pad ...` lines are pad events for the same adapter the shell feeds from Bevy's gamepad
+# events (shell/pad.rs, terraria_host::input::PadAdapter); no device is involved.
+# Ticks are shell ticks (fixed 1/60 s step). The first 1100 ticks are g1_title.input: language select by mouse.
+frame 900 mouse 640 360
+frame 1010 mouse 640 247
+frame 1030 click left
+frame 1100 mouse 900 600
+frame 1190 dump input
+# the pad appears; nothing is pressed yet: the game stays in keyboard / mouse mode
+frame 1200 pad connect
+frame 1205 dump input
+frame 1206 shot ../work/shots/in_pad_00_title_before.png
+# D-pad down, down, up: the title menu's cursor moves (XBoxGamepadUI: MenuDown / MenuUp)
+frame 1210 pad button DPadDown press
+frame 1216 dump input
+frame 1216 dump menu
+frame 1240 shot ../work/shots/in_pad_01_title_down1.png
+frame 1250 pad button DPadDown press
+frame 1256 dump input
+frame 1280 shot ../work/shots/in_pad_02_title_down2.png
+frame 1290 pad button DPadUp press
+frame 1296 dump input
+frame 1320 pad button DPadUp press
+frame 1326 dump input
+frame 1350 shot ../work/shots/in_pad_03_title_top.png
+# A on "Single Player": the player list (empty: only Back and New)
+frame 1360 pad button A press
+frame 1420 dump ui
+frame 1420 dump input
+frame 1430 shot ../work/shots/in_pad_04_player_select.png
+# the cursor is on "New" already: A opens the character creation
+frame 1440 pad button A press
+frame 1500 dump input
+frame 1510 shot ../work/shots/in_pad_05_character_creation.png
+# the cursor is on "Create": A opens the name prompt (the on-screen keyboard of the gamepad interface)
+frame 1520 pad button A press
+frame 1580 dump ui
+frame 1580 dump input
+frame 1590 shot ../work/shots/in_pad_06_name_prompt.png
+# the name by keyboard (a pad and a keyboard side by side); one letter with the pad: A on the key under the
+# cursor ("1"); RT submits, as the glyph line at the bottom says
+frame 1600 text Padde
+frame 1620 pad button DPadDown press
+frame 1640 pad button DPadRight press
+frame 1646 dump input
+frame 1660 pad button A press
+frame 1680 shot ../work/shots/in_pad_07_name_typed.png
+frame 1690 pad trigger right 1
+frame 1700 pad trigger right 0
+frame 1790 dump ui
+frame 1790 dump input
+frame 1800 shot ../work/shots/in_pad_08_player_list.png
+frame 1810 pad button A press
+frame 1880 dump ui
+frame 1880 dump input
+frame 1890 shot ../work/shots/in_pad_09_world_select.png
+# A on the world's Play button: the world loads (the script's clock stands still meanwhile)
+frame 1900 pad button A press
+frame 2100 dump world
+frame 2100 dump input
+frame 2100 dump player
+frame 2110 shot ../work/shots/in_pad_10_ingame.png
+# walk right: the left stick fully right for one second
+frame 2120 pad stick left 1 0
+frame 2150 dump input
+frame 2180 dump player
+frame 2180 shot ../work/shots/in_pad_11_walk_right.png
+frame 2181 pad stick left 0 0
+frame 2200 dump player
+# jump: the left trigger (the default profile binds Jump to LeftTrigger; A is QuickMount in play)
+frame 2210 pad trigger left 1
+frame 2214 dump input
+frame 2222 dump player
+frame 2222 shot ../work/shots/in_pad_12_jump.png
+frame 2224 pad trigger left 0
+frame 2280 dump player
+# A in play is not a jump
+frame 2290 pad button A down
+frame 2294 dump input
+frame 2300 pad button A up
+# use the held item: the right trigger (MouseLeft), aimed with the right stick
+frame 2310 pad stick right 1 0.2
+frame 2330 pad trigger right 1
+frame 2336 dump input
+frame 2336 dump player
+frame 2350 shot ../work/shots/in_pad_13_use_item.png
+frame 2370 pad trigger right 0
+frame 2372 pad stick right 0 0
+frame 2380 dump input
+# Y: the inventory, in the gamepad's interface mode
+frame 2390 pad button Y press
+frame 2410 dump world
+frame 2410 dump input
+frame 2420 shot ../work/shots/in_pad_14_inventory.png
+frame 2430 pad button DPadRight press
+frame 2436 dump input
+frame 2450 pad button DPadDown press
+frame 2456 dump input
+frame 2470 shot ../work/shots/in_pad_15_inventory_cursor.png
+frame 2480 pad button Y press
+frame 2500 dump world
+# a stick inside XNA's dead zone (0.2 -> 6553 of 7849) moves nothing; outside it walks left
+frame 2510 dump player
+frame 2511 pad stick left -0.2 0
+frame 2540 dump input
+frame 2540 dump player
+frame 2541 pad stick left -1 0
+frame 2570 dump input
+frame 2600 dump player
+frame 2601 pad stick left 0 0
+# the pad goes away; the next mouse move puts the game back into mouse mode
+frame 2610 pad disconnect
+frame 2620 mouse 700 400
+frame 2630 mouse 720 410
+frame 2640 dump input
+frame 2650 shot ../work/shots/in_pad_16_after_disconnect.png
+frame 2700 quit

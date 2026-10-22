@@ -1,0 +1,190 @@
+{
+  // The procedural core of Terraria 1.4.5.8, translated whole. Paths are relative to this file.
+  // Run:  sh run.sh   (writes port\crates\terraria-gen\src\gen, src\host\api, SCALE_REPORT.md, HOST_API.md)
+  "include": ["native.json"],
+  // float expressions as the game's x86 JIT evaluates them (DESIGN.md section 5; numbers per mode in VERIFICATION.md)
+  "floatMode": "x87",
+  "sources": [
+    "../../decompile/Terraria",
+    // plain data of ReLogic that the game's simulation uses by value (source wins over the copy in ReLogic.dll)
+    "../../decompile/ReLogic/ReLogic/Utilities/Vector2D.cs",
+    "../../decompile/ReLogic/ReLogic/Utilities/SlotId.cs"
+  ],
+  "types": [
+    // ---- the target set (whole classes, nested types follow their container)
+    { "type": "Terraria.Main" },
+    { "type": "Terraria.Player" },
+    { "type": "Terraria.NPC", "reflect": true },
+    { "type": "Terraria.Projectile", "reflect": true },
+    { "type": "Terraria.WorldGen" },
+    { "type": "Terraria.Collision" },
+    { "type": "Terraria.Wiring" },
+    { "type": "Terraria.Liquid" },
+    { "type": "Terraria.Utils" },
+    { "type": "Terraria.Entity", "reflect": true },
+    { "type": "Terraria.Tile" },
+    { "type": "Terraria.Chest" },
+    { "type": "Terraria.Framing" },
+    { "type": "Terraria.Lighting" },
+
+    // ---- simulation classes the target set creates and mutates (the frontier pulled in; ranked by references in SCALE_REPORT.md)
+    { "type": "Terraria.Dust" },
+    { "type": "Terraria.Gore" },
+    { "type": "Terraria.Mount" },
+    { "type": "Terraria.Minecart" },
+    { "type": "Terraria.WorldItem" },
+    { "type": "Terraria.CombatText" },
+    { "type": "Terraria.PopupText" },
+    { "type": "Terraria.Rain" },
+    { "type": "Terraria.Cloud" },
+    { "type": "Terraria.Star" },
+    { "type": "Terraria.Sign" },
+    { "type": "Terraria.HitTile" },
+    { "type": "Terraria.Recipe" },
+    { "type": "Terraria.RecipeGroup" },
+    { "type": "Terraria.DelegateMethods" },
+    { "type": "Terraria.SceneMetrics" },
+    { "type": "Terraria.SceneState" },
+    { "type": "Terraria.ObjectData.TileObjectData" },
+    { "type": "Terraria.WorldBuilding.GenVars" },
+    { "type": "Terraria.GameContent.Prefixes.PrefixLegacy" },
+    { "type": "Terraria.GameContent.Liquid.LiquidRenderer" },
+    { "type": "Terraria.Chat.ChatColors" },
+    { "type": "Terraria.InitData" },
+    { "type": "Terraria.GameContent.BannerSystem" },
+    { "type": "Terraria.GameContent.Luck" },
+    { "type": "Terraria.GameContent.TextureAssets" },
+    { "type": "Terraria.Testing.DebugOptions" },
+    // the sound entry points return early on a dedicated server; the audio system behind them is the host's
+    { "type": "Terraria.Audio.SoundEngine" },
+    { "type": "Terraria.Graphics.Camera" },
+
+    // ---- the pilot (Terraria.Item and what Item.SetDefaults reaches)
+    { "type": "Terraria.Item", "reflect": true },
+    { "type": "Terraria.GameContent.Items.ItemVariants" },
+    { "type": "Terraria.GameContent.Items.ItemVariant" },
+    { "type": "Terraria.GameContent.Items.ItemVariantCondition" },
+    { "type": "Terraria.GameContent.SpecialSeedFeatures" },
+    { "type": "Terraria.Audio.SoundStyle", "reflect": true },
+    { "type": "Terraria.Audio.LegacySoundStyle", "reflect": true },
+    { "type": "Terraria.Graphics.Shaders.GameShaders", "members": ["Armor", "Hair", "Misc"] },
+    { "type": "Terraria.Graphics.Shaders.ArmorShaderDataSet" },
+    { "type": "Terraria.Graphics.Shaders.HairShaderDataSet" },
+    { "type": "Terraria.Initializers.DyeInitializer" },
+    { "type": "Terraria.GameContent.UI.CustomCurrencyManager" },
+    { "type": "Terraria.GameContent.UI.CustomCurrencySystem" },
+    { "type": "Terraria.GameContent.UI.CustomCurrencySingleCoin" },
+    { "type": "Terraria.UI.ItemTooltip" },
+    { "type": "Terraria.Testing.Invariant" }
+  ],
+  // whole namespaces: ids and their sets, plain data, the light engine
+  "namespaces": [
+    "Terraria.ID",
+    "Terraria.DataStructures",
+    "Terraria.Enums",
+    "Terraria.Graphics.Light",
+    "Terraria.GameContent.Items",
+    "Terraria.GameContent.Events",
+    "Terraria.Modules"
+  ],
+  // every struct and interface the sources declare (plain data the classes above pass around)
+  "autoStructs": true,
+  "nativeMembers": {
+    // provided by port\crates\terraria-gen\src\host\mod.rs (data installed by the host from refdata\)
+    "M:Terraria.Lang.GetItemNameValue(System.Int32)": "crate::host::lang_get_item_name_value({0})",
+    "M:Terraria.Lang.GetNPCNameValue(System.Int32)": "crate::host::lang_get_npc_name_value({0})",
+    // Lang.cs:33 `public static LocalizedText[] misc = new LocalizedText[201]`, filled from "LegacyMisc.<i>"
+    "F:Terraria.Lang.misc": "crate::host::lang_misc()",
+    // Netplay.cs:776-784 `return x / 200;` / `return y / 150;` (Netplay itself is sockets: outside the translated set)
+    "M:Terraria.Netplay.GetSectionX(System.Int32)": "rt::div({0}, 200)",
+    "M:Terraria.Netplay.GetSectionY(System.Int32)": "rt::div({0}, 150)",
+    // localisation: texts come from the host (it loads the game's localisation files); src\\host\\mod.rs
+    "M:Terraria.Localization.Language.GetText(System.String)": "crate::host::language_get_text({0})",
+    "M:Terraria.Localization.Language.GetTextValue(System.String)": "crate::host::language_get_text({0}).ptr().read().value",
+    "M:Terraria.Localization.Language.Exists(System.String)": "crate::host::language_exists({0})",
+    "F:Terraria.Localization.LocalizedText.Key": "{this}.key",
+    "P:Terraria.Localization.LocalizedText.Value": { "get": "{this}.value" },
+    "P:Terraria.Localization.LocalizedText.HasValue": { "get": "{this}.has_value" },
+    "M:Terraria.Localization.LocalizedText.ToString": "{this}.value",
+    "F:Terraria.Localization.LocalizedText.Empty": "crate::host::language_empty()"
+  },
+  "nativeTypes": {
+    "T:Terraria.Localization.LocalizedText": { "rust": "crate::host::LocalizedText", "kind": "class" }
+  },
+  // Callees that are not ported, with the value to continue with. Every entry is a deliberate decision:
+  "stubs": {
+    // ---- values that static initialisers need from the host (SCALE_REPORT.md lists them). Each is a decision:
+    // graphics objects: null until rendering is ported
+    "F:Microsoft.Xna.Framework.Graphics.RasterizerState.CullCounterClockwise": "Gc::NULL",
+    "F:ReLogic.Content.Asset`1.Empty": "Gc::NULL",
+    // ItemID.Search / NPCID.Search ...: name <-> id maps built by reflection over the id classes. null: the maps are
+    // not available; nothing in the simulation reads them (commands and the bestiary UI do).
+    "M:ReLogic.Reflection.IdDictionary.Create``2": "Gc::NULL",
+    // Main.UnpausedUpdateSeed = (ulong)Guid.NewGuid().GetHashCode(): seed of cosmetic randomness; fixed to 0 here.
+    "M:System.Guid.NewGuid": "rt::zero()",
+    "M:System.Guid.GetHashCode": "0",
+    // Player.ENCRYPTION_KEY = new UnicodeEncoding().GetBytes(\"h3y_gUyZ\"): only the player-file writer reads it.
+    "M:System.Text.Encoding.GetBytes(System.String)": "Arr::NULL",
+    // ---- statics of classes outside the translated set that Main's own static initialiser reads
+    // Program.cs:20 `public static bool IsXna = true;`
+    "F:Terraria.Program.IsXna": "true",
+    // Program.cs:26: parsed command line; empty here
+    "F:Terraria.Program.LaunchParameters": "Dictionary::<Str, Str>::new_gc()",
+    // Program.cs:28: set by Program.Main from the command line / My Games folder; only used to build file paths
+    "F:Terraria.Program.SavePath": "s!(\"save\")",
+    // Netplay.cs:53 `public static int ListenPort = 7777;`
+    "F:Terraria.Netplay.ListenPort": "7777",
+    // map overlay layers (rendering): the fluent AddLayer returns the overlay; null until rendering is ported
+    "M:Terraria.Map.MapIconOverlay.AddLayer(*)": "Gc::NULL",
+    // Main.GameMode => ActiveWorldFileData.GameMode. The world-file metadata (Terraria.IO) is outside the translated
+    // set: Normal mode (0), which is what a fresh WorldFileData holds (the SetDefaults dumps) and what ref_small.wld is.
+    "F:Terraria.IO.WorldFileData.GameMode": "0",
+    // time measurement of the lighting pass (TimeLogger.cs:695): no effect on the simulation
+    "M:Terraria.TimeLogger.Start": "rt::zero()",
+    // screen captures (CaptureManager.cs:10, :16): no capture in progress
+    "F:Terraria.Graphics.Capture.CaptureManager.Instance": "Gc::NULL",
+    "M:Terraria.Graphics.Capture.CaptureManager.get_IsCapturing": "false",
+    // cloud saves: none
+    "F:Terraria.Social.SocialAPI.Cloud": "Gc::NULL",
+    // the runtime is single-threaded (DESIGN.md section 1); sizes per-thread scratch arrays only
+    "M:System.Environment.get_ProcessorCount": "1",
+    // the reference harness runs on Windows
+    "M:ReLogic.OS.Platform.get_IsWindows": "true",
+    "F:System.IO.Path.DirectorySeparatorChar": "92u16",
+    // PacketView (network diagnostics) takes the start time; not simulation state.
+    "M:System.DateTime.get_Now": "rt::zero()",
+    // HitTile.rand = new UnifiedRandom((int)DateTime.Now.Ticks): seed of the cosmetic crack style; fixed to 0 here.
+    "M:System.DateTime.get_Ticks": "0i64",
+
+    // Item.ToolTip needs LocalizedText (localisation files). null; the item test excludes the field ToolTip by name.
+    "M:Terraria.Lang.GetTooltip(System.Int32)": "Gc::NULL",
+    // display text of item variants (NetworkText): never read by simulation code
+    "M:Terraria.Localization.NetworkText.FromKey(System.String,System.Object[])": "Gc::NULL",
+    // Graphics objects of dyes. Only the order of the BindShader calls matters for Item.dye / Item.hairDye,
+    // and BindShader itself is translated. The shader objects are null until rendering is ported; the fluent
+    // setters (UseColor ...) return the object they were called on, i.e. null.
+    "F:Microsoft.Xna.Framework.Graphics.SamplerState.LinearClamp": "Gc::NULL",
+    "M:Terraria.Graphics.Shaders.ArmorShaderData.#ctor(*)": "Gc::NULL",
+    "M:Terraria.Graphics.Shaders.ArmorShaderData.UseColor(*)": "Gc::NULL",
+    "M:Terraria.Graphics.Shaders.ArmorShaderData.UseSecondaryColor(*)": "Gc::NULL",
+    "M:Terraria.Graphics.Shaders.ArmorShaderData.UseSaturation(*)": "Gc::NULL",
+    "M:Terraria.Graphics.Shaders.ArmorShaderData.UseImage(*)": "Gc::NULL",
+    "M:Terraria.Graphics.Shaders.ArmorShaderData.UseOpacity(*)": "Gc::NULL",
+    "M:Terraria.Graphics.Shaders.ArmorShaderData.UseTargetPosition(*)": "Gc::NULL",
+    "M:Terraria.GameContent.Dyes.ReflectiveArmorShaderData.#ctor(*)": "Gc::NULL",
+    "M:Terraria.GameContent.Dyes.TeamArmorShaderData.#ctor(*)": "Gc::NULL",
+    "M:Terraria.GameContent.Dyes.TwilightDyeShaderData.#ctor(*)": "Gc::NULL",
+    "M:Terraria.GameContent.Dyes.TwilightHairDyeShaderData.#ctor(*)": "Gc::NULL",
+    "M:Terraria.GameContent.Dyes.LegacyHairShaderData.#ctor(*)": "Gc::NULL",
+    "M:Terraria.GameContent.Dyes.LegacyHairShaderData.UseLegacyMethod(*)": "Gc::NULL",
+    "M:Terraria.Graphics.Shaders.HairShaderData.#ctor(*)": "Gc::NULL",
+    "M:Terraria.Graphics.Shaders.HairShaderData.UseColor(*)": "Gc::NULL",
+    "M:Terraria.Graphics.Shaders.HairShaderData.UseImage(*)": "Gc::NULL",
+    "M:Terraria.Graphics.Shaders.MiscShaderData.#ctor(*)": "Gc::NULL",
+    "M:Terraria.Graphics.Shaders.MiscShaderData.UseImage0(*)": "Gc::NULL",
+    "M:Terraria.Graphics.Shaders.MiscShaderData.UseImage1(*)": "Gc::NULL",
+    "M:Terraria.Graphics.Shaders.MiscShaderData.UseImage2(*)": "Gc::NULL",
+    "M:Terraria.Graphics.Shaders.MiscShaderData.UseProjectionMatrix(*)": "Gc::NULL",
+    "M:Terraria.Graphics.Shaders.MiscShaderData.UseSamplerState(*)": "Gc::NULL"
+  }
+}

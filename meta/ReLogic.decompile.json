@@ -1,0 +1,15 @@
+{
+ "input": {
+  "assembly": "C:\\Users\\user\\Documents\\_Projects_\\VAEL Workspace\\VAEL - TERRARIA\\meta\\embedded\\Terraria.Libraries.ReLogic.ReLogic.dll",
+  "sha256": "e1c5dccefff5fd1c789ff712babfa1a305fced0d03c96ef30f2c14d99aa0af29",
+  "ilspy": "ilspycmd: 9.1.0.7988",
+  "language": "CSharp7_3",
+  "references": [
+   "C:\\Users\\user\\Documents\\Games\\Terraria",
+   "C:\\Users\\user\\Documents\\_Projects_\\VAEL Workspace\\VAEL - GAMELAB\\tools\\xna40\\Program Files\\Microsoft XNA\\XNA Game Studio",
+   "C:\\Users\\user\\Documents\\_Projects_\\VAEL Workspace\\VAEL - TERRARIA\\meta\\refs"
+  ]
+ },
+ "cs_files": 167,
+ "seconds": 1.1
+}

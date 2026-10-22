@@ -1,0 +1,72 @@
+# Host & Play on the play page (the server Worker reads /install over HTTP too): mp_host.txt up to hosting, a chat line,
+# Save & Exit, the server's save seen by the game Worker. Needs tools/ws-bridge on 127.0.0.1:7780 in reverse mode.
+# its own and plays on it; others join through the bridge in reverse mode (TCP 127.0.0.1:47800 -> this page).
+# Fresh save root + ref_small.wld imported -> language -> Multiplayer -> Host & Play -> new player "Hoster" ->
+# ref_small -> empty password -> the server starts in the page, the client joins it -> in the world.
+# Then (marks for the run script): "hosting" -> the native port client joins (mp_join.input: "Joiner", digs, walks,
+# waits for this page's chat "hello from A", leaves) -> "native_done" -> a second headless page joins ("WebJoiner",
+# digs, walks, chats "hello from web", leaves) -> Save & Exit -> the server shuts down by itself (-autoshutdown).
+frame 1300 import work/refsave/Worlds/ref_small.wld
+frame 1320 move 640 247
+frame 1340 click 640 247
+frame 1395 shot php_01_title
+# title: Multiplayer
+frame 1400 move 640 300
+frame 1415 click 640 300
+frame 1455 shot php_02_multiplayer_menu
+# multiplayer menu: Host & Play
+frame 1460 move 640 331
+frame 1475 click 640 331
+frame 1515 shot php_03_player_select
+# no players yet: New, Create, the name, Enter
+frame 1520 move 807 533
+frame 1535 click 807 533
+frame 1580 move 770 533
+frame 1595 click 770 533
+frame 1630 type Hoster
+frame 1640 key Press Enter
+frame 1680 shot php_04_player_list
+# play the new player: the world list (ref_small, imported above)
+frame 1690 move 348 310
+frame 1705 click 348 310
+frame 1745 shot php_05_world_list
+frame 1750 move 348 310
+frame 1765 click 348 310
+frame 1805 shot php_06_password
+# empty server password: Main.HostAndPlay -> Process.Start(TerrariaServer.exe) -> the server Worker; the client joins it
+frame 1810 key Press Enter
+frame 1815 waitlog 3000 [server] Server started
+frame 1818 waitlog 900 others can join through the bridge
+frame 1820 shot php_07_server_starting
+frame 1825 waitlog 3000 [server] Hoster has joined.
+frame 1830 waitlog 3000 now in the world (multiplayer client
+frame 1900 shot php_08_hosting
+frame 1960 key Press Enter
+frame 1980 type hello from the play page
+frame 2000 key Press Enter
+frame 2010 waitlog 600 hello from the play page
+frame 2020 pageshot play_hostplay_page
+# leave: inventory (Escape), the Settings button, Save & Exit; the server ends by itself (-autoshutdown)
+frame 2050 key Press Escape
+frame 2080 move 1212 587
+frame 2100 click 1212 587
+frame 2140 shot php_16_settings
+frame 2150 move 536 414
+frame 2160 click 536 414
+frame 2170 waitlog 900 now in the menu
+frame 2180 waitlog 3600 dedicated server 1 ended
+frame 2240 shot php_17_title_after_hosting
+# the server's world save (ref_small.wld rewritten, ref_small.wld.bak new) as the game Worker sees it now, no reload
+# (vfs.js: the /saves tree shared between the Workers): its index, then Single Player -> the world list -> the world,
+# with the tiles the joiners dug
+frame 2245 saves after_hosting
+frame 2250 move 640 247
+frame 2265 click 640 247
+frame 2305 move 348 310
+frame 2320 click 348 310
+frame 2360 shot php_18_world_list_after_hosting
+frame 2365 saves world_list
+frame 2370 move 348 310
+frame 2385 click 348 310
+frame 2390 waitlog 3600 now in the world (single player
+frame 2500 shot php_19_saved_world_single_player

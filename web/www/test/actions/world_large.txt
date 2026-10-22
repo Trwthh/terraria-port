@@ -1,0 +1,44 @@
+# single_player_fast.txt with a large world as the original's ref_large (seed 31415926, Classic, Random evil;
+# work/worldgen-scratch/ref_large/Worlds/ref_large.wld, web/ci/compare_wld.py), then
+# 600 frames in the world. Shots large_*. Run: node test/run-game-headless.mjs --actions test/actions/world_large.txt
+frame 1320 move 640 247
+frame 1340 click 640 247
+frame 1395 shot large_01_title
+frame 1400 move 640 247
+frame 1415 click 640 247
+frame 1460 move 807 533
+frame 1475 click 807 533
+frame 1520 move 770 533
+frame 1535 click 770 533
+frame 1570 type Webby
+frame 1580 key Press Enter
+frame 1630 move 348 310
+frame 1645 click 348 310
+frame 1690 move 807 533
+frame 1705 click 807 533
+frame 1745 shot large_02_world_creation
+# size large
+frame 1750 move 804 320
+frame 1765 click 804 320
+# name
+frame 1790 move 617 230
+frame 1805 click 617 230
+frame 1840 type webworld
+frame 1850 key Press Enter
+# seed
+frame 1880 move 617 273
+frame 1895 click 617 273
+frame 1930 type 31415926
+frame 1940 key Press Enter
+frame 1975 shot large_03_world_creation_filled
+frame 1980 move 770 533
+frame 1995 click 770 533
+frame 2000 waitwork large_gen every 600
+frame 2050 shot large_04_world_list
+frame 2055 move 348 310
+frame 2070 click 348 310
+frame 2075 waitwork large_load every 60
+frame 2140 shot large_05_entering_world
+frame 2395 shot large_06_in_world
+frame 2545 shot large_07_in_world_450
+frame 2695 shot large_08_in_world_600

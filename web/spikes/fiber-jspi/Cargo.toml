@@ -1,0 +1,15 @@
+[package]
+name = "fiber-jspi"
+version = "0.1.0"
+edition = "2021"
+publish = false
+description = "Spike: the host's fibers (work items that give the frame back from deep inside translated code) on wasm32 with JS Promise Integration, one shadow stack per fiber"
+
+[lib]
+crate-type = ["cdylib"]
+
+[workspace]
+
+[profile.release]
+opt-level = 2
+panic = "abort"

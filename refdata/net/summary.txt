@@ -1,0 +1,20 @@
+boot: frames 1..3, 34 calls, 2097 bytes
+[300] after start-up: showSplash False gameMenu True menuMode 0
+title: frames 301..303, 2124 calls, 201061 bytes
+charcreate: frames 334..336, 4804 calls, 492270 bytes
+[336] selected: menuMode 13
+[342] joined at frame 342 (state 10, netMode 1, gameMenu False, slices 12)
+net_joined: frames 403..404, 2253 calls, 186592 bytes
+net_walked: frames 555..556, 2361 calls, 196794 bytes
+net_chat: frames 587..587, 1362 calls, 124742 bytes
+net_mined: frames 700..700, 1493 calls, 134050 bytes
+net_placed: frames 738..738, 1381 calls, 127315 bytes
+net_dropped: frames 769..769, 1420 calls, 127445 bytes
+net_social: frames 820..820, 1738 calls, 165414 bytes
+net_dead: frames 851..851, 1707 calls, 169477 bytes
+net_respawned: frames 1451..1451, 1522 calls, 129482 bytes
+net_server_events: frames 1852..1853, 3472 calls, 292616 bytes
+net_quickstack: frames 1884..1884, 1791 calls, 151458 bytes
+net_teammates: frames 1888..1888, 2193 calls, 175905 bytes
+net_end: frames 1892..1893, 3540 calls, 300019 bytes
+1893 frames

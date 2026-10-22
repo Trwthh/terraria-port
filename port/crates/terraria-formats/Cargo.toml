@@ -1,0 +1,9 @@
+[package]
+name = "terraria-formats"
+edition.workspace = true
+version.workspace = true
+publish.workspace = true
+
+[dependencies]
+terraria-core.workspace = true
+lzxd = "0.2"

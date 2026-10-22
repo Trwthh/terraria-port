@@ -1,0 +1,27 @@
+boot: frames 1..3, 34 calls, 2097 bytes
+[300] after start-up: showSplash False gameMenu True menuMode 0
+title: frames 301..303, 2124 calls, 201061 bytes
+[345] settings: menuMode 11
+[355] back: menuMode 0
+charcreate: frames 391..393, 4488 calls, 447765 bytes
+[393] in the world: gameMenu False spawn 2095,232
+world_day: frames 454..456, 2527 calls, 187071 bytes
+world_night: frames 517..519, 3048 calls, 242756 bytes
+ocean: frames 580..582, 2464 calls, 180482 bytes
+cave: frames 643..645, 2201 calls, 175147 bytes
+underworld: frames 706..708, 9442 calls, 1076478 bytes
+boss: frames 759..761, 5246 calls, 511639 bytes
+inventory: frames 772..774, 6029 calls, 605100 bytes
+map: frames 785..787, 1503 calls, 166297 bytes
+[907] audio: day at the spawn, curMusic 18
+[1027] audio: walked to 2113,232
+[1129] audio: mined at 2114,232, selected 1
+[1251] audio: slime 2 active True life 15
+[1295] audio: potion stack 0
+[1415] audio: night, curMusic 3
+[1535] audio: space, curMusic 15
+[1655] audio: ocean, curMusic 22
+[1775] audio: underworld, curMusic 36
+audio_end: frames 1776..1778, 8642 calls, 965669 bytes
+audio: 748270 calls
+1778 frames

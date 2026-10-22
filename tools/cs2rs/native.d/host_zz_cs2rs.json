@@ -1,0 +1,21 @@
+{
+  // Owned by cs2rs (not a copy of a terraria-host table): templates of the runtime that mention types the host crate
+  // implements, so they are skipped together with the host tables (--skip-native host_).
+  "nativeMembers": {
+    // list.Sort(IComparer<T>): the comparer's Compare through the generated dispatcher of the interface (gen::ifaces:
+    // translated comparers by type id). Here, not in native.json, because that dispatcher exists only in the game crate.
+    "M:System.Collections.Generic.List`1.Sort(System.Collections.Generic.IComparer{`0})": "{ let __cmp: Obj = {0}; rt::sys::list_sort_with({handle}, |__a, __b| ifaces::system_collections_generic__i_comparer1__compare__t_t::<{TT0}>(__cmp, __a, __b)) }",
+    // members of the host crate's StringBuilder that its own table does not list yet (the Rust methods exist)
+    "M:System.Text.StringBuilder.Clear": "{ {this}.clear(); {handle} }",
+    // new StringBuilder(string): the default constructor's form with its initial text (NPCDamageTracker.GetReport)
+    "M:System.Text.StringBuilder.#ctor(System.String)": "terraria_host::sys::text::StringBuilder::new_gc({0})",
+    // Append(int): the number's ToString() (current culture: digits, a minus sign), as the CLR's StringBuilder.Append(Int32)
+    "M:System.Text.StringBuilder.Append(System.Int32)": "{ {this}.append(rt::to_str({0})); {handle} }",
+    "P:System.Text.StringBuilder.Length": { "get": "{this}.length()" },
+    "M:System.Text.StringBuilder.Append(System.Object)": "{ {this}.append(rt::obj_to_string_or_empty({0})); {handle} }",
+    "M:System.Text.StringBuilder.AppendFormat(System.String,System.Object)": "{ {this}.append(rt::fmt::format({0}, &[{1}])); {handle} }",
+    "M:System.Text.StringBuilder.AppendFormat(System.String,System.Object,System.Object)": "{ {this}.append(rt::fmt::format({0}, &[{1}, {2}])); {handle} }",
+    "M:System.Text.StringBuilder.AppendFormat(System.String,System.Object,System.Object,System.Object)": "{ {this}.append(rt::fmt::format({0}, &[{1}, {2}, {3}])); {handle} }",
+    "M:System.Text.StringBuilder.AppendFormat(System.String,System.Object[])": "{ {this}.append(rt::fmt::format_arr({0}, {1})); {handle} }"
+  }
+}

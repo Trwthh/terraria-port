@@ -1,0 +1,4 @@
+# Every call / field the generated code reaches that is neither translated nor mapped.
+# `rt::unported` throws at run time, `rt::gap` (void calls) logs once and continues, `rt::stub` returns the value given in the config.
+skipped   NativeExtern: NativeExtern.SetLastError(uint)    (extern method (P/Invoke: calls go to the host boundary))
+skipped   NativeExtern: NativeExtern.GetTickCount()    (extern method (P/Invoke: calls go to the host boundary))

@@ -1,0 +1,33 @@
+area spawn 2045 192 100 80 scramble=0 waterStyle=0 day=1
+area cavern 2055 487 90 70 scramble=0 waterStyle=2 day=1
+area hell 2050 985 90 60 scramble=0 waterStyle=0 day=0
+area hell_t0 2050 985 90 60 scramble=0 waterStyle=0 day=0
+area edge_left -40 212 100 60 scramble=0 waterStyle=1 day=1
+area edge_bottom 2695 1160 80 60 scramble=0 waterStyle=0 day=0
+area scramble_surface 2295 291 80 70 scramble=1 waterStyle=3 day=1
+area scramble_deep 2425 447 80 70 scramble=1 waterStyle=9 day=0
+area scramble_hell 2545 975 80 70 scramble=1 waterStyle=13 day=0
+area scramble_shimmer 2655 391 80 70 scramble=1 waterStyle=0 day=1
+cycles 2
+world 4200 x 1200
+log ok   Program.SavePath = work\refdump-save
+log ok   Main.dedServ = true; Main.showSplash = false
+log ok   LanguageManager.Instance.SetLanguage(GameCulture.DefaultCulture)
+log ok   main = new Main()
+log ok   Lang.InitializeLegacyLocalization()
+log ok   Main.rand = new UnifiedRandom(0)
+log ok   main.Initialize()
+log ok   Main.ActiveWorldFileData = WorldFile.GetAllMetadata(scratch copy, false)
+log ok   WorldFile.LoadWorld()
+log world 4200 x 1200 spawn 2095,232 worldSurface 331 rockLayer 427
+log spawn non-black tiles 11916 of 21216
+log cavern non-black tiles 42 of 18396
+log hell non-black tiles 12591 of 16936
+log hell_t0 non-black tiles 12591 of 16936
+log edge_left non-black tiles 10136 of 18096
+log edge_bottom non-black tiles 10332 of 15776
+log scramble_surface non-black tiles 17129 of 17136
+log scramble_deep non-black tiles 17124 of 17136
+log scramble_hell non-black tiles 17130 of 17136
+log scramble_shimmer non-black tiles 17133 of 17136
+elapsed_ms 3081

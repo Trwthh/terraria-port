@@ -1,0 +1,65 @@
+# terraria (translated client): first start up to the world (as g6_enter_world.input), then three weapons whose
+# projectiles are drawn as vertex strips, given by the game's own item spawn and used.
+frame 900 mouse 640 360
+# "English" is the first entry of the language list (first run only: no config.json yet)
+frame 1010 mouse 640 247
+frame 1030 click left
+frame 1100 mouse 900 600
+# hover "Single Player" (highlight + tick sound), then click it
+frame 1210 mouse 640 250
+frame 1250 click left
+frame 1330 mouse 900 650
+# "New" on the player select screen
+frame 1410 mouse 807 650
+frame 1430 click left
+frame 1500 mouse 1100 680
+# "Create": the name prompt opens; type a name and confirm
+frame 1570 mouse 770 533
+frame 1590 click left
+frame 1660 text Porter
+# Enter arrives as a typed character (WM_CHAR 13): Main.GetInputText reads it from the IME key listener
+frame 1700 text \n
+frame 1800 mouse 1100 680
+# the play button of the player's row: world select
+frame 1870 mouse 348 311
+frame 1890 click left
+frame 1960 mouse 1100 680
+# the play button of the world's row: the world loads (WorldGen.playWorld) and the game starts
+frame 2030 mouse 348 311
+frame 2050 click left
+frame 2120 mouse 900 500
+# ---- weapons whose projectiles are drawn as vertex strips (g14): VertexStrip.DrawTrail ->
+# GraphicsDevice.DrawUserIndexedPrimitives<VertexStrip.CustomVertexInfo> under the game's trail shaders.
+# The items come from the game's own Player.QuickSpawnItem (script command `game give`) and land in hotbar 4, 5, 6.
+frame 2390 game give 4956
+frame 2400 game give 561
+frame 2410 game give 113
+frame 2470 dump item 3
+frame 2470 dump item 4
+frame 2470 dump item 5
+# Zenith (FinalFractalHelper): hold the swing, capture mid-swing
+frame 2480 key D4 press
+frame 2490 aim rel 10 -3
+frame 2500 button left down
+frame 2540 shot ../work/shots/g14a_zenith.png
+frame 2560 shot ../work/shots/g14a2_zenith.png
+frame 2580 button left up
+# Light Disc (LightDiscDrawer): thrown, captured in flight
+frame 2640 key D5 press
+frame 2650 aim rel 12 -4
+frame 2660 button left down
+frame 2664 button left up
+frame 2675 shot ../work/shots/g14b_light_disc.png
+frame 2690 shot ../work/shots/g14b2_light_disc.png
+# Magic Missile (MagicMissileDrawer): held, the missile follows the cursor
+frame 2760 key D6 press
+frame 2770 aim rel 10 -5
+frame 2780 button left down
+frame 2800 aim rel 6 -8
+frame 2815 shot ../work/shots/g14c_magic_missile.png
+frame 2830 aim rel -6 -6
+frame 2845 shot ../work/shots/g14c2_magic_missile.png
+frame 2860 button left up
+frame 2900 dump player
+frame 2910 shot ../work/shots/g14d_end.png
+frame 2940 quit

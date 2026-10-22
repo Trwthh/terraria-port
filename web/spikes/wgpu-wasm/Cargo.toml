@@ -1,0 +1,18 @@
+[package]
+name = "wgpu-wasm"
+version = "0.1.0"
+edition = "2021"
+publish = false
+description = "Spike: does terraria-app's exact Bevy / wgpu dependency set (port/crates/terraria-app/Cargo.toml) compile for wasm32-unknown-unknown? Cargo.lock copied from port/ so the versions are the port's."
+
+[dependencies]
+bevy = { version = "=0.19.1", default-features = false, features = ["2d", "ui"] }
+wgpu = { version = "=29.0.4", default-features = false }
+bytemuck = { version = "1", features = ["derive"] }
+raw-window-handle = "0.6"
+
+[features]
+# bevy's "2d" / "ui" already pull "default_platform", which contains "webgl2"; this adds the WebGPU backend instead
+webgpu = ["bevy/webgpu"]
+
+[workspace]

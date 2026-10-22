@@ -1,0 +1,75 @@
+# mp_join.txt with a long stay in the world (web/STATUS.md 2026-10-13 late night: collector cycles while connected).
+# The same scenario, then about 3,300 frames connected before leaving: idle, two walks, a shot every 600 frames, and
+# a waitlog that needs a collector cycle to END after the chat line (the client's network thread runs as a
+# resumable state machine: terraria-host threading "Resumable threads"). Run: MP_ACTIONS=test/actions/mp_join_long.txt
+# sh tools/ws-bridge/run_mp_web.sh port
+frame 1320 move 640 247
+frame 1340 click 640 247
+frame 1395 shot mpw_01_title
+frame 1400 move 640 300
+frame 1415 click 640 300
+frame 1455 shot mpw_02_multiplayer_menu
+frame 1460 move 640 278
+frame 1475 click 640 278
+frame 1515 shot mpw_03_player_select
+frame 1520 move 807 533
+frame 1535 click 807 533
+frame 1575 shot mpw_04_character_creation
+frame 1580 move 770 533
+frame 1595 click 770 533
+frame 1625 shot mpw_05_name_prompt
+frame 1630 type Joiner
+frame 1640 key Press Enter
+frame 1680 shot mpw_06_player_list
+frame 1690 move 348 310
+frame 1705 click 348 310
+frame 1745 shot mpw_07_ip_prompt
+frame 1750 type 127.0.0.1
+frame 1760 key Press Enter
+frame 1800 shot mpw_08_port_prompt
+frame 1805 key Press Backspace
+frame 1810 key Press Backspace
+frame 1815 key Press Backspace
+frame 1820 key Press Backspace
+frame 1830 type 47800
+frame 1840 key Press Enter
+frame 1845 waitlog 600 net: connection 1 to 127.0.0.1:47800 is open
+frame 1850 shot mpw_09_connecting
+frame 1855 waitlog 1800 now in the world (multiplayer client
+frame 1900 shot mpw_10_in_world
+frame 1910 key Press Digit2
+frame 1920 move 672 333
+frame 1930 shot mpw_11_aim
+frame 1940 mouse Down
+frame 1970 shot mpw_12_digging
+frame 2010 mouse Up
+frame 2030 shot mpw_13_dug
+frame 2040 key Down KeyD
+frame 2220 key Up KeyD
+frame 2240 shot mpw_14_walked
+frame 2250 key Press Enter
+frame 2270 type hello from web
+frame 2290 key Press Enter
+frame 2300 waitlog 300 hello from web
+frame 2310 shot mpw_15_chat
+frame 2400 shot mpw_long_00
+frame 3000 shot mpw_long_01
+frame 3020 key Down KeyA
+frame 3140 key Up KeyA
+frame 3600 shot mpw_long_02
+frame 4200 shot mpw_long_03
+frame 4220 key Down KeyD
+frame 4340 key Up KeyD
+frame 4800 shot mpw_long_04
+frame 5400 shot mpw_long_05
+frame 5560 waitlog 1800 collector cycle
+frame 5600 shot mpw_long_after_cycle
+frame 5620 key Press Escape
+frame 5650 move 1212 587
+frame 5660 shot mpw_16_inventory
+frame 5670 click 1212 587
+frame 5710 shot mpw_17_settings
+frame 5720 move 536 414
+frame 5730 click 536 414
+frame 5740 waitlog 900 now in the menu
+frame 5800 shot mpw_18_title_after_leaving

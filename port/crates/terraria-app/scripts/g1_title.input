@@ -1,0 +1,14 @@
+# terraria (translated client), first run with an empty save root: the splash, the language selection a first run
+# shows (Main.menuMode 1212, because no config.json exists), then the title menu.
+# Ticks are shell ticks (fixed 1/60 s step, one Update each). The splash fades in and out over 620 ticks
+# (Main.DrawSplash: splashCounter 90 / 410 / 620) while the assets load; the menu fades in over 120 more.
+# Paths are relative to the working directory (run from port\).
+frame 300 shot ../work/shots/g0_splash.png
+frame 900 mouse 640 360
+frame 1000 shot ../work/shots/g1a_language_select.png
+# "English" is the first entry of the list
+frame 1010 mouse 640 247
+frame 1030 click left
+frame 1100 mouse 900 600
+frame 1200 shot ../work/shots/g1_title.png
+frame 1240 quit

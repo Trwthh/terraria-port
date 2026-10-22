@@ -1,0 +1,37 @@
+# Host & Play in the browser, a long session (the server's memory over many collector cycles): mp_host.txt up to
+# "in the world", then about 21,000 frames hosted (the page's server reports its memory every 10 s and logs every
+# collector cycle), then Save & Exit; the server ends by itself. Run: tools/ws-bridge/run_hostplay_web.sh with
+# HOST_ACTIONS=test/actions/mp_host_long.txt (no one else joins: the marks it waits for never come).
+frame 1300 import work/refsave/Worlds/ref_small.wld
+frame 1320 move 640 247
+frame 1340 click 640 247
+frame 1400 move 640 300
+frame 1415 click 640 300
+frame 1460 move 640 331
+frame 1475 click 640 331
+frame 1520 move 807 533
+frame 1535 click 807 533
+frame 1580 move 770 533
+frame 1595 click 770 533
+frame 1630 type Hoster
+frame 1640 key Press Enter
+frame 1690 move 348 310
+frame 1705 click 348 310
+frame 1750 move 348 310
+frame 1765 click 348 310
+frame 1810 key Press Enter
+frame 1815 waitlog 3000 [server] Server started
+frame 1825 waitlog 3000 [server] Hoster has joined.
+frame 1830 waitlog 3000 now in the world (multiplayer client
+frame 1900 shot hpl_01_hosting
+frame 8000 shot hpl_02_hosting_100s
+frame 15000 shot hpl_03_hosting_220s
+frame 23000 shot hpl_04_hosting_350s
+frame 23010 key Press Escape
+frame 23040 move 1212 587
+frame 23060 click 1212 587
+frame 23110 move 536 414
+frame 23120 click 536 414
+frame 23130 waitlog 900 now in the menu
+frame 23140 waitlog 3600 dedicated server 1 ended
+frame 23200 shot hpl_05_title

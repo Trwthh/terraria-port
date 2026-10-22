@@ -1,0 +1,15 @@
+[package]
+name = "terraria-web"
+version = "0.1.0"
+edition = "2021"
+description = "The browser build of the port: game.wasm (wasm32-wasip1 reactor) for web/www (HOST_ABI.md, FRAME_FORMAT.md)"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+terraria-gen-game = { path = "../terraria-gen-game" }
+terraria-gen-rt = { path = "../terraria-gen-rt" }
+terraria-host = { path = "../terraria-host" }
+terraria-shaders = { path = "../terraria-shaders" }
+bytemuck = "1"

@@ -1,0 +1,11 @@
+[package]
+name = "terraria-x87"
+edition.workspace = true
+version.workspace = true
+publish.workspace = true
+description = "System.Math as the 32-bit .NET Framework 4 runtime (x87 FPU, 53-bit precision control) computes it, bit for bit"
+
+[lib]
+doctest = false
+
+[dependencies]

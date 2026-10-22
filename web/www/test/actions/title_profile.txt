@@ -1,0 +1,4 @@
+# The title's content loading under the V8 CPU profiler (run with --profile-start: the profile covers tw_init too).
+# Run: node test/run-game-headless.mjs --profile-start --actions test/actions/title_profile.txt --log web_title_profile.txt
+frame 130 profile stop title_load
+frame 135 shot tp_01_title

@@ -1,0 +1,128 @@
+# The ORIGINAL dedicated server's console (python web/www/test/tools/orig_console.py web/www/test/actions/orig_console.txt):
+# every command of Main.startDedInputCallBack, in the order test/actions/host_console_mp.txt types them into the
+# browser port's server console, so the two transcripts can be compared (test/tools/console_diff.py).
+# Joiner scripts: python web/www/test/tools/make_console_joiners.py 47801 work/console-joiners/orig
+expect 180 Type 'help' for a list of commands.
+sleep 1
+send help
+expect 10 Bans a player from the server.
+sleep 1
+send version
+expect 10 Terraria Server v
+sleep 1
+send port
+expect 10 Port:
+sleep 1
+send maxplayers
+expect 10 Player limit:
+sleep 1
+send playing
+expect 10 No players connected.
+sleep 1
+send seed
+expect 10 World Seed:
+sleep 1
+send dusk
+sleep 1
+send time
+expect 10 Time:
+sleep 1
+send midnight
+sleep 1
+send time
+expect 10 Time:
+sleep 1
+send dawn
+sleep 1
+send time
+expect 10 Time:
+sleep 1
+send noon
+sleep 1
+send time
+expect 10 Time:
+sleep 1
+send motd
+expect 10 Welcome to ref_small!
+sleep 1
+send motd Console MOTD for joiners
+sleep 1
+send motd
+expect 10 MOTD: Console MOTD for joiners
+sleep 1
+send password
+expect 10 No password set.
+sleep 1
+send password secret
+expect 10 Password: secret
+sleep 1
+send password
+expect 10 Password: secret
+sleep 1
+send say
+expect 10 Usage: say <words>
+sleep 1
+send kick
+expect 10 Usage: kick <player>
+sleep 1
+send ban
+expect 10 Usage: ban <player>
+sleep 1
+send kick nobody
+sleep 1
+send ban nobody
+sleep 1
+send bogus
+expect 10 Invalid command.
+sleep 1
+send settle
+expect 10 Forcing water to settle.
+send settle
+expect 10 Water is already settling
+sleep 1
+send clear
+sleep 1
+# a joiner with the wrong password is refused
+join work/console-joiners/orig/console_pwwrong.input
+expect 300 was booted: Incorrect password
+joined 120
+# a joiner with the password: in, the MOTD on join (the client checks), playing, fps, settle ends, kick
+join work/console-joiners/orig/console_kick.input
+expect 300 Joiner has joined.
+sleep 3
+send playing
+expect 10 1 player connected.
+sleep 1
+send fps
+expect 10  (
+sleep 3
+send fps
+sleep 1
+expect 60 Water has been settled.
+send kick Joiner
+expect 10 was booted: Kicked from server.
+expect 30 Joiner has left.
+joined 120
+# ban: the banlist file in the working directory, then the same address is refused
+join work/console-joiners/orig/console_ban.input
+expect 300 Joiner has joined.
+sleep 3
+send ban joiner
+expect 10 was booted: Banned from server.
+expect 30 Joiner has left.
+joined 120
+file banlist.txt //Joiner
+join work/console-joiners/orig/console_banned.input
+expect 300 was booted: You are banned from this server.
+joined 120
+send password<sp>
+expect 10 Password disabled.
+sleep 1
+send password
+expect 10 No password set.
+sleep 1
+send save
+expect 60 Backing up world file
+sleep 1
+send exit-nosave
+sleep 5

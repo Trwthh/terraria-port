@@ -1,0 +1,236 @@
+boot: frames 1..3, 34 calls, 2097 bytes
+[300] after start-up: showSplash False gameMenu True menuMode 0
+title: frames 301..303, 2124 calls, 201061 bytes
+charcreate: frames 334..336, 4804 calls, 492270 bytes
+[336] in the world: gameMenu False spawn 2095,232
+[368] use gallery: 163 items: 6,162,163,220,273,274,277,280,368,383,384,385,386,387,388,389,390,406,486,537,550,579,674,675,756,757,801,802,1186,1189,1190,1193,1196,1197,1200,1203,1204,1226,1227,1228,1231,1232,1259,1262,1826,1947,2289,2291,2292,2293,2294,2295,2296,2331,2332,2342,2421,2422,2774,2779,2784,2795,2798,2882,3098,3262,3278,3279,3280,3281,3282,3283,3284,3285,3286,3287,3288,3289,3290,3291,3292,3315,3316,3317,3368,3384,3389,3464,3473,3475,3483,3489,3495,3501,3507,3513,3519,3540,3541,3835,3836,3854,3858,3930,4061,4144,4272,4325,4367,4368,4369,4370,4371,4379,4442,4463,4610,4611,4612,4613,4648,4649,4650,4651,4669,4670,4671,4672,4674,4675,4676,4677,4678,4679,4680,4681,4683,4684,4788,4789,4790,4911,4912,4913,4914,4923,4956,5011,5012,5074,5294,5473,5474,5475,5476,5477,5478,5479,5480,5526,5669,5687,5688
+use_6: frames 389..389, 851 calls, 65290 bytes
+use_162: frames 414..414, 879 calls, 67011 bytes
+use_163: frames 439..439, 993 calls, 75306 bytes
+use_220: frames 464..464, 951 calls, 71522 bytes
+use_273: frames 489..489, 962 calls, 77028 bytes
+use_274: frames 514..514, 894 calls, 69128 bytes
+use_277: frames 539..539, 1001 calls, 75159 bytes
+use_280: frames 564..564, 908 calls, 66469 bytes
+use_368: frames 589..589, 984 calls, 78815 bytes
+use_383: frames 614..614, 949 calls, 74596 bytes
+use_384: frames 639..639, 1037 calls, 78582 bytes
+use_385: frames 664..664, 935 calls, 68673 bytes
+use_386: frames 689..689, 886 calls, 66774 bytes
+use_387: frames 714..714, 895 calls, 67450 bytes
+use_388: frames 739..739, 1024 calls, 76485 bytes
+use_389: frames 764..764, 942 calls, 68784 bytes
+use_390: frames 789..789, 871 calls, 65416 bytes
+use_406: frames 814..814, 905 calls, 67122 bytes
+use_486: frames 839..839, 1019 calls, 74730 bytes
+use_537: frames 864..864, 946 calls, 68821 bytes
+use_550: frames 889..889, 895 calls, 66315 bytes
+use_579: frames 914..914, 902 calls, 66611 bytes
+use_674: frames 939..939, 1357 calls, 113394 bytes
+use_675: frames 964..964, 1261 calls, 103860 bytes
+use_756: frames 989..989, 963 calls, 74592 bytes
+use_757: frames 1014..1014, 1341 calls, 117067 bytes
+use_801: frames 1039..1039, 1152 calls, 89783 bytes
+use_802: frames 1064..1064, 1026 calls, 76793 bytes
+use_1186: frames 1089..1089, 897 calls, 66844 bytes
+use_1189: frames 1114..1114, 897 calls, 65843 bytes
+use_1190: frames 1139..1139, 1029 calls, 75676 bytes
+use_1193: frames 1164..1164, 960 calls, 69104 bytes
+use_1196: frames 1189..1189, 904 calls, 66428 bytes
+use_1197: frames 1214..1214, 926 calls, 67737 bytes
+use_1200: frames 1239..1239, 1047 calls, 76281 bytes
+use_1203: frames 1264..1264, 978 calls, 69365 bytes
+use_1204: frames 1289..1289, 928 calls, 67379 bytes
+use_1226: frames 1314..1314, 1075 calls, 83587 bytes
+use_1227: frames 1339..1339, 1132 calls, 84569 bytes
+use_1228: frames 1364..1364, 990 calls, 70345 bytes
+use_1231: frames 1389..1389, 933 calls, 67358 bytes
+use_1232: frames 1414..1414, 950 calls, 68468 bytes
+use_1259: frames 1439..1439, 1065 calls, 76205 bytes
+use_1262: frames 1464..1464, 991 calls, 70245 bytes
+use_1826: frames 1489..1489, 981 calls, 73268 bytes
+use_1947: frames 1514..1514, 923 calls, 66211 bytes
+use_2289: frames 1539..1539, 1080 calls, 78909 bytes
+use_2291: frames 1564..1564, 1019 calls, 73805 bytes
+use_2292: frames 1589..1589, 964 calls, 71632 bytes
+use_2293: frames 1614..1614, 961 calls, 70640 bytes
+use_2294: frames 1639..1639, 1096 calls, 80896 bytes
+use_2295: frames 1664..1664, 1018 calls, 73258 bytes
+use_2296: frames 1689..1689, 972 calls, 72330 bytes
+use_2331: frames 1714..1714, 1018 calls, 76657 bytes
+use_2332: frames 1739..1739, 1054 calls, 75581 bytes
+use_2342: frames 1764..1764, 994 calls, 69980 bytes
+use_2421: frames 1789..1789, 950 calls, 69926 bytes
+use_2422: frames 1814..1814, 973 calls, 71841 bytes
+use_2774: frames 1839..1839, 1069 calls, 76788 bytes
+use_2779: frames 1864..1864, 999 calls, 70155 bytes
+use_2784: frames 1889..1889, 940 calls, 67536 bytes
+use_2795: frames 1914..1914, 945 calls, 67606 bytes
+use_2798: frames 1939..1939, 1057 calls, 75577 bytes
+use_2882: frames 1964..1964, 1195 calls, 92664 bytes
+use_3098: frames 1989..1989, 946 calls, 68057 bytes
+use_3262: frames 2014..2014, 1224 calls, 102076 bytes
+use_3278: frames 2039..2039, 1333 calls, 109292 bytes
+use_3279: frames 2064..2064, 1279 calls, 104478 bytes
+use_3280: frames 2089..2089, 1193 calls, 99086 bytes
+use_3281: frames 2114..2114, 1226 calls, 102050 bytes
+use_3282: frames 2139..2139, 1334 calls, 108979 bytes
+use_3283: frames 2164..2164, 1290 calls, 105358 bytes
+use_3284: frames 2189..2189, 1199 calls, 99336 bytes
+use_3285: frames 2214..2214, 1227 calls, 101661 bytes
+use_3286: frames 2239..2239, 1337 calls, 108998 bytes
+use_3287: frames 2264..2264, 1305 calls, 106912 bytes
+use_3288: frames 2289..2289, 1129 calls, 90488 bytes
+use_3289: frames 2314..2314, 1161 calls, 93315 bytes
+use_3290: frames 2339..2339, 1260 calls, 99586 bytes
+use_3291: frames 2364..2364, 1235 calls, 98477 bytes
+use_3292: frames 2389..2389, 1134 calls, 91128 bytes
+use_3315: frames 2414..2414, 1167 calls, 94076 bytes
+use_3316: frames 2439..2439, 1258 calls, 99358 bytes
+use_3317: frames 2464..2464, 1210 calls, 95270 bytes
+use_3368: frames 2489..2489, 1130 calls, 90106 bytes
+use_3384: frames 2514..2514, 1251 calls, 103206 bytes
+use_3389: frames 2539..2539, 1269 calls, 99895 bytes
+use_3464: frames 2564..2564, 1210 calls, 94480 bytes
+use_3473: frames 2589..2589, 1265 calls, 105143 bytes
+use_3475: frames 2614..2614, 1098 calls, 82033 bytes
+use_3483: frames 2639..2639, 1111 calls, 78443 bytes
+use_3489: frames 2664..2664, 1036 calls, 71611 bytes
+use_3495: frames 2689..2689, 967 calls, 68099 bytes
+use_3501: frames 2714..2714, 978 calls, 68468 bytes
+use_3507: frames 2739..2739, 1115 calls, 78508 bytes
+use_3513: frames 2764..2764, 1037 calls, 71641 bytes
+use_3519: frames 2789..2789, 976 calls, 68706 bytes
+use_3540: frames 2814..2814, 1004 calls, 71034 bytes
+use_3541: frames 2839..2839, 1105 calls, 77573 bytes
+use_3835: frames 2864..2864, 1046 calls, 72474 bytes
+use_3836: frames 2889..2889, 985 calls, 69816 bytes
+use_3854: frames 2914..2914, 1065 calls, 78026 bytes
+use_3858: frames 2939..2939, 1741 calls, 148476 bytes
+use_3930: frames 2964..2964, 1106 calls, 79481 bytes
+use_4061: frames 2989..2989, 1046 calls, 76103 bytes
+use_4144: frames 3014..3014, 997 calls, 70941 bytes
+use_4272: frames 3039..3039, 1129 calls, 80244 bytes
+use_4325: frames 3064..3064, 1051 calls, 73668 bytes
+use_4367: frames 3089..3089, 1005 calls, 72789 bytes
+use_4368: frames 3114..3114, 1026 calls, 74486 bytes
+use_4369: frames 3139..3139, 1139 calls, 81941 bytes
+use_4370: frames 3164..3164, 1073 calls, 76317 bytes
+use_4371: frames 3189..3189, 1005 calls, 72498 bytes
+use_4379: frames 3214..3214, 1025 calls, 74009 bytes
+use_4442: frames 3239..3239, 1157 calls, 83422 bytes
+use_4463: frames 3264..3264, 1040 calls, 71716 bytes
+use_4610: frames 3289..3289, 1015 calls, 73336 bytes
+use_4611: frames 3314..3314, 1017 calls, 73036 bytes
+use_4612: frames 3339..3339, 1126 calls, 79955 bytes
+use_4613: frames 3364..3364, 1058 calls, 73571 bytes
+use_4648: frames 3389..3389, 1037 calls, 75663 bytes
+use_4649: frames 3414..3414, 1042 calls, 75297 bytes
+use_4650: frames 3439..3439, 1173 calls, 84494 bytes
+use_4651: frames 3464..3464, 1078 calls, 75125 bytes
+use_4669: frames 3489..3489, 1033 calls, 73382 bytes
+use_4670: frames 3514..3514, 1042 calls, 73505 bytes
+use_4671: frames 3539..3539, 1171 calls, 82956 bytes
+use_4672: frames 3564..3564, 1131 calls, 79756 bytes
+use_4674: frames 3589..3589, 1024 calls, 71786 bytes
+use_4675: frames 3614..3614, 1080 calls, 78249 bytes
+use_4676: frames 3639..3639, 1163 calls, 81952 bytes
+use_4677: frames 3664..3664, 1097 calls, 76646 bytes
+use_4678: frames 3689..3689, 1107 calls, 80679 bytes
+use_4679: frames 3714..3714, 1033 calls, 72501 bytes
+use_4680: frames 3739..3739, 1271 calls, 94510 bytes
+use_4681: frames 3764..3764, 1104 calls, 77115 bytes
+use_4683: frames 3789..3789, 1067 calls, 77391 bytes
+use_4684: frames 3814..3814, 1025 calls, 71740 bytes
+use_4788: frames 3839..3839, 1148 calls, 80246 bytes
+use_4789: frames 3864..3864, 1073 calls, 74118 bytes
+use_4790: frames 3889..3889, 1023 calls, 71893 bytes
+use_4911: frames 3914..3914, 1011 calls, 70391 bytes
+use_4912: frames 3939..3939, 1207 calls, 87130 bytes
+use_4913: frames 3964..3964, 1103 calls, 76874 bytes
+use_4914: frames 3989..3989, 1292 calls, 103298 bytes
+use_4923: frames 4014..4014, 1119 calls, 83189 bytes
+use_4956: frames 4039..4039, 1335 calls, 100220 bytes
+use_5011: frames 4064..4064, 1114 calls, 78673 bytes
+use_5012: frames 4089..4089, 1042 calls, 74539 bytes
+use_5074: frames 4114..4114, 999 calls, 69751 bytes
+use_5294: frames 4139..4139, 1150 calls, 81455 bytes
+use_5473: frames 4164..4164, 1048 calls, 71768 bytes
+use_5474: frames 4189..4189, 1049 calls, 76290 bytes
+use_5475: frames 4214..4214, 1002 calls, 70380 bytes
+use_5476: frames 4239..4239, 1186 calls, 85759 bytes
+use_5477: frames 4264..4264, 1094 calls, 77071 bytes
+use_5478: frames 4289..4289, 1335 calls, 109750 bytes
+use_5479: frames 4314..4314, 1139 calls, 85785 bytes
+use_5480: frames 4339..4339, 1327 calls, 103625 bytes
+use_5526: frames 4364..4364, 1108 calls, 77962 bytes
+use_5669: frames 4389..4389, 1130 calls, 83638 bytes
+use_5687: frames 4414..4414, 1033 calls, 73483 bytes
+use_5688: frames 4439..4439, 1243 calls, 92046 bytes
+[4463] build ground at 2103,231
+[4468] place 136 at +0: True
+[4468] place 4 at +2: True
+[4468] place 93 at +4: True
+[4468] place 137 at +6: True
+[4468] place 105 at +8: True
+[4468] place 144 at +11: True
+[4468] place 207 at +13: True
+[4468] place 216 at +16: True
+[4468] place 335 at +18: True
+[4468] place 338 at +21: True
+[4468] place 405 at +23: True
+[4468] place 244 at +27: True
+[4468] place 455 at +31: True
+[4468] place 565 at +35: True
+[4468] place 130 at +38: True
+wired_on: frames 4509..4510, 3863 calls, 345575 bytes
+wired_off: frames 4541..4542, 11985 calls, 1256373 bytes
+chest_quickstack: frames 4563..4563, 1608 calls, 154561 bytes
+chest_lootall: frames 4569..4569, 2339 calls, 255393 bytes
+chest_depositall: frames 4575..4575, 2530 calls, 271272 bytes
+chest_restock: frames 4581..4581, 2402 calls, 262145 bytes
+[5006] dd2 difficulty 1: ongoing True
+dd2_1: frames 5007..5007, 1695 calls, 160841 bytes
+[5437] dd2 difficulty 2: ongoing True
+dd2_2: frames 5438..5438, 1725 calls, 170800 bytes
+[5868] dd2 difficulty 3: ongoing True
+dd2_3: frames 5869..5869, 2044 calls, 209225 bytes
+shimmer_items: frames 5940..5940, 1972 calls, 190949 bytes
+shimmer_player: frames 6031..6031, 2175 calls, 216207 bytes
+[6091] chair: True
+player_sit: frames 6117..6117, 1465 calls, 133291 bytes
+npc_travel: frames 6158..6158, 1448 calls, 132280 bytes
+npc_homeless: frames 6189..6189, 1466 calls, 135299 bytes
+player_dodge: frames 6275..6275, 1772 calls, 165188 bytes
+player_grapple: frames 6308..6308, 1682 calls, 152892 bytes
+player_rocketboots: frames 6389..6389, 1048 calls, 81274 bytes
+player_armor_231: frames 6470..6470, 1014 calls, 79789 bytes
+player_armor_2763: frames 6491..6491, 1637 calls, 105521 bytes
+player_ghost: frames 6522..6522, 803 calls, 59531 bytes
+time_dusk: frames 6623..6623, 1398 calls, 111742 bytes
+time_dawn: frames 6714..6714, 1546 calls, 137016 bytes
+ui_bufftip: frames 6725..6725, 1754 calls, 168989 bytes
+ui_resources_0: frames 6736..6736, 1439 calls, 120506 bytes
+ui_resources_1: frames 6742..6742, 1345 calls, 116374 bytes
+ui_resources_2: frames 6748..6748, 1443 calls, 121259 bytes
+ui_resources_3: frames 6754..6754, 1369 calls, 119456 bytes
+ui_resources_4: frames 6760..6760, 1430 calls, 118393 bytes
+ui_resources_5: frames 6766..6766, 1342 calls, 115741 bytes
+ui_pickup: frames 6787..6787, 1508 calls, 129477 bytes
+ui_placepreview: frames 6795..6795, 1510 calls, 129864 bytes
+[6795] beach at 242,230
+fishing_wait: frames 7208..7208, 1247 calls, 106748 bytes
+fishing_reel: frames 7241..7241, 1164 calls, 102082 bytes
+player_wings_5586: frames 7307..7307, 1140 calls, 96325 bytes
+player_wings_5659: frames 7413..7413, 982 calls, 80296 bytes
+player_wings_5686: frames 7519..7519, 1121 calls, 89309 bytes
+player_blackbelt: frames 7665..7665, 1284 calls, 114338 bytes
+player_yoraiz0r: frames 7686..7686, 1183 calls, 101153 bytes
+player_rockets: frames 7754..7754, 1137 calls, 93920 bytes
+player_quick: frames 7867..7867, 1200 calls, 96300 bytes
+player_quickmount: frames 7898..7898, 1135 calls, 93084 bytes
+player_angler: frames 7939..7939, 1423 calls, 121779 bytes
+player_mountability_7: frames 7990..7990, 1396 calls, 122764 bytes
+player_mountability_8: frames 8051..8051, 1718 calls, 150957 bytes
+interact_end: frames 8082..8083, 3465 calls, 314108 bytes
+8083 frames

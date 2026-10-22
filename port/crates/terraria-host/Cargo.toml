@@ -1,0 +1,19 @@
+[package]
+name = "terraria-host"
+edition.workspace = true
+version.workspace = true
+publish.workspace = true
+description = "Native host layer for the machine-translated game code: the parts of XNA 4.0, ReLogic's native edges and System.* that Terraria calls (no Bevy; output is a draw list and an audio command queue)"
+
+[dependencies]
+terraria-core = { workspace = true }
+terraria-formats = { workspace = true }
+terraria-gen-rt = { path = "../terraria-gen-rt" }
+bytemuck = { version = "1", features = ["derive"] }
+aes = "0.8"
+png = "0.17"
+lewton = "0.10"
+symphonia = { version = "0.5", default-features = false, features = ["mp3"] }
+miniz_oxide = "0.8"
+# the browser build decompresses large LZX content in slices (content.rs `decompress_in_slices`); terraria-formats uses the same
+lzxd = "0.2"

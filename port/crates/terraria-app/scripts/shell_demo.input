@@ -1,0 +1,20 @@
+# shell_demo, scripted: move the sprite, click (sound), type, resize, toggle borderless twice, F12 capture, screenshot, quit.
+# Ticks are shell ticks; a scripted run uses a fixed 1/60 s step, so one tick is one Update.
+frame 5 mouse 200 120
+frame 10 key W down
+frame 10 key D down
+frame 40 key W up
+frame 60 key D up
+frame 70 mouse 400 300
+frame 75 click left
+frame 80 text hello world
+frame 90 resize 1024 600
+frame 110 key F11 press
+frame 140 key F11 press
+frame 170 mouse 700 380
+frame 170 key S down
+frame 170 key Space down
+frame 175 text !
+frame 180 key F12 press
+frame 200 shot
+frame 240 quit

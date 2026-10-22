@@ -1,0 +1,99 @@
+excess	method	jit_float_slots	translation_rounded	stack_locals	in_memory_locals	stack_locals_rounded_at_calls
+42	Terraria.NPC::AI_007_TownEntities()	70	28	num135,num136,num18,num19,num20,num22,num23,num24,num30,num31,num66,num94	B,G,R,knockBack,knockBack2,knockBack3,num11,num12,num13,num14,num2,num3,num44,num47,num48,num49,num5,num53,num57,num63,num67,num68,num69,num82,waterLineHeight	num136,num66,num94
+11	Terraria.Projectile::Update(System.Int32)	16	5	num	amount,num18,num19,num21,num22	
+9	Terraria.Collision::SlopeCollision(Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,System.Int32,System.Int32,System.Single,System.Boolean,System.Boolean)	11	2	num10,num4,num5,num6,num7,num8,num9	y,y2	
+9	Terraria.NPC::AI_001_Slimes()	27	18	num22,num24,num25,num26,num34,num35,num36,num37,num38,num39,num41,num44,num45,num46,num47,num49,num50,num53,num54	num,num40,num42,num48,num51	num34,num35,num36,num37,num38,num39,num41,num44,num45,num46,num49,num50,num54
+9	Terraria.Player::HorizontalMovement()	11	2	damage,damage2,damage3,damage4,damage5,knockback,knockback2,knockback3,knockback4,knockback5,num3,num4	num,num2	
+8	Terraria.Player::PlayerFrame()	10	2	num20,num21,num22,num23	num2,num4	
+7	Terraria.Main::UpdateWeather(Microsoft.Xna.Framework.GameTime,System.Int32)	11	4	num,num3,num4,num5,num8	num6,num7,num9	num
+7	Terraria.WorldGen::makeTemple_GenerateBricks_Line(System.Int32,System.Int32,System.Int32,System.Int32,System.Boolean,System.Boolean)	9	2		num,num2	
+6	Terraria.Collision::TileCollision(Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,System.Int32,System.Int32,System.Boolean,System.Boolean,System.Int32,System.Boolean,System.Boolean,System.Boolean)	7	1		num6	
+6	Terraria.WorldGen::makeTemple(System.Int32,System.Int32,Terraria.WorldBuilding.GenerationProgress)	9	3	num14,num21,num34,num52,num55,num58,num61,num85	num11,num12,num50	
+5	Terraria.Collision::AdvancedTileCollision(System.Boolean[],Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,System.Int32,System.Int32,System.Boolean,System.Boolean,System.Int32)	6	1		num6	
+5	Terraria.Collision::DrownCollision(Microsoft.Xna.Framework.Vector2,System.Int32,System.Int32,System.Single,System.Boolean)	5	0	num6		
+4	Terraria.Collision::StepDown(Microsoft.Xna.Framework.Vector2&,Microsoft.Xna.Framework.Vector2&,System.Int32,System.Int32,System.Single&,System.Single&,System.Int32,System.Boolean)	6	2	num10	num5,num6	
+4	Terraria.Collision::StickyTiles(Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,System.Int32,System.Int32)	4	0	num7		
+4	Terraria.Collision::SwitchTiles(Terraria.Entity,Microsoft.Xna.Framework.Vector2,System.Int32,System.Int32,Microsoft.Xna.Framework.Vector2,System.Int32)	8	4	r1Height,r1StartX,r1StartY,r1Width		r1Height,r1StartX,r1StartY,r1Width
+4	Terraria.Graphics.Light.LightMap::BlurLine(System.Int32,System.Int32,System.Int32)	4	0	num		
+4	Terraria.ID.ItemID+BannerEffect::.ctor(System.Single)	4	0	num,output,output2,output3		
+4	Terraria.Player::UpdateBuffs(System.Int32)	5	1	num12,num18,num2,num5,num6,num7	num4	
+4	Terraria.Player::WingFrame(System.Boolean)	5	1	num2,x	scale	
+3	Terraria.Chest::SetupShop(System.Int32)	3	0	num12,num13		
+3	Terraria.Collision::CheckAABBvLineCollision(Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,System.Single,System.Single&)	7	4	num5,num6,num7,num8,num9	num,num2,num3	num5
+3	Terraria.Collision::LavaCollision(Microsoft.Xna.Framework.Vector2,System.Int32,System.Int32)	3	0	num3		
+3	Terraria.Collision::WetCollision(Microsoft.Xna.Framework.Vector2,System.Int32,System.Int32)	3	0	num5		
+3	Terraria.Collision::noSlopeCollision(Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,System.Int32,System.Int32,System.Boolean,System.Boolean)	3	0	num6		
+3	Terraria.GameContent.Generation.Dungeon.Features.DungeonGlobalGroundFurniture::GroundFurniture_ActuallyGenerateFurniture(Terraria.GameContent.Generation.Dungeon.DungeonData,Terraria.Utilities.UnifiedRandom,System.Int32,System.Int32,System.UInt16,System.Int32&,System.Int32&,System.Int32&,System.Boolean,System.Boolean)	3	0	num22		
+3	Terraria.GameContent.Generation.Dungeon.Halls.DungeonHall::AddExtraPlatformsIfNeeded(Terraria.GameContent.Generation.Dungeon.DungeonData)	5	2		num,num4	
+3	Terraria.Main::UpdateTime()	4	1		num5	
+3	Terraria.NPC::UpdateNPC_BuffApplyDOTs()	3	0	num4		
+3	Terraria.Player::MakeFloorDust(System.Boolean,System.Int32,System.Int32,System.Int32,System.Int32)	6	3		num,num4,num5	
+3	Terraria.WorldGen::CheckOrb(System.Int32,System.Int32,System.Int32)	3	0	num5,num6,num7,num9		
+3	Terraria.WorldGen::SpawnFallingObjects()	7	4	num15,num16,num17,num31,num32,num33,speedY,value		num15,num31,speedY,value
+2	Terraria.Audio.LegacySoundStyle::WithVolumePerceived(System.Single)	2	0	num,volume2		
+2	Terraria.Collision::StepUp(Microsoft.Xna.Framework.Vector2&,Microsoft.Xna.Framework.Vector2&,System.Int32,System.Int32,System.Single&,System.Single&,System.Int32,System.Boolean,System.Int32)	2	0	num5,num6,num7,num8		
+2	Terraria.Collision::WalkDownSlope(Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,System.Int32,System.Int32,System.Single)	3	1	num9	num	
+2	Terraria.GameContent.Generation.Dungeon.Halls.LegacyDungeonHall::LegacyHall(Terraria.GameContent.Generation.Dungeon.DungeonData,System.Int32,System.Int32,System.Boolean)	4	2	num13,num14		num13,num14
+2	Terraria.Liquid::Update()	3	1	num		num
+2	Terraria.Main::Ambience()	2	0	num,num2,num3,num4,num5		
+2	Terraria.Main::DoUpdate(Microsoft.Xna.Framework.GameTime&)	2	0	num2		
+2	Terraria.Main::GetPlayerControlledCameraPan(Microsoft.Xna.Framework.Vector2&,System.Single&)	3	1		panFactor	
+2	Terraria.NPC::TryTrackingTarget(System.Single&,System.Single&,System.Boolean&,System.Int32&,System.Int32)	2	0	num,num2,num3		
+2	Terraria.Player::FindPulley()	4	2	num4,num9	num3	num4
+2	Terraria.Player::RotatedRelativePoint(Microsoft.Xna.Framework.Vector2,System.Boolean,System.Boolean,System.Int32)	4	2		num,seatAdjustment	
+2	Terraria.WorldGen::Check3x3(System.Int32,System.Int32,System.Int32)	2	0	num12,num13,num14,num16		
+1	Terraria.Collision::AnyWallOfTypeOnLine(System.Int32,System.Int32,System.Int32,System.Int32,System.UInt16)	1	0	num10,num5,num6,num7,num8,num9		
+1	Terraria.Collision::CanHitLine(Microsoft.Xna.Framework.Vector2,System.Int32,System.Int32,Microsoft.Xna.Framework.Vector2,System.Int32,System.Int32)	1	0	num10,num5,num6,num7,num8,num9		
+1	Terraria.Collision::FindCollisionTile(System.Int32,Microsoft.Xna.Framework.Vector2,System.Single,System.Int32,System.Int32,System.Boolean,System.Boolean,System.Int32,System.Boolean,System.Boolean)	5	4		num,num2,num3,num4	
+1	Terraria.Collision::HitLineWall(System.Int32,System.Int32,System.Int32,System.Int32)	5	4	num5,num6	num10,num7,num8,num9	
+1	Terraria.Collision::IsWorldPointSolid(Microsoft.Xna.Framework.Vector2,System.Boolean)	1	0	num2,num3		
+1	Terraria.Collision::StepConveyorBelt(Terraria.Entity,System.Single,System.Boolean)	1	0			
+1	Terraria.Collision::TryFindingConveyorBeltRising(Terraria.Entity,System.Single)	2	1		num	
+1	Terraria.GameContent.Biomes.Desert.ChambersEntrance::PlaceAt(Terraria.GameContent.Biomes.Desert.DesertDescription,Microsoft.Xna.Framework.Point,Terraria.WorldBuilding.GenerationProgress,System.Single,System.Single)	1	0			
+1	Terraria.GameContent.Biomes.Desert.DesertHive::PlaceClustersArea(Terraria.GameContent.Biomes.Desert.DesertDescription,Terraria.GameContent.Biomes.Desert.DesertHive+ClusterGroup,Microsoft.Xna.Framework.Rectangle,Terraria.GameContent.Biomes.Desert.DesertHive+PostPlacementEffect[,],Microsoft.Xna.Framework.Point,Terraria.WorldBuilding.GenerationProgress,System.Single,System.Single)	1	0			
+1	Terraria.GameContent.Creative.CreativePowers+DifficultySliderPower::UpdateInfoFromSliderValueCache()	1	0	strengthMultiplierToGiveNPCs		
+1	Terraria.GameContent.Generation.Dungeon.DungeonCrawler::MakeDungeon(System.Int32,System.Int32,Terraria.WorldBuilding.GenerationProgress)	3	2		x2,y2	
+1	Terraria.GameContent.Generation.Dungeon.Features.DungeonGlobalBanners::Banners(Terraria.GameContent.Generation.Dungeon.DungeonData)	2	1		num	
+1	Terraria.GameContent.Generation.Dungeon.Features.DungeonGlobalGroundFurniture::GroundFurniture(Terraria.GameContent.Generation.Dungeon.DungeonData)	1	0	num		
+1	Terraria.GameContent.Generation.Dungeon.Features.DungeonGlobalLights::Lights(Terraria.GameContent.Generation.Dungeon.DungeonData)	1	0	num		
+1	Terraria.GameContent.Generation.Dungeon.Features.DungeonGlobalPaintings::Paintings(Terraria.GameContent.Generation.Dungeon.DungeonData)	2	1		num	
+1	Terraria.GameContent.Generation.Dungeon.Features.DungeonGlobalSpikes::Spikes(Terraria.GameContent.Generation.Dungeon.DungeonData)	2	1		num2	
+1	Terraria.GameContent.Generation.Dungeon.Features.DungeonGlobalTraps::Traps(Terraria.GameContent.Generation.Dungeon.DungeonData)	1	0	num		
+1	Terraria.GameContent.Generation.Dungeon.Halls.LegacyEntranceDungeonHall::LegacyHall(Terraria.GameContent.Generation.Dungeon.DungeonData,System.Int32,System.Int32,System.Boolean)	1	0			
+1	Terraria.GameContent.Generation.Dungeon.Rooms.LegacyDungeonRoom::LegacyRoom(Terraria.GameContent.Generation.Dungeon.DungeonData,System.Int32,System.Int32,System.Boolean)	1	0			
+1	Terraria.GameContent.Generation.ShapeRoot::DoRoot(Microsoft.Xna.Framework.Point,Terraria.WorldBuilding.GenAction,System.Double,System.Double,System.Double)	1	0			
+1	Terraria.Graphics.Light.TileLightScanner::ApplyLiquidLight(Terraria.Tile,Microsoft.Xna.Framework.Vector3&)	1	0	num,num2,num3		
+1	Terraria.Graphics.Light.TileLightScanner::ApplyWallLight(Terraria.Tile,System.Int32,System.Int32,Terraria.Utilities.FastRandom&,Microsoft.Xna.Framework.Vector3&)	4	3	num4	num,num2,num3	
+1	Terraria.IO.WorldFile::LoadWorld()	3	2	num7	num6	num7
+1	Terraria.IO.WorldFile::LoadWorldTiles(System.IO.BinaryReader,System.Boolean[])	2	1		num	
+1	Terraria.IO.WorldFile::SaveWorldTiles(System.IO.BinaryWriter)	2	1		num	
+1	Terraria.IO.WorldFile::ValidateWorld(System.IO.BinaryReader)	2	1		num5	
+1	Terraria.Item::SetFoodDefaults(System.Int32)	1	0	num		
+1	Terraria.Liquid::UpdateProgressDisplay(System.Int32,System.Int32,System.Int32,System.Int32)	3	2	num,num2		num,num2
+1	Terraria.Main::GetBestiaryProgressReport()	2	1		num	
+1	Terraria.Main::UpdateAtmosphereTransparencyToSkyColor(System.Single)	1	0	num		
+1	Terraria.Main::UpdateCameraPan()	5	4	num	doubleRateDist,maxPanSpeed,panRate	num
+1	Terraria.Main::UpdateInvasion()	1	0	num		
+1	Terraria.Main::updateCloudLayer()	1	0	num3		
+1	Terraria.NPC+Spawner::.ctor()	1	0	num		
+1	Terraria.NPC+Spawner::CheckToSpawnUndergroundGnomes(System.Int32,System.Int32,System.Boolean,System.Int32)	1	0			
+1	Terraria.NPC::AI_007_TownEntities_GetWalkPrediction(System.Int32,System.Int32,System.Boolean,System.Boolean,System.Int32,System.Int32,System.Boolean&,System.Boolean&)	1	0			
+1	Terraria.NPC::ScaleStats_ByDifficulty_Tweaks()	1	0	num4,num5		
+1	Terraria.NPC::SetDefaultsFromNetId(System.Int32,Terraria.NPCSpawnParams)	1	0	num2,num3,num4,num5		
+1	Terraria.NPC::StreamUpdatesToNearbyPlayers()	1	0	num		
+1	Terraria.Player::ApplyEquipFunctional(System.Int32,Terraria.Item)	1	0	num4,num5,num6		
+1	Terraria.Player::BordersMovement()	1	0	num2,num3		
+1	Terraria.Player::DoubleJumpVisuals()	2	1		num4	
+1	Terraria.Player::DryCollision(System.Boolean,System.Boolean)	3	2	num2	num,val	
+1	Terraria.Player::FindClosest(Microsoft.Xna.Framework.Vector2,System.Int32,System.Int32)	1	0	num,num2		
+1	Terraria.Player::UpdateArmorSets_Always_Beetle()	1	0	num,x,y		
+1	Terraria.SceneState::ApplyVisuals(Terraria.SceneMetrics)	16	15	amount,amount2,num10,num12,num13,num2,num3,num4,num5,num6,num7,num8,val,val2,val3	num,num11,num9,progress,value,value2,value3,x,y	num10,num12,num13,num2,num6,num8
+1	Terraria.Star::SpawnStars(System.Int32)	1	0	num6		
+1	Terraria.WorldGen::AddHellHouses()	2	1		num4	
+1	Terraria.WorldGen::CheckJunglePlant(System.Int32,System.Int32,System.Int32)	1	0	num6,num7,num8,num9		
+1	Terraria.WorldGen::SpawnStormLightning()	1	0	num2		
+1	Terraria.WorldGen::SpawnThingsFromPot(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)	3	2		num,num17	
+1	Terraria.WorldGen::UpdateWorld()	1	0			
+1	Terraria.WorldGen::clearWorld()	3	2		num,num2	
+1	Terraria.WorldGen::makeTemple_GenerateBricks(System.Int32,Microsoft.Xna.Framework.Rectangle[],System.Int32[],System.Boolean,System.Single,System.Single,Terraria.WorldBuilding.GenerationProgress)	1	0	num,num3,num4		
+1	Terraria.WorldGen::makeTemple_GenerateBricks_Line_StrictAngles(System.Int32,System.Int32,System.Int32,System.Int32,System.Boolean,System.Boolean)	3	2		num,num2	

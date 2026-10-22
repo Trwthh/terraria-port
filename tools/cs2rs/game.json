@@ -1,0 +1,316 @@
+{
+  // The whole game: every type of decompile\Terraria and decompile\ReLogic, translated. Paths relative to this file.
+  // Run: sh run.sh (writes port\crates\terraria-gen-game\src\gen, src\host\api, GAME_REPORT.md, HOST_API.md)
+  "include": ["native.json"],
+  // float expressions as the game's x86 JIT evaluates them (DESIGN.md section 5): x87 precision, and the float
+  // locals the JIT keeps on the x87 stack are not rounded at a store (port/crates/terraria-x87/FLOAT_RULE.md)
+  "floatMode": "jit32",
+  // Float locals the real JIT keeps in memory although the allocation rule (computed on the decompiler's locals)
+  // puts them on the x87 stack. Each entry names the comparison with the real game that shows it.
+  "floatInMemory": {
+    "Terraria.Collision.CheckLinevLine:num": "machine code of the collision reference run (work/jit/collref, RefDumpCollisionJit.exe, refdata/collision reproduced byte for byte): `fstp dword [ebp-4]` right after num is computed, every later read `fld dword [ebp-4]` (the JIT's common subexpressions a2-a1, b2-b1 hold the registers). With num rounded and num4 spilled (floatSpillAtAlloc) the 20,000 calls of refdata/collision/CheckLinevLine.bin are exact (859 differ without)",
+    "Terraria.Graphics.Light.TileLightScanner.ApplySurfaceLight:num6": "machine code of the lighting reference run (work/jit/lightref, RefDumpLightJit.exe, refdata/light reproduced byte for byte): num4, num5 and num6 are each stored with `fstp dword` ([ebp-0x10], [ebp-0x14], [ebp-0x18]) right after the division by 255 and read back from there (num7 = `fld [ebp-0x10]; fadd [ebp-0x14]; fadd [ebp-0x18]`, num = num4 ... `fld [ebp-0x18]`); the rule keeps num6 alone on the x87 stack",
+    "Terraria.Graphics.Light.TileLightScanner.ApplyHellLight:num7": "machine code of the lighting reference run (work/jit/lightref): `num7 = 0.7f - num6` with num6 = 0.2f is folded by the JIT to the float constant 0.5 (`fadd dword [const] = 0.5` in the DiscoR/G/B case); unrounded it is 0.49999998509883881, rounded to float (in memory) it is 0.5",
+    "Terraria.Main.UpdateWeather:num7": "refdata/ticks world scenario: Main.windSpeedCurrent after tick 1560 is 0.20025914907455444 in the real server; that value needs num7 (`num7 += Math.Abs(num8 - windSpeedCurrent) * 0.0015f`) rounded to float at its store (60 steps from the tick-1500 state modelled both ways: rounded 0.20025914907455444, unrounded 0.20025913417339325)"
+  },
+  // Float locals the real JIT keeps on the x87 stack across the calls they are live across, spilled to an 8-byte
+  // slot (`fstp qword` / `fld qword`), so never rounded, although the allocation rule puts them in memory. Each entry
+  // names the machine code that shows it (FloatAlloc / Emit: on the stack, left out of the rounding at calls). Empty:
+  // its first entry (AI_065_Butterflies:num22) is an evaluation-stack value, which jitFloatAlloc now finds by itself.
+  "floatStackAcrossCalls": {
+  },
+  // IL sizes of the original methods (gen_il_sizes.py, from db/terraria.sqlite): which methods the JIT does not optimise
+  "ilSizes": "il_sizes.tsv",
+  // what the real JIT inlined / called at each mscorlib call site of each float method (gen_jit_calls.py: the reference
+  // runs' own code where a reference run ran the method, the whole-game jitdump work/jit/all elsewhere)
+  "jitCalls": "jit_calls.tsv",
+  // what the JIT of the reference runs inlined / called in the methods that ran there (gen_jit_refcalls.py from
+  // work/jit/ref/<scenario>: tools/refdump_worldgen/run_refjit.sh repeats p1, framing, collision, lighting, sky, liquid,
+  // ticks and the six worldgen runs, each reproducing its refdata byte for byte, then dumps the code of every method
+  // that ran in that process; game callees included; a method with different answers in two runs is left out and
+  // listed in jit_refcalls_conflicts.tsv). Decides where x87 values are rounded for those pairs, before jitCalls and
+  // the size rule (FloatAlloc.CallKind)
+  "jitRefCalls": "jit_refcalls.tsv",
+  // the sites of the pairs above that are a call instruction at some sites only (gen_jit_refcalls.py, through ILSpy's
+  // PDB of the decompilation: work/pdb/pdb_seq.tsv, `tmeta pdbseq`): decided site by site (FloatAlloc.SiteIsCall)
+  "jitRefCallSites": "jit_refcall_sites.tsv",
+  // where the real JIT kept each float local of the methods that ran in the reference runs (gen_jit_float_alloc.py:
+  // the CLR's own variable locations of those processes, mapped to the decompiled names through ILSpy's PDB of the
+  // same decompilation, tmeta pdblocals). Replaces the allocation rule there (FloatAlloc.cs); a float local that is
+  // not an IL local is an evaluation-stack value: unrounded, kept across calls
+  "jitFloatAlloc": "jit_float_alloc.tsv",
+  // Float locals on the x87 stack that the original rounds at the array allocation they are live across (the
+  // newarr helper is a call instruction). Only these locals, only in these methods.
+  "floatSpillAtAlloc": {
+    "Terraria.Collision.CheckLinevLine:num4": "machine code of the collision reference run (work/jit/collref): `fstp dword [ebp-8]` of num4 before `call` to the newarr helper of `new Vector2[1] { new Vector2(a1.X + num4 * ..., ...) }`, reloaded from there for the element; num5 is dead there. Evidence with floatInMemory CheckLinevLine:num"
+  },
+  // The x87 evaluation of an XNA member's body as its machine code in the reference run does it, used at the call
+  // sites of jit_bodies.tsv (gen_jit_bodies.py; the dumps of all reference runs, work/jit/ref/<scenario>, as for
+  // jitRefCalls) where those runs compiled a call instruction to it at every IL site. The nativeMembers template (f32 arithmetic) stays
+  // everywhere else.
+  //   Vector2.Length():           fld X; fmul X; fld Y; fmul Y; faddp; fstp qword; fld qword; fsqrt; fstp dword
+  //   Vector2.Normalize(Vector2): the same sum and sqrt rounded to float, 1 / it kept unrounded (fld1; fdivrp), then
+  //                               X * it and Y * it each rounded at the store
+  //   Vector2.Lerp, Vector3.Lerp, Vector2.SmoothStep, MathHelper.Lerp / SmoothStep, Vector2 / float (op_Division:
+  //                               1 / d unrounded), Distance (differences unrounded), DistanceSquared, Dot, LengthSquared,
+  //                               the instance Normalize(), CatmullRom (one rounding per component), Reflect (the dot product unrounded): read from the entity reference runs (work/jit/ref/entities_*,
+  //                               tools/refdump_worldgen/jit_disasm.py). A value prefixed "f64:" is a body whose float
+  //                               result is returned in ST0 without a store: unrounded where the caller keeps computing
+  //                               (Emit.F64), rounded where it stores it
+  //   Vector4.Lerp(v1, v2, t):    per component fld v2.X; fsub v1.X; fmul t; fadd v1.X; fstp dword (the lighting
+  //                               reference run, work/jit/lightref: one rounding per component, at the store)
+  // Evidence: CheckAABBvLineCollision6 (20,000 calls) is reproduced exactly by this Length and differs in 503 calls
+  // with the f32 one (model of the dumped machine code against refdata/collision; then the sim gate).
+  // LiquidRenderer.GetShimmerBaseColor: the x87 Lerp reproduces all 888 points of refdata/light/shimmer.bin, the f32
+  // one differs on 104 (model with terraria-x87's fsin); then the sim gate (scramble_shimmer 458 tiles -> 0).
+  //   Vector2.Transform(v, m), Vector3.Transform(v, m), Matrix * Matrix: per component the products summed on the x87
+  //                               stack (fld; fmul; fld; fmul; faddp; fadd), one rounding at the store; Matrix.CreateRotationZ:
+  //                               fcos / fsin (the processor's own, FLOAT_RULE.md 10.17) each stored as a float, M21 by fchs
+  //                               (the coverage run, work/jit/client/cover: DrawPlayer_TransformDrawData, a UFO mount's
+  //                               sprite 1 ulp off in y; FLOAT_RULE.md section 10, item 27); the by-reference
+  //                               Vector2.Transform(ref, ref, out) the same (inlined in DynamicSpriteFont.InternalDraw,
+  //                               work/jit/client/probe: a rotated crit number's glyph 1 ulp off in x, item 32)
+  //   Vector3.Normalize():        as Vector2's instance Normalize, three squares (ReflectiveArmorShaderData.Apply's light
+  //                               direction 1 ulp off in y; work/jit/client/probe, FLOAT_RULE.md section 10, item 35)
+  "jitBodies": {
+    "M:Microsoft.Xna.Framework.Vector2.Transform(Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Matrix)": "({ let __v: terraria_core::xna::Vector2 = {0}; let __m: terraria_core::xna::Matrix = {1}; terraria_core::xna::Vector2::new(((__v.x as f64) * (__m.m11 as f64) + (__v.y as f64) * (__m.m21 as f64) + (__m.m41 as f64)) as f32, ((__v.x as f64) * (__m.m12 as f64) + (__v.y as f64) * (__m.m22 as f64) + (__m.m42 as f64)) as f32) })",
+    "M:Microsoft.Xna.Framework.Vector2.Transform(Microsoft.Xna.Framework.Vector2@,Microsoft.Xna.Framework.Matrix@,Microsoft.Xna.Framework.Vector2@)": "{ let __v: terraria_core::xna::Vector2 = *{0}; let __m: terraria_core::xna::Matrix = *{1}; *{2} = terraria_core::xna::Vector2::new(((__v.x as f64) * (__m.m11 as f64) + (__v.y as f64) * (__m.m21 as f64) + (__m.m41 as f64)) as f32, ((__v.x as f64) * (__m.m12 as f64) + (__v.y as f64) * (__m.m22 as f64) + (__m.m42 as f64)) as f32); }",
+    "M:Microsoft.Xna.Framework.Vector3.Transform(Microsoft.Xna.Framework.Vector3,Microsoft.Xna.Framework.Matrix)": "({ let __v: terraria_core::xna::Vector3 = {0}; let __m: terraria_core::xna::Matrix = {1}; terraria_core::xna::Vector3::new(((__v.x as f64) * (__m.m11 as f64) + (__v.y as f64) * (__m.m21 as f64) + (__v.z as f64) * (__m.m31 as f64) + (__m.m41 as f64)) as f32, ((__v.x as f64) * (__m.m12 as f64) + (__v.y as f64) * (__m.m22 as f64) + (__v.z as f64) * (__m.m32 as f64) + (__m.m42 as f64)) as f32, ((__v.x as f64) * (__m.m13 as f64) + (__v.y as f64) * (__m.m23 as f64) + (__v.z as f64) * (__m.m33 as f64) + (__m.m43 as f64)) as f32) })",
+    "M:Microsoft.Xna.Framework.Matrix.op_Multiply(Microsoft.Xna.Framework.Matrix,Microsoft.Xna.Framework.Matrix)": "({ let __a: terraria_core::xna::Matrix = {0}; let __b: terraria_core::xna::Matrix = {1}; terraria_core::xna::Matrix { m11: ((__a.m11 as f64) * (__b.m11 as f64) + (__a.m12 as f64) * (__b.m21 as f64) + (__a.m13 as f64) * (__b.m31 as f64) + (__a.m14 as f64) * (__b.m41 as f64)) as f32, m12: ((__a.m11 as f64) * (__b.m12 as f64) + (__a.m12 as f64) * (__b.m22 as f64) + (__a.m13 as f64) * (__b.m32 as f64) + (__a.m14 as f64) * (__b.m42 as f64)) as f32, m13: ((__a.m11 as f64) * (__b.m13 as f64) + (__a.m12 as f64) * (__b.m23 as f64) + (__a.m13 as f64) * (__b.m33 as f64) + (__a.m14 as f64) * (__b.m43 as f64)) as f32, m14: ((__a.m11 as f64) * (__b.m14 as f64) + (__a.m12 as f64) * (__b.m24 as f64) + (__a.m13 as f64) * (__b.m34 as f64) + (__a.m14 as f64) * (__b.m44 as f64)) as f32, m21: ((__a.m21 as f64) * (__b.m11 as f64) + (__a.m22 as f64) * (__b.m21 as f64) + (__a.m23 as f64) * (__b.m31 as f64) + (__a.m24 as f64) * (__b.m41 as f64)) as f32, m22: ((__a.m21 as f64) * (__b.m12 as f64) + (__a.m22 as f64) * (__b.m22 as f64) + (__a.m23 as f64) * (__b.m32 as f64) + (__a.m24 as f64) * (__b.m42 as f64)) as f32, m23: ((__a.m21 as f64) * (__b.m13 as f64) + (__a.m22 as f64) * (__b.m23 as f64) + (__a.m23 as f64) * (__b.m33 as f64) + (__a.m24 as f64) * (__b.m43 as f64)) as f32, m24: ((__a.m21 as f64) * (__b.m14 as f64) + (__a.m22 as f64) * (__b.m24 as f64) + (__a.m23 as f64) * (__b.m34 as f64) + (__a.m24 as f64) * (__b.m44 as f64)) as f32, m31: ((__a.m31 as f64) * (__b.m11 as f64) + (__a.m32 as f64) * (__b.m21 as f64) + (__a.m33 as f64) * (__b.m31 as f64) + (__a.m34 as f64) * (__b.m41 as f64)) as f32, m32: ((__a.m31 as f64) * (__b.m12 as f64) + (__a.m32 as f64) * (__b.m22 as f64) + (__a.m33 as f64) * (__b.m32 as f64) + (__a.m34 as f64) * (__b.m42 as f64)) as f32, m33: ((__a.m31 as f64) * (__b.m13 as f64) + (__a.m32 as f64) * (__b.m23 as f64) + (__a.m33 as f64) * (__b.m33 as f64) + (__a.m34 as f64) * (__b.m43 as f64)) as f32, m34: ((__a.m31 as f64) * (__b.m14 as f64) + (__a.m32 as f64) * (__b.m24 as f64) + (__a.m33 as f64) * (__b.m34 as f64) + (__a.m34 as f64) * (__b.m44 as f64)) as f32, m41: ((__a.m41 as f64) * (__b.m11 as f64) + (__a.m42 as f64) * (__b.m21 as f64) + (__a.m43 as f64) * (__b.m31 as f64) + (__a.m44 as f64) * (__b.m41 as f64)) as f32, m42: ((__a.m41 as f64) * (__b.m12 as f64) + (__a.m42 as f64) * (__b.m22 as f64) + (__a.m43 as f64) * (__b.m32 as f64) + (__a.m44 as f64) * (__b.m42 as f64)) as f32, m43: ((__a.m41 as f64) * (__b.m13 as f64) + (__a.m42 as f64) * (__b.m23 as f64) + (__a.m43 as f64) * (__b.m33 as f64) + (__a.m44 as f64) * (__b.m43 as f64)) as f32, m44: ((__a.m41 as f64) * (__b.m14 as f64) + (__a.m42 as f64) * (__b.m24 as f64) + (__a.m43 as f64) * (__b.m34 as f64) + (__a.m44 as f64) * (__b.m44 as f64)) as f32 } })",
+    "M:Microsoft.Xna.Framework.Matrix.CreateRotationZ(System.Single)": "({ let __r: f64 = ({0}) as f64; let __c: f32 = rt::x87::cos(__r) as f32; let __s: f32 = rt::x87::sin(__r) as f32; terraria_core::xna::Matrix { m11: __c, m12: __s, m21: -__s, m22: __c, ..terraria_core::xna::Matrix::IDENTITY } })",
+    "M:Microsoft.Xna.Framework.Vector4.Lerp(Microsoft.Xna.Framework.Vector4,Microsoft.Xna.Framework.Vector4,System.Single)": "({ let __a: terraria_core::xna::Vector4 = {0}; let __b: terraria_core::xna::Vector4 = {1}; let __t: f64 = ({2}) as f64; terraria_core::xna::Vector4::new(((__a.x as f64) + ((__b.x as f64) - (__a.x as f64)) * __t) as f32, ((__a.y as f64) + ((__b.y as f64) - (__a.y as f64)) * __t) as f32, ((__a.z as f64) + ((__b.z as f64) - (__a.z as f64)) * __t) as f32, ((__a.w as f64) + ((__b.w as f64) - (__a.w as f64)) * __t) as f32) })",
+    "M:Microsoft.Xna.Framework.Vector2.Length": "({ let __v: terraria_core::xna::Vector2 = {this}; f64::sqrt((__v.x as f64) * (__v.x as f64) + (__v.y as f64) * (__v.y as f64)) as f32 })",
+    "M:Microsoft.Xna.Framework.Vector2.Lerp(Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,System.Single)": "({ let __a: terraria_core::xna::Vector2 = {0}; let __b: terraria_core::xna::Vector2 = {1}; let __t: f64 = ({2}) as f64; terraria_core::xna::Vector2::new(((__a.x as f64) + ((__b.x as f64) - (__a.x as f64)) * __t) as f32, ((__a.y as f64) + ((__b.y as f64) - (__a.y as f64)) * __t) as f32) })",
+    "M:Microsoft.Xna.Framework.Vector3.Lerp(Microsoft.Xna.Framework.Vector3,Microsoft.Xna.Framework.Vector3,System.Single)": "({ let __a: terraria_core::xna::Vector3 = {0}; let __b: terraria_core::xna::Vector3 = {1}; let __t: f64 = ({2}) as f64; terraria_core::xna::Vector3::new(((__a.x as f64) + ((__b.x as f64) - (__a.x as f64)) * __t) as f32, ((__a.y as f64) + ((__b.y as f64) - (__a.y as f64)) * __t) as f32, ((__a.z as f64) + ((__b.z as f64) - (__a.z as f64)) * __t) as f32) })",
+    "M:Microsoft.Xna.Framework.MathHelper.Lerp(System.Single,System.Single,System.Single)": "f64:({ let __a: f64 = ({0}) as f64; let __b: f64 = ({1}) as f64; let __t: f64 = ({2}) as f64; __a + (__b - __a) * __t })",
+    "M:Microsoft.Xna.Framework.MathHelper.SmoothStep(System.Single,System.Single,System.Single)": "f64:({ let __a: f64 = ({0}) as f64; let __b: f64 = ({1}) as f64; let __c: f32 = {2}; let __t: f64 = terraria_core::xna::math_helper::clamp(__c, 0.0f32, 1.0f32) as f64; let __w: f64 = ((__t * __t) * (3.0f64 - __t * 2.0f64)) as f32 as f64; __a + (__b - __a) * __w })",
+    "M:Microsoft.Xna.Framework.Vector2.SmoothStep(Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,System.Single)": "({ let __a: terraria_core::xna::Vector2 = {0}; let __b: terraria_core::xna::Vector2 = {1}; let __c: f32 = {2}; let __t: f64 = if __c > 1.0f32 { 1.0f64 } else if __c < 0.0f32 { 0.0f64 } else { __c as f64 }; let __w: f64 = (__t * __t) * (3.0f64 - __t * 2.0f64); terraria_core::xna::Vector2::new(((__a.x as f64) + ((__b.x as f64) - (__a.x as f64)) * __w) as f32, ((__a.y as f64) + ((__b.y as f64) - (__a.y as f64)) * __w) as f32) })",
+    "M:Microsoft.Xna.Framework.Vector2.op_Division(Microsoft.Xna.Framework.Vector2,System.Single)": "({ let __v: terraria_core::xna::Vector2 = {0}; let __n: f64 = 1.0f64 / (({1}) as f64); terraria_core::xna::Vector2::new(((__v.x as f64) * __n) as f32, ((__v.y as f64) * __n) as f32) })",
+    "M:Microsoft.Xna.Framework.Vector2.Distance(Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2)": "({ let __a: terraria_core::xna::Vector2 = {0}; let __b: terraria_core::xna::Vector2 = {1}; let __x: f64 = (__a.x as f64) - (__b.x as f64); let __y: f64 = (__a.y as f64) - (__b.y as f64); f64::sqrt(__x * __x + __y * __y) as f32 })",
+    "M:Microsoft.Xna.Framework.Vector2.DistanceSquared(Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2)": "f64:({ let __a: terraria_core::xna::Vector2 = {0}; let __b: terraria_core::xna::Vector2 = {1}; let __x: f64 = (__a.x as f64) - (__b.x as f64); let __y: f64 = (__a.y as f64) - (__b.y as f64); __x * __x + __y * __y })",
+    "M:Microsoft.Xna.Framework.Vector2.Dot(Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2)": "f64:({ let __a: terraria_core::xna::Vector2 = {0}; let __b: terraria_core::xna::Vector2 = {1}; (__a.x as f64) * (__b.x as f64) + (__a.y as f64) * (__b.y as f64) })",
+    "M:Microsoft.Xna.Framework.Vector2.LengthSquared": "f64:({ let __v: terraria_core::xna::Vector2 = {this}; (__v.x as f64) * (__v.x as f64) + (__v.y as f64) * (__v.y as f64) })",
+    "M:Microsoft.Xna.Framework.Vector3.Normalize": "{ let __p: &mut terraria_core::xna::Vector3 = &mut {this}; let __v: terraria_core::xna::Vector3 = *__p; let __n: f64 = 1.0f64 / ((f64::sqrt((__v.x as f64) * (__v.x as f64) + (__v.y as f64) * (__v.y as f64) + (__v.z as f64) * (__v.z as f64)) as f32) as f64); *__p = terraria_core::xna::Vector3::new(((__v.x as f64) * __n) as f32, ((__v.y as f64) * __n) as f32, ((__v.z as f64) * __n) as f32); }",
+    "M:Microsoft.Xna.Framework.Vector2.Normalize": "{ let __p: &mut terraria_core::xna::Vector2 = &mut {this}; let __v: terraria_core::xna::Vector2 = *__p; let __n: f64 = 1.0f64 / ((f64::sqrt((__v.x as f64) * (__v.x as f64) + (__v.y as f64) * (__v.y as f64)) as f32) as f64); *__p = terraria_core::xna::Vector2::new(((__v.x as f64) * __n) as f32, ((__v.y as f64) * __n) as f32); }",
+    "M:Microsoft.Xna.Framework.Vector2.CatmullRom(Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,System.Single)": "({ let __a: terraria_core::xna::Vector2 = {0}; let __b: terraria_core::xna::Vector2 = {1}; let __c: terraria_core::xna::Vector2 = {2}; let __d: terraria_core::xna::Vector2 = {3}; let __t: f64 = ({4}) as f64; let __t2: f64 = __t * __t; let __t3: f64 = __t * __t2; let __f = |a: f32, b: f32, c: f32, d: f32| -> f32 { let (a, b, c, d) = (a as f64, b as f64, c as f64, d as f64); (0.5f64 * (((2.0f64 * b + (-a + c) * __t) + (((2.0f64 * a - 5.0f64 * b) + 4.0f64 * c) - d) * __t2) + (((-a + 3.0f64 * b) - 3.0f64 * c) + d) * __t3)) as f32 }; terraria_core::xna::Vector2::new(__f(__a.x, __b.x, __c.x, __d.x), __f(__a.y, __b.y, __c.y, __d.y)) })",
+    "M:Microsoft.Xna.Framework.Vector2.Reflect(Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2)": "({ let __v: terraria_core::xna::Vector2 = {0}; let __n: terraria_core::xna::Vector2 = {1}; let __d: f64 = (__v.x as f64) * (__n.x as f64) + (__v.y as f64) * (__n.y as f64); terraria_core::xna::Vector2::new(((__v.x as f64) - (__d * 2.0f64) * (__n.x as f64)) as f32, ((__v.y as f64) - (__d * 2.0f64) * (__n.y as f64)) as f32) })",
+    "M:Microsoft.Xna.Framework.Vector2.Normalize(Microsoft.Xna.Framework.Vector2)": "({ let __v: terraria_core::xna::Vector2 = {0}; let __n: f64 = 1.0f64 / ((f64::sqrt((__v.x as f64) * (__v.x as f64) + (__v.y as f64) * (__v.y as f64)) as f32) as f64); terraria_core::xna::Vector2::new(((__v.x as f64) * __n) as f32, ((__v.y as f64) * __n) as f32) })"
+  },
+  "jitBodySites": "jit_bodies.tsv",
+  // XNA Vector2 operators the JIT inlined (jit_bodies.tsv: sites without a call instruction): where their results live
+  // per method (gen_jit_vec_temps.py from the reference runs' code), Emit.cs VecInlined, FLOAT_RULE.md section 6
+  "jitVecTemps": "jit_vec_temps.tsv",
+  // where a caller inlined a game method with Vector2 operators: what those operators became there (gen_jit_vec_ctx.py);
+  // the call site calls a twin `name__vcN` translated with those answers
+  "jitVecCtx": "jit_vec_ctx.tsv",
+  // game methods with a float parameter the JIT inlined into a caller at every site (gen_jit_inlined.py): a float local the
+  // caller keeps on the x87 stack enters the inlined body unrounded; such a site calls the twin `name__u` (FLOAT_RULE.md 10.26)
+  "jitInlined": "jit_inlined.tsv",
+  "typeOrder": "type_order.tsv",
+  // Static initialisers the start-up force-load (Program.ForceStaticInitializers) does not run. Each still runs on
+  // first use; a stop inside it then surfaces at that use.
+  "forceInitSkip": {
+    "Terraria.Testing.Cloning.DeepCloning": "builds its clone methods with Reflection.Emit (Type.GetMethod, DynamicMethod); deep cloning is to be generated from the semantic model instead (DESIGN.md section 13)",
+    "Terraria.Testing.Cloning.DeepCloneCodegen": "Reflection.Emit helper tables of the deep cloner (see DeepCloning)",
+    "Terraria.Testing.Cloning.DeepClassCloning": "Reflection.Emit helper tables of the deep cloner (see DeepCloning)",
+    "Terraria.WorldBuilding.WorldGenSnapshot+SnapshotGenVars": "debug snapshots of world generation: reflects over the properties of GenVars (Type.GetProperties)",
+    "Terraria.Testing.StateSnapshot": "record / replay of game state for tests: registers types with the Reflection.Emit deep cloner (see DeepCloning)",
+    "Terraria.Testing.WindowsPerformanceDiagnostics": "the F-key performance overlay: process name / id and Windows PDH counters, which the host does not provide"
+  },
+  "sources": ["../../decompile/Terraria", "../../decompile/ReLogic"],
+  // ReLogic is translated from source: its compiled copy (meta\refs\ReLogic.dll) must not be referenced as well
+  "references": [
+    "C:/Windows/Microsoft.NET/Framework/v4.0.30319/mscorlib.dll",
+    "C:/Windows/Microsoft.NET/Framework/v4.0.30319/System.dll",
+    "C:/Windows/Microsoft.NET/Framework/v4.0.30319/System.Core.dll",
+    "C:/Windows/Microsoft.NET/Framework/v4.0.30319/System.Drawing.dll",
+    "C:/Windows/Microsoft.NET/Framework/v4.0.30319/System.Windows.Forms.dll",
+    "C:/Windows/Microsoft.NET/Framework/v4.0.30319/System.Xml.dll",
+    "C:/Windows/Microsoft.NET/Framework/v4.0.30319/System.Runtime.Serialization.dll",
+    "C:/Windows/Microsoft.NET/Framework/v4.0.30319/System.Numerics.dll",
+    "C:/Windows/Microsoft.NET/Framework/v4.0.30319/System.Data.dll",
+    "C:/Windows/Microsoft.NET/Framework/v4.0.30319/System.Web.dll",
+    "C:/Windows/Microsoft.NET/Framework/v4.0.30319/System.Management.dll",
+    "C:/Windows/Microsoft.NET/Framework/v4.0.30319/System.Configuration.dll",
+    "C:/Windows/Microsoft.NET/Framework/v4.0.30319/Microsoft.CSharp.dll",
+    "C:/Windows/Microsoft.NET/Framework/v4.0.30319/WPF/WindowsBase.dll",
+    "../../../VAEL - GAMELAB/tools/xna40/Program Files/Microsoft XNA/XNA Game Studio/Microsoft.Xna.Framework*.dll",
+    "../../meta/refs/CsvHelper.dll",
+    "../../meta/refs/Ionic.Zip.CF.dll",
+    "../../meta/refs/MP3Sharp.dll",
+    "../../meta/refs/NVorbis.dll",
+    "../../meta/refs/Newtonsoft.Json.dll",
+    "../../meta/refs/RailSDK.Net.dll",
+    "../../meta/refs/Steamworks.NET.dll",
+    "../../meta/refs/SteelSeriesEngineWrapper.dll",
+    "../../meta/refs/System.ValueTuple.dll"
+  ],
+  "namespaces": ["Terraria.*", "ReLogic.*", "BCrypt.*", ""],
+  // For the reachability report only (`--reach`): the proofs run a dedicated server. Never used for code generation.
+  "reachAssume": { "F:Terraria.Main.dedServ": true },
+  "autoStructs": true,
+  // Reflection data with instance members (gen::meta): the types tools/refdump read by reflection for refdata/*.json
+  // (tests/proof1.rs reads the translated objects the same way), plus what their fields and properties reach.
+  // WorldItem: tests/entities.rs reads the world items of the entity scenario (refdata/entities) the same way.
+  "reflect": ["Terraria.Item", "Terraria.NPC", "Terraria.Projectile", "Terraria.WorldItem", "Terraria.Recipe", "Terraria.RecipeGroup",
+              "Terraria.ObjectData.TileObjectData", "Terraria.Framing", "Terraria.ID.*",
+              // runtime types behind interface / base-class typed entries of the ID sets (BuffTextHandlers,
+              // UniqueTagEffects, ExtendedCanHitCheckSearch)
+              "Terraria.DataStructures.CachedProjectileCounterBuffTextHandler",
+              // objects handed to LocalizedText.FormatWith(object): their properties are read through
+              // TypeDescriptor.GetProperties (item names with a prefix, armor set bonus texts)
+              "Terraria.Lang.ItemPrefixCombiner", "Terraria.DataStructures.ArmorSetBonus.SetBonusDisplayStringSubstitutes", "Terraria.GameContent.Items.*", "Terraria.WorldBuilding.Searches.*",
+              // ChatManager.ConvertNormalSnippets asks every snippet of a text for its type (`GetType() == typeof(TextSnippet)`,
+              // ChatManager.cs:51). TextSnippet has data (reached from the types above); its subclasses need their own, or
+              // the first button glyph of the gamepad interface ([g:0]), item link ([i:..]) or achievement link stops Draw
+              "Terraria.GameContent.UI.Chat.GlyphTagHandler.GlyphSnippet", "Terraria.GameContent.UI.Chat.ItemTagHandler.ItemSnippet",
+              "Terraria.GameContent.UI.Chat.AchievementTagHandler.AchievementSnippet", "Terraria.GameContent.UI.Chat.PlainTagHandler.PlainSnippet",
+              // LeashedEntity.NewInstance: Activator.CreateInstance(GetType(), nonPublic: true) on the prototype of every
+              // critter / kite on an anchor (the runtime type of the object and its parameterless constructor, gen::meta::CTORS)
+              "Terraria.GameContent.LeashedEntity", "Terraria.GameContent.LeashedEntities.*"],
+  // Newtonsoft member tables for types that are only ever serialised as `object`: AchievementManager.Save writes its
+  // Dictionary<string, Achievement> (BSON, AES); the condition subclasses follow by derivation
+  "jsonTypes": ["Terraria.Achievements.Achievement", "Terraria.Achievements.AchievementCondition"],
+  // static fields only (primitive arrays indexed by tile / wall / buff id)
+  "reflectShallow": ["Terraria.Main"],
+  // Library members that do nothing the translated program can observe, each with its reason. Any other
+  // unimplemented member that a proof reaches fails the proof.
+  "inert": {
+    "M:System.Attribute.#ctor": "System.Attribute has no state: its constructor is empty",
+    "M:System.EventArgs.#ctor": "System.EventArgs has no state: its constructor is empty",
+    // Main : Game. The host crate keeps the Game state per thread (terraria_host::game::init, called by the driver
+    // before `new Main()`; NATIVE_SCHEMA.md 3a), so the base constructor has nothing left to do.
+    "M:Microsoft.Xna.Framework.Game.#ctor": "the host's Game state is created by terraria_host::game::init before new Main()",
+    // Program.InitializeConsoleOutput: the host console writes UTF-8 through the process's stdout whatever these say,
+    // and console input is read as UTF-8 lines
+    "M:System.Console.set_OutputEncoding(System.Text.Encoding)": "the host console is UTF-8 (Rust stdout); there is no code page to select",
+    "M:System.Console.set_InputEncoding(System.Text.Encoding)": "the host console reads UTF-8 lines; there is no code page to select",
+    // CrashWatcher.Inititialize: first-chance notifications only feed the -logerrors log. Exceptions that the game
+    // catches are not observable otherwise; uncaught ones go to UnhandledException, which the host raises.
+    "M:System.AppDomain.add_FirstChanceException(System.EventHandler{System.Runtime.ExceptionServices.FirstChanceExceptionEventArgs})": "first-chance exception notifications (the -logerrors log) are not raised by the runtime",
+    // TileBatch / SpriteDrawBuffer re-create their dynamic buffers when the device loses them. The host's buffers are
+    // CPU-side objects replayed by the app; they are never lost, so the event never fires.
+    "M:Microsoft.Xna.Framework.Graphics.DynamicVertexBuffer.add_ContentLost(System.EventHandler{System.EventArgs})": "host buffers are never lost: the ContentLost event cannot fire",
+    "M:Microsoft.Xna.Framework.Graphics.DynamicIndexBuffer.add_ContentLost(System.EventHandler{System.EventArgs})": "host buffers are never lost: the ContentLost event cannot fire",
+    // AssetInitializer.TagAsset: graphicsResource.Tag = asset. Nothing in the game or in ReLogic reads Tag back.
+    "M:Microsoft.Xna.Framework.Graphics.GraphicsResource.set_Tag(System.Object)": "GraphicsResource.Tag is written once per loaded asset and never read",
+    // EasyDeserializationJsonContractResolver : DefaultContractResolver (QuickLoad, ScenarioTestLoadout, WorldGenSnapshot):
+    // the resolver object is only stored in the settings; the host refuses to (de)serialise with such settings
+    // (terraria_host::json::convert::refuse_custom_resolver), so the base class needs no state
+    // RefEqualityComparer : EqualityComparer<object> (Testing.Cloning): the base class has no state
+    "M:System.Collections.Generic.EqualityComparer`1.#ctor": "EqualityComparer<T> has no state: its constructor is empty",
+    "M:Newtonsoft.Json.Serialization.DefaultContractResolver.#ctor": "the resolver is a marker object here: converting with it stops loudly in the host"
+  },
+  // Entries of the host crate's tables (native.d\host_*.json) that do not fit the whole game yet. Each is reported in
+  // port\crates\terraria-host\REQUESTS.md; remove the line here when the host side is fixed.
+  // Method reflection (Type.GetMethods, attributes of methods, Delegate.CreateDelegate): ChromaShader.BindProcessors
+  // binds the [RgbProcessor] methods of every RGB shader class this way
+  "reflectMethods": ["ReLogic.Peripherals.RGB.ChromaShader"],
+  "ignoreNative": [
+    // typed results where the C# result type is not a mapped type (MatchCollection, IReadOnlyDictionary<..>): the
+    // translated code holds them as `object` and the template's Arr / Dictionary does not fit (REQUESTS.md 13)
+    "P:NVorbis.Contracts.ITagData.All"
+  ],
+  // Bodies of host-boundary functions (see native.json "hostBodies") that need the host crate
+  "hostBodies": {
+    // IAsyncResult of a socket operation / a name lookup of the host (sys/net.rs); the translated implementer
+    // (DebugNetworkStream.CompletedAsyncResult) is dispatched by type id before this
+    "M:System.IAsyncResult.get_AsyncState": "terraria_host::sys::net::async_state(this)",
+    // XnaExtensions.Get<T>(this IServiceProvider): the provider is Game.Services held through the interface
+    "M:System.IServiceProvider.GetService(System.Type)": "terraria_host::game::service_provider_get_service(this, serviceType)",
+    // AssetInitializer.CreateAssetServices: services.Get<IGraphicsDeviceService>().GraphicsDevice
+    "M:Microsoft.Xna.Framework.Graphics.IGraphicsDeviceService.get_GraphicsDevice": "terraria_host::game::graphics_device_service_device(this)",
+    // AssetInitializer.TagAsset: graphicsResource.Name = asset.Name on a Texture2D / Effect held as GraphicsResource
+    "M:Microsoft.Xna.Framework.Graphics.GraphicsResource.set_Name(System.String)": "terraria_host::gfx::device::graphics_resource_set_name(this, value)",
+    // TilePaintSystemV2 / ARenderTargetContentByRequest: a render target held as GraphicsResource. Name is read back;
+    // Disposing is raised by the host texture's Dispose(); ContentLost handlers are kept and never raised (the host
+    // device is never lost, a target's content is never discarded)
+    "M:Microsoft.Xna.Framework.Graphics.GraphicsResource.get_Name": "terraria_host::gfx::device::graphics_resource_get_name(this)",
+    "M:Microsoft.Xna.Framework.Graphics.GraphicsResource.add_Disposing(System.EventHandler{System.EventArgs})": "terraria_host::gfx::device::graphics_resource_add_disposing(this, value)",
+    "M:Microsoft.Xna.Framework.Graphics.GraphicsResource.remove_Disposing(System.EventHandler{System.EventArgs})": "terraria_host::gfx::device::graphics_resource_remove_disposing(this, value)",
+    "M:Microsoft.Xna.Framework.Graphics.RenderTarget2D.add_ContentLost(System.EventHandler{System.EventArgs})": "(*this.ptr()).add_content_lost(value)",
+    "M:Microsoft.Xna.Framework.Graphics.RenderTarget2D.remove_ContentLost(System.EventHandler{System.EventArgs})": "(*this.ptr()).remove_content_lost(value)",
+    // a StreamWriter used through TextWriter (the crash logs of WorldFile / MapHelper / WorldMap / Program:
+    // `using (StreamWriter w = new StreamWriter("client-crashlog.txt", true)) { w.WriteLine(DateTime.Now); w.WriteLine(e); }`)
+    "M:System.IO.TextWriter.WriteLine(System.String)": "terraria_host::sys::io::text_writer_write_line(this, value)",
+    "M:System.IO.TextWriter.WriteLine(System.Object)": "terraria_host::sys::io::text_writer_write_line_obj(this, value)",
+    "M:System.IO.TextWriter.Flush": "terraria_host::sys::io::text_writer_flush(this)",
+    "M:System.IO.TextWriter.Dispose": "terraria_host::sys::io::text_writer_dispose(this)"
+  },
+  // Type tests against library base classes that several host classes stand for (Model.cs "typeTests")
+  "typeTests": {
+    // AssetInitializer.TagAsset: `value is GraphicsResource` for every loaded asset (textures and effects are, sounds
+    // and fonts are not)
+    "T:Microsoft.Xna.Framework.Graphics.GraphicsResource": "terraria_host::gfx::device::is_graphics_resource({0})",
+    // XnaExtensions.Get<T>(this IServiceProvider): `services.GetService(typeof(T)) as T`; the one implementer of this
+    // interface is the GraphicsDeviceManager
+    "T:Microsoft.Xna.Framework.Graphics.IGraphicsDeviceService": "rt::obj_is::<terraria_host::game::GraphicsDeviceManager>({0})"
+  },
+  // Bodies of game methods replaced by hand-written Rust (Model.cs "bodies"), each with its reason:
+  "bodies": {
+    // ReLogic's XnbReader loads through a private ContentManager subclass and XNA's ContentTypeReader plumbing (reader
+    // types found by reflection over their names). The host parses the XNB container itself:
+    // terraria_host::content::xnb_from_stream (Texture2D, Effect, SoundEffect) and, for DynamicSpriteFont, the
+    // translated constructors over the host's FontData (terraria-gen-game/src/host/mod.rs).
+    "M:ReLogic.Content.Readers.XnbReader.FromStream``1(System.IO.Stream)": "{ let _ = this; terraria_host::content::xnb_from_stream::<{T0}>(stream) }",
+    // LightningGenerator.Generate: `direction = direction.RotatedBy(..) * Length; GenerateBolt(.., targetPosition -
+    // direction, ..)`. The JIT promotes the parameter `direction` and keeps both products on the x87 stack until the
+    // inlined subtraction (gallery and interaction runs, work/jit/client/gallery: `fmul st(2), st(0)`, `fmulp st(1)`,
+    // `fsubrp st(2)`, `fsubrp st(1)`, each component stored once as GenerateBolt's argument); the translation stores
+    // `direction` as a float pair, rounding each product first. A storm lightning's end point was 1 ulp off in Y
+    // (gallery scene particles_7, frame 916; interaction run, lightning weapon dust at frame 4033). The rest as the
+    // translation writes it.
+    "M:Terraria.GameContent.LightningGenerator.Generate(System.Collections.Generic.List{Terraria.GameContent.LightningGenerator.Bolt},System.UInt32,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,System.Boolean,System.Boolean)": "{ let mut __r = terraria::utilities::lcg32_random::new(seed); let __angle = ((terraria::utilities::lcg32_random::next_double(core::ptr::addr_of_mut!(__r)) * 2.0f64) - 1.0f64) * ((*this).source_rotation_limit as f64); let __d = terraria::utils::rotated_by__vector2_double_vector2(direction, __angle, rt::zero::<terraria_core::xna::Vector2>()); let __l = (*this).length as f64; let __start = terraria_core::xna::Vector2::new(((targetPosition.x as f64) - (__d.x as f64) * __l) as f32, ((targetPosition.y as f64) - (__d.y as f64) * __l) as f32); let result = terraria::game_content::lightning_generator::generate_bolt(this, bolts, seed, 0, calcPositions, __start, targetPosition, (*this).rotation_strength, ((*this).step_size as f32), terraria::utilities::terraria::utilities::float_range::new(0.0f32, 1.0f32)); if calcRotations { let mut __e1 = rt::get_enumerator(bolts); while __e1.move_next() { rt::yield_point(); let bolt: Gc<terraria::game_content::lightning_generator::bolt::Bolt> = __e1.current(); (*bolt.ptr()).rotations = rt::wbv(terraria::game_content::lightning_generator::calc_rotations__vector2_arr((*bolt.ptr()).positions)); } } result }"
+  },
+  // Methods that also get a resumable form (DESIGN.md section 8f; Model.cs "resumable"): loops that never end while
+  // a game is joined or hosted. The browser build runs them as state machines so that they do not keep a suspended
+  // stack the collector cannot scan (web/WEB_PORT.md 2.2). The native build never calls the resumable forms.
+  // - the client's network thread ("TCP Client Thread": Netplay.TcpClientLoop -> TcpConnectLoop, InnerClientLoop);
+  // - the dedicated server of the browser build (terraria-web `tw_server_*`, web/STATUS.md 2026-10-14): its main
+  //   loop Main.DedServ (run by the driver itself, parked at every Thread.Sleep), and its threads: "Server Loop
+  //   Thread" (Netplay.ServerLoop), the LAN announcement (Netplay.BroadcastThread) and "TCP Listen Thread"
+  //   (TcpSocket.ListenLoop, an instance method: its AcceptTcpClient waits as a parked machine, "await" below);
+  //   the console: "Server Input Thread" (Main.startDedInputCallBack, the page's console box; its ReadLineInput ->
+  //   Console.ReadLine waits as a parked machine until a line was typed, web/www/HOST_ABI.md "Server console").
+  "resumable": {
+    "methods": ["M:Terraria.Netplay.TcpClientLoop", "M:Terraria.Netplay.TcpConnectLoop", "M:Terraria.Netplay.InnerClientLoop",
+                "M:Terraria.Main.DedServ", "M:Terraria.Netplay.ServerLoop", "M:Terraria.Netplay.BroadcastThread",
+                "M:Terraria.Net.Sockets.TcpSocket.ListenLoop",
+                "M:Terraria.Main.startDedInputCallBack", "M:Terraria.Main.ReadLineInput"],
+    "sleep": "terraria_host::sys::threading::sleep_async",
+    "try": "terraria_host::sys::threading::try_async",
+    "await": {
+      "M:System.Net.Sockets.TcpListener.AcceptTcpClient": "terraria_host::sys::net::TcpListener::accept_tcp_client_async({handle}).await",
+      "M:System.Console.ReadLine": "terraria_host::sys::misc::console_read_line_async().await"
+    }
+  },
+  "nativeMembers": {
+    // Reflection over the whole assembly (GetTypes / GetMethods / PrepareMethod / RunClassConstructor): replaced by
+    // terraria-gen-game/src/host/mod.rs force_load_assembly, which runs the generated list of static initialisers in
+    // metadata order. The two private helpers it calls (ForceJITOnAssembly, ForceStaticInitializers) stay translated
+    // and unreached.
+    "M:Terraria.Program.ForceLoadAssembly(System.Reflection.Assembly,System.Boolean)": "{ let _ = {0}; crate::host::force_load_assembly({1}) }",
+    // RGB peripherals: the port has none of the vendor SDKs (Razer / Corsair / Logitech DLLs, the SteelSeries Engine
+    // client library and its thread). The RGB engine, shaders and conditions run; no device group is added.
+    // terraria-gen-game/src/host/mod.rs has the two replacements and what each leaves out.
+    "M:Terraria.Initializers.ChromaInitializer.AddDevices": "crate::host::chroma_add_devices()",
+    // GraphicsUtils.PendingDrawCallCount reads two private fields of XNA's SpriteBatch by reflection (the queued
+    // sprite count and the per-sprite texture array) and passes them to its own DrawCallCount. The host's SpriteBatch
+    // gives the same two values (terraria-host gfx/sprite_batch.rs); DrawCallCount stays translated game code.
+    "M:Terraria.Graphics.GraphicsUtils.PendingDrawCallCount(Microsoft.Xna.Framework.Graphics.SpriteBatch)": "{ let __sb = {0}; crate::gen::terraria::graphics::graphics_utils::draw_call_count((*__sb.ptr()).sprite_textures(), (*__sb.ptr()).sprite_queue_count()) }",
+    "M:Terraria.Initializers.ChromaInitializer.LoadSpecialRulesFor_GameSense": "crate::host::chroma_skip_game_sense_rules()",
+    // NewRuntimeMethods.GC_Collect finds GC.Collect(int, GCCollectionMode, bool) by reflection and invokes it: a
+    // hint to .NET's collector (Main.EndDraw: Optimized, non-blocking, while it waits for the next frame). The
+    // port's collector is driven by the shell in slices between frames; a hint has no counterpart. Found by the
+    // first run that called Main.EndDraw (the game's frame pacing): the reflection stopped it.
+    "M:Terraria.Utilities.NewRuntimeMethods.GC_Collect(System.Int32,System.GCCollectionMode,System.Boolean)": "{ let _ = ({0}, {1}, {2}); }"
+  },
+  // Values the config supplies, each with its reason (no silent defaults):
+  "stubs": {
+    // Main.UnpausedUpdateSeed = (ulong)Guid.NewGuid().GetHashCode() (Main.cs): seed of cosmetic randomness, different
+    // in every run of the original; fixed to 0 here
+    "M:System.Guid.GetHashCode": "0",
+    // the original is a 32-bit process and branches on it (lead's decision: behave as the original)
+    "M:System.IntPtr.get_Size": "4"
+  }
+}

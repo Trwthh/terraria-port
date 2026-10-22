@@ -1,0 +1,12 @@
+[package]
+name = "shader-webgl2"
+version = "0.1.0"
+edition = "2021"
+publish = false
+description = "Spike: do the 136 translated WGSL passes (port/crates/terraria-host/docs/effects/wgsl) survive wgpu's WebGL2 path (naga WGSL -> GLSL ES 3.00, is_webgl) and fit wgpu's downlevel WebGL2 limits?"
+
+[dependencies]
+# the naga that Bevy 0.19.1 / wgpu 29.0.4 bring in (port/Cargo.lock)
+naga = { version = "=29.0.4", features = ["wgsl-in", "glsl-out"] }
+
+[workspace]

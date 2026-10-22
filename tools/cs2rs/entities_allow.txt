@@ -1,0 +1,10 @@
+# Types of refdata/entities that are not bit-exact yet (gates `entities` and `client-items`, tests/entities.rs
+# ENTITIES_ALLOW; kinds npc, proj, item, citem).
+# Format: <kind> <type> <first difference, with the site where it is known>. A listed type that becomes exact fails the
+# gate too (remove it here).
+#
+# Empty since 2026-10-14 (late): every NPC (696), projectile (1,135), server-side item use (4,629) and client-side
+# item use by the owning player (citem, 4,629) is bit-exact.
+# The last five (golf balls 741 / 742 / 744, projectile 797's dropped world item, NPC 426's projectile 581) were closed
+# by the inlined-XNA-operator rules of FLOAT_RULE.md section 6 (jit_vec_temps.tsv, jit_vec_ctx.tsv, scalar arguments
+# of inlined XNA bodies; tools/cs2rs/VERIFICATION.md "Entities").

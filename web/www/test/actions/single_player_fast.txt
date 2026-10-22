@@ -1,0 +1,44 @@
+# The single_player.txt sequence with short waits, to reach the world with fewer ticks (memory grows per tick
+# in the current build). Same coordinates; a shot after each step (f_*). World generation and loading run on work
+# fibers over many frames: waitwork waits for them (shots f_gen_*, f_load_*; later frame numbers move along).
+frame 1320 move 640 247
+frame 1340 click 640 247
+frame 1395 shot f_01_title
+frame 1400 move 640 247
+frame 1415 click 640 247
+frame 1455 shot f_02_player_select
+frame 1460 move 807 533
+frame 1475 click 807 533
+frame 1515 shot f_03_character_creation
+frame 1520 move 770 533
+frame 1535 click 770 533
+frame 1565 shot f_04_name_prompt
+frame 1570 type Webby
+frame 1580 key Press Enter
+frame 1620 shot f_05_player_list
+frame 1630 move 348 310
+frame 1645 click 348 310
+frame 1685 shot f_06_world_list
+frame 1690 move 807 533
+frame 1705 click 807 533
+frame 1745 shot f_07_world_creation
+frame 1750 move 476 320
+frame 1765 click 476 320
+frame 1790 move 617 230
+frame 1805 click 617 230
+frame 1835 shot f_08_name_keyboard
+frame 1840 type webworld
+frame 1850 key Press Enter
+frame 1885 shot f_09_world_creation_filled
+frame 1890 move 770 533
+frame 1905 click 770 533
+frame 1910 waitwork f_gen every 120
+frame 1960 shot f_10_world_list
+frame 1965 move 348 310
+frame 1980 click 348 310
+frame 1985 waitwork f_load every 30
+frame 2050 shot f_11_entering_world
+frame 2300 diag diag_world
+frame 2305 shot f_12_in_world
+frame 2600 shot f_13_in_world_later
+frame 2650 shot f_14_in_world_600

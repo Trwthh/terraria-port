@@ -1,0 +1,41 @@
+{
+  // System.TimeSpan: port\crates\terraria-gen-rt\src\rt\time.rs (unit tests there, snippet tests\native.cs).
+  // Owner: the cs2rs worker (rt_*.json). Schema: ..\NATIVE_SCHEMA.md.
+  "nativeTypes": {
+    "T:System.TimeSpan": { "rust": "rt::time::TimeSpan", "kind": "struct" }
+  },
+  "nativeMembers": {
+    "M:System.TimeSpan.#ctor(System.Int64)": "rt::time::TimeSpan::new({0})",
+    "M:System.TimeSpan.#ctor(System.Int32,System.Int32,System.Int32)": "rt::time::TimeSpan::from_hms({0}, {1}, {2})",
+    "F:System.TimeSpan.Zero": "rt::time::TimeSpan::ZERO",
+    "M:System.TimeSpan.FromTicks(System.Int64)": "rt::time::TimeSpan::new({0})",
+    "M:System.TimeSpan.FromMilliseconds(System.Double)": "rt::time::TimeSpan::from_milliseconds({0})",
+    "M:System.TimeSpan.FromSeconds(System.Double)": "rt::time::TimeSpan::from_seconds({0})",
+    "M:System.TimeSpan.FromMinutes(System.Double)": "rt::time::TimeSpan::from_minutes({0})",
+    "M:System.TimeSpan.FromHours(System.Double)": "rt::time::TimeSpan::from_hours({0})",
+    "M:System.TimeSpan.FromDays(System.Double)": "rt::time::TimeSpan::from_days({0})",
+    "P:System.TimeSpan.Ticks": { "get": "{this}.ticks" },
+    "P:System.TimeSpan.TotalMilliseconds": { "get": "{this}.total_milliseconds()" },
+    "P:System.TimeSpan.TotalSeconds": { "get": "{this}.total_seconds()" },
+    "P:System.TimeSpan.TotalMinutes": { "get": "{this}.total_minutes()" },
+    "P:System.TimeSpan.TotalHours": { "get": "{this}.total_hours()" },
+    "P:System.TimeSpan.TotalDays": { "get": "{this}.total_days()" },
+    "P:System.TimeSpan.Days": { "get": "{this}.days()" },
+    "P:System.TimeSpan.Hours": { "get": "{this}.hours()" },
+    "P:System.TimeSpan.Minutes": { "get": "{this}.minutes()" },
+    "P:System.TimeSpan.Seconds": { "get": "{this}.seconds()" },
+    "P:System.TimeSpan.Milliseconds": { "get": "{this}.milliseconds()" },
+    "M:System.TimeSpan.Add(System.TimeSpan)": "{this}.add({0})",
+    "M:System.TimeSpan.Subtract(System.TimeSpan)": "{this}.subtract({0})",
+    "M:System.TimeSpan.CompareTo(System.TimeSpan)": "{this}.compare_to({0})",
+    "M:System.TimeSpan.Equals(System.TimeSpan)": "({this} == {0})",
+    "M:System.TimeSpan.op_Addition(System.TimeSpan,System.TimeSpan)": "{0}.add({1})",
+    "M:System.TimeSpan.op_Subtraction(System.TimeSpan,System.TimeSpan)": "{0}.subtract({1})",
+    "M:System.TimeSpan.op_Equality(System.TimeSpan,System.TimeSpan)": "({0} == {1})",
+    "M:System.TimeSpan.op_Inequality(System.TimeSpan,System.TimeSpan)": "({0} != {1})",
+    "M:System.TimeSpan.op_LessThan(System.TimeSpan,System.TimeSpan)": "({0} < {1})",
+    "M:System.TimeSpan.op_LessThanOrEqual(System.TimeSpan,System.TimeSpan)": "({0} <= {1})",
+    "M:System.TimeSpan.op_GreaterThan(System.TimeSpan,System.TimeSpan)": "({0} > {1})",
+    "M:System.TimeSpan.op_GreaterThanOrEqual(System.TimeSpan,System.TimeSpan)": "({0} >= {1})"
+  }
+}

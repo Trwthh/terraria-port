@@ -1,0 +1,9 @@
+# The play page's first size: wherever the page starts (a height under the game's 600 minimum, a viewport that
+# changes while loading, a first measurement of 1x1), at the title the canvas is its CSS size x devicePixelRatio,
+# the game's back buffer that size (or its minimum), the picture not one flat colour; the tab title is the game's.
+#   node test/run-game-headless.mjs --host --page play --trace 0 --viewport 1154x592 --load-resize 1100x700:1500 --actions test/actions/play_start_size.txt
+#   ... --viewport 1154x592 --params "&devstartsize=1x1"     ... --viewport 800x500
+frame 30 waitsteady 6000
+frame 60 checkcanvas start_size_title
+frame 61 checktitle
+frame 70 cursorcheck start_size

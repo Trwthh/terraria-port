@@ -1,0 +1,57 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/terraria-core",
+    "crates/terraria-data",
+    "crates/terraria-formats",
+    "crates/terraria-sim",
+    "crates/terraria-app",
+    "crates/terraria-gen-rt",
+    "crates/terraria-gen",
+    "crates/terraria-gen-game",
+    "crates/terraria-host",
+    "crates/terraria-shaders",
+    "crates/terraria-x87",
+    "crates/terraria-web",
+]
+
+[workspace.package]
+edition = "2021"
+version = "0.1.0"
+publish = false
+
+[workspace.dependencies]
+terraria-core = { path = "crates/terraria-core" }
+terraria-data = { path = "crates/terraria-data" }
+terraria-formats = { path = "crates/terraria-formats" }
+terraria-sim = { path = "crates/terraria-sim" }
+
+# game code is checked at full speed even in dev builds; dependencies always optimised
+[profile.dev]
+opt-level = 1
+[profile.dev.package."*"]
+opt-level = 3
+
+# The client binary: the whole machine-translated game (terraria-gen-game, 1.13M lines) linked into the Bevy app.
+#   CARGO_TARGET_DIR=target-app cargo build -p terraria-app --bin terraria --features client --profile client -j 4
+# Output: target-app/client/terraria.exe. No debug info (the dev exes of the app are 1.8 GB each with it), no
+# incremental cache (it would hold a second copy of the generated crate's object code). The generated crate is
+# compiled without optimisation here: measured numbers and the optimised variant are in terraria-app/README.md.
+[profile.client]
+inherits = "dev"
+opt-level = 1
+debug = 0
+incremental = false
+[profile.client.package."*"]
+opt-level = 3
+[profile.client.package.terraria-gen-game]
+opt-level = 0
+codegen-units = 16
+
+# The same with the generated crate optimised: opt-level 2, many codegen units (rustc's memory and time grow with
+# the size of a unit, and the crate is 1.13M lines), no LTO. Build time, memory and frame times: terraria-app/README.md.
+[profile.client-opt]
+inherits = "client"
+[profile.client-opt.package.terraria-gen-game]
+opt-level = 2
+codegen-units = 256

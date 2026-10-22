@@ -1,0 +1,10 @@
+{
+"generator":"tools/refdump_liquid/RefDumpLiquid.cs (settle)",
+"statics":"Liquid.cycles=7, Liquid.curMaxLiquid=25000 before LoadWorld",
+"records":318481,
+"numLiquid":9,"numLiquidBuffer":0,
+"wetCounter":0,"stuckCount":0,"stuckAmount":0,"skipCount":0,
+"curMaxLiquid":25000,"cycles":7,
+"listHash":6209256388408585131,
+"nextRandAfterLoad":2130942767
+}

@@ -1,0 +1,25 @@
+[package]
+name = "terraria-gen-game"
+edition.workspace = true
+version.workspace = true
+publish.workspace = true
+description = "The whole game (Terraria + ReLogic) machine-translated by tools/cs2rs from tools/cs2rs/game.json"
+
+[lib]
+# no unit tests in this crate (they would compile the generated code a second time)
+test = false
+doctest = false
+
+[dependencies]
+terraria-core = { workspace = true }
+terraria-gen-rt = { path = "../terraria-gen-rt" }
+# natively implemented library classes (XNA, System.*): tools/cs2rs/native.d/host_*.json
+terraria-host = { path = "../terraria-host" }
+
+[dev-dependencies]
+terraria-formats = { workspace = true }
+# tests/entities.rs reads refdata/entities/*.ents.zlib
+miniz_oxide = "0.8"
+
+[features]
+gc-check = ["terraria-gen-rt/gc-check"]

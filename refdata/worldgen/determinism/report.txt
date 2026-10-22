@@ -1,0 +1,63 @@
+a      passes.jsonl sha256 1965499b2c8c5d5c  columns.bin sha256 7329e40d125bfc67  vs baseline a: jsonl identical, columns identical
+       .wld 2988021 bytes, sha256 e56d4bdcb03a59f5
+       Tiles                      2954062 vs   2954062  IDENTICAL
+       Chests                       21759 vs     21759  IDENTICAL
+       WorldHeader before the manifest (2267 bytes): differing bytes: guid 16, creation_time 5, last_played 5, other []
+       manifest GenPassResults: 106 vs 106 passes; Name/RandNext/Hash/Skipped identical for every pass: True
+       verdict: tiles/chests/signs/NPCs/... identical, header differs only in guid/creation_time/last_played/manifest durations (+pointers)
+a2     passes.jsonl sha256 1965499b2c8c5d5c  columns.bin sha256 7329e40d125bfc67  vs baseline a: jsonl identical, columns identical
+       .wld 2988013 bytes, sha256 a1175784abde0473
+       Tiles                      2954062 vs   2954062  IDENTICAL
+       Chests                       21759 vs     21759  IDENTICAL
+       WorldHeader before the manifest (2267 bytes): differing bytes: guid 16, creation_time 5, last_played 5, other []
+       manifest GenPassResults: 106 vs 106 passes; Name/RandNext/Hash/Skipped identical for every pass: True
+       verdict: tiles/chests/signs/NPCs/... identical, header differs only in guid/creation_time/last_played/manifest durations (+pointers)
+m      passes.jsonl sha256 1965499b2c8c5d5c  columns.bin sha256 7329e40d125bfc67  vs baseline a: jsonl identical, columns identical
+       .wld 2988005 bytes, sha256 639ba29a70b69547
+       Tiles                      2954062 vs   2954062  IDENTICAL
+       Chests                       21759 vs     21759  IDENTICAL
+       WorldHeader before the manifest (2267 bytes): differing bytes: guid 16, creation_time 5, last_played 5, other []
+       manifest GenPassResults: 106 vs 106 passes; Name/RandNext/Hash/Skipped identical for every pass: True
+       verdict: tiles/chests/signs/NPCs/... identical, header differs only in guid/creation_time/last_played/manifest durations (+pointers)
+t      passes.jsonl sha256 1965499b2c8c5d5c  columns.bin sha256 7329e40d125bfc67  vs baseline a: jsonl identical, columns identical
+       .wld 2988005 bytes, sha256 d511f7ee95119a7c
+       Tiles                      2954062 vs   2954062  IDENTICAL
+       Chests                       21759 vs     21759  IDENTICAL
+       WorldHeader before the manifest (2267 bytes): differing bytes: guid 16, creation_time 5, last_played 5, other []
+       manifest GenPassResults: 106 vs 106 passes; Name/RandNext/Hash/Skipped identical for every pass: True
+       verdict: tiles/chests/signs/NPCs/... identical, header differs only in guid/creation_time/last_played/manifest durations (+pointers)
+h0     passes.jsonl sha256 29efc45a8a0860ca  columns.bin sha256 7329e40d125bfc67  vs baseline a: jsonl DIFFERENT, columns identical; keys that differ: main.halloween
+       .wld 2988004 bytes, sha256 1ff673d98e9989a9
+       Tiles                      2954062 vs   2954062  IDENTICAL
+       Chests                       21759 vs     21759  IDENTICAL
+       WorldHeader before the manifest (2267 bytes): differing bytes: guid 16, creation_time 5, last_played 5, other []
+       manifest GenPassResults: 106 vs 106 passes; Name/RandNext/Hash/Skipped identical for every pass: True
+       verdict: tiles/chests/signs/NPCs/... identical, header differs only in guid/creation_time/last_played/manifest durations (+pointers)
+x1     passes.jsonl sha256 fdd84042640bc8a1  columns.bin sha256 7329e40d125bfc67  vs baseline a: jsonl DIFFERENT, columns identical; keys that differ: main.halloween, main.xMas
+       .wld 2988004 bytes, sha256 252182f90ac18087
+       Tiles                      2954062 vs   2954062  IDENTICAL
+       Chests                       21759 vs     21759  IDENTICAL
+       WorldHeader before the manifest (2267 bytes): differing bytes: guid 16, creation_time 5, last_played 5, other []
+       manifest GenPassResults: 106 vs 106 passes; Name/RandNext/Hash/Skipped identical for every pass: True
+       verdict: tiles/chests/signs/NPCs/... identical, header differs only in guid/creation_time/last_played/manifest durations (+pointers)
+f      passes.jsonl sha256 1965499b2c8c5d5c  columns.bin sha256 7329e40d125bfc67  vs baseline a: jsonl identical, columns identical
+       .wld 2988013 bytes, sha256 1a8d3b138dcc3ed1
+       Tiles                      2954062 vs   2954062  IDENTICAL
+       Chests                       21759 vs     21759  IDENTICAL
+       WorldHeader before the manifest (2267 bytes): differing bytes: guid 16, creation_time 5, last_played 5, other []
+       manifest GenPassResults: 106 vs 106 passes; Name/RandNext/Hash/Skipped identical for every pass: True
+       verdict: tiles/chests/signs/NPCs/... identical, header differs only in guid/creation_time/last_played/manifest durations (+pointers)
+r1     (no per-pass dump: unmodified-game run)
+       .wld 2987875 bytes, sha256 9fb4ea2d82416213
+       Tiles                      2954062 vs   2954062  IDENTICAL
+       Chests                       21759 vs     21759  IDENTICAL
+       WorldHeader before the manifest (2267 bytes): differing bytes: guid 16, creation_time 5, last_played 5, other []
+       manifest GenPassResults: 106 vs 106 passes; Name/RandNext/Hash/Skipped identical for every pass: True
+       verdict: tiles/chests/signs/NPCs/... identical, header differs only in guid/creation_time/last_played/manifest durations (+pointers)
+r2     (no per-pass dump: unmodified-game run)
+       .wld 2987874 bytes, sha256 65e18a8716ea4547
+       Tiles                      2954062 vs   2954062  IDENTICAL
+       Chests                       21759 vs     21759  IDENTICAL
+       WorldHeader before the manifest (2267 bytes): differing bytes: guid 16, creation_time 5, last_played 5, other []
+       manifest GenPassResults: 106 vs 106 passes; Name/RandNext/Hash/Skipped identical for every pass: True
+       verdict: tiles/chests/signs/NPCs/... identical, header differs only in guid/creation_time/last_played/manifest durations (+pointers)

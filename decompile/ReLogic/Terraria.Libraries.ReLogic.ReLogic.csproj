@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+  <PropertyGroup>
+    <AssemblyName>ReLogic</AssemblyName>
+    <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+    <UseWindowsForms>True</UseWindowsForms>
+    <TargetFramework>net40</TargetFramework>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup>
+    <LangVersion>7.3</LangVersion>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup />
+  <ItemGroup />
+  <ItemGroup>
+    <Reference Include="System.Core" />
+    <Reference Include="Microsoft.Xna.Framework">
+      <HintPath>..\..\..\VAEL - GAMELAB\tools\xna40\Program Files\Microsoft XNA\XNA Game Studio\Microsoft.Xna.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\meta\refs\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="SteelSeriesEngineWrapper">
+      <HintPath>..\..\meta\refs\SteelSeriesEngineWrapper.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Xna.Framework.Game">
+      <HintPath>..\..\..\VAEL - GAMELAB\tools\xna40\Program Files\Microsoft XNA\XNA Game Studio\Microsoft.Xna.Framework.Game.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Xna.Framework.Graphics">
+      <HintPath>..\..\..\VAEL - GAMELAB\tools\xna40\Program Files\Microsoft XNA\XNA Game Studio\Microsoft.Xna.Framework.Graphics.dll</HintPath>
+    </Reference>
+    <Reference Include="Ionic.Zip.CF">
+      <HintPath>..\..\meta\refs\Ionic.Zip.CF.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+</Project>

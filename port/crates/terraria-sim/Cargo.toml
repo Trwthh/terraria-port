@@ -1,0 +1,10 @@
+[package]
+name = "terraria-sim"
+edition.workspace = true
+version.workspace = true
+publish.workspace = true
+
+[dependencies]
+terraria-core.workspace = true
+terraria-data.workspace = true
+terraria-formats.workspace = true
